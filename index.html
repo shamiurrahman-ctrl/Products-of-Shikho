@@ -324,6 +324,12 @@
   .cl-float img{ width:100%; height:100%; display:block; object-fit:contain; }
 
   /* CAMPUS-BAND — plain photo band (matches Figma Campus section "Background"), reused top or bottom */
+  /* Header/footer photo band that fades into the cream page (Figma 213:20309 top, 213:20077 bottom) */
+  .hb{ position:absolute; left:0; width:1920px; height:537px; overflow:hidden; z-index:0; pointer-events:none; }
+  .hb.top{ top:0; transform:scaleY(-1); }
+  .hb.bottom{ top:543px; }
+  .hb img{ position:absolute; left:0; top:-101.12%; width:100%; height:201.12%; max-width:none; display:block; }
+  .hb::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg,#f4f5e7 0%,rgba(244,245,231,0) 59.218%); }
   .campus-band{ position:absolute; left:0; width:1920px; overflow:hidden; z-index:0; }
   .campus-band img{ position:absolute; left:0; top:-284.34%; width:100%; height:384.34%; max-width:none; display:block; }
 
@@ -499,6 +505,8 @@ const WAVY = (light)=>`<svg class="wavy ${light?'light':''}" viewBox="0 0 760 50
     <path d="M-50 380 C 150 230, 250 430, 450 280 S 700 130, 800 230" />
   </g>
 </svg>`;
+
+const HB = pos => `<div class="hb ${pos}"><img src="assets/campus/header-bg.png" alt=""></div>`;
 
 // ---- SLIDE DATA -------------------------------------------------
 const ALL_SLIDES = [
@@ -928,7 +936,7 @@ function slideEl(data, i){
     const listStyle = data.listStyle || 'left:1328px; top:469px; height:auto;';
     section.innerHTML = `
       <div class="stage phones3">
-        <img class="p3-header-bg" src="assets/phone/header-bg.png" alt="">
+        ${HB('top')}
         <div class="p3-header-bar">
           <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1029,7 +1037,7 @@ function slideEl(data, i){
       <div class="cl-float" style="left:${f.left}px; top:${f.top}px; width:${f.width}px; height:${f.height}px; transform:${f.rotate?`rotate(${f.rotate}deg)`:'none'};"><img src="${f.img}" alt=""></div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <img class="cl-header-bg" src="${data.headerBg||'assets/phone/header-bg.png'}" style="object-position:${data.headerBgPos||'center'};" alt="">
+        ${HB('top')}
         <div class="cl-header-bar">
           <div class="cl-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="cl-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1051,7 +1059,7 @@ function slideEl(data, i){
   } else if(data.type === 'campusintro'){
     section.innerHTML = `
       <div class="stage phones3">
-        <div class="campus-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/campus/header-bg.png" alt=""></div>
+        ${HB(data.bandTop>=500?'bottom':'top')}
         <div class="hp-header-bar">
           <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1071,7 +1079,7 @@ function slideEl(data, i){
       </div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <div class="campus-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/walton/header-bg.png" alt=""></div>
+        ${HB(data.bandTop>=500?'bottom':'top')}
         <div class="hp-header-bar">
           <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1091,7 +1099,7 @@ function slideEl(data, i){
       <div class="cl-float" style="left:${f.left}px; top:${f.top}px; width:${f.width}px; height:${f.height}px;"><img src="${f.img}" alt=""></div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <div class="campus-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/campus/header-bg.png" alt=""></div>
+        ${HB(data.bandTop>=500?'bottom':'top')}
         <div class="hp-header-bar">
           <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1113,7 +1121,7 @@ function slideEl(data, i){
       </div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <div class="campus-band" style="top:0px; height:281px;"><img src="assets/campus/header-bg.png" alt=""></div>
+        ${HB('top')}
         <div class="p3-header-bar">
           <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1131,7 +1139,7 @@ function slideEl(data, i){
       </div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <img class="p3-header-bg" src="assets/phone/header-bg-smartclass.png" alt="">
+        ${HB('top')}
         <div class="p3-header-bar">
           <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1154,7 +1162,7 @@ function slideEl(data, i){
       </div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <img class="p3-header-bg" src="assets/phone/header-bg.png" alt="">
+        ${HB('top')}
         <div class="p3-header-bar">
           <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1201,7 +1209,7 @@ function slideEl(data, i){
           <div class="hp-screen" data-media data-src="${data.phoneImg}" data-label="Mobile screen"></div>
           <img class="hp-frame" src="assets/phone/iphone-frame1.png?v=3" alt="">
         </div>
-        <img class="hp-bottom-band" src="assets/homepage/bottom-band.png?v=3" alt="">
+        ${HB('bottom')}
         <div class="hp-scribble"><img src="assets/homepage/scribble-orange.svg" alt=""></div>
         <div class="hp-laptop">
           <div class="hp-screen" data-media data-src="${data.laptopImg}" data-label="Laptop screen"></div>
