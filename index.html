@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #f1efe9;
@@ -286,6 +287,24 @@
   .sc2-statusbar img{ width:46px; height:17px; display:block; }
   /* "Now playing" equaliser on the active segment (Figma icon box 25.9, 553.3, 16px) */
   .sc2-now-playing{ position:absolute; left:38.68px; top:482.15px; width:13.51px; height:13.51px; display:block; pointer-events:none; }
+  /* Smart Class AI card on phone 02 (Figma 76:11092), rebuilt live over the phones image so its
+     background can move. Lives inside .sc2-composite so it moves with the phones; laid out in
+     Figma's 372x98 units, scaled to the phone (0.7298). */
+  .sc2-ai-card{ position:absolute; left:83.8px; top:366.5px; width:372px; height:98px; z-index:1;
+    transform:scale(0.7298); transform-origin:0 0; box-sizing:border-box; overflow:hidden;
+    border:1px solid #8765ae; border-bottom-width:3px; border-radius:16px; padding:10px 12px;
+    background:radial-gradient(ellipse 369px 184px at 6px 0, #3c2d4e 0%, #503c68 25%, #644a81 50%, #8b68b4 100%); }
+  .sc2-ai-shader{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .sc2-ai-stars{ position:absolute; left:-1px; top:-1px; width:100px; height:98px; overflow:visible; }
+  .sc2-ai-star-big{ transform-box:fill-box; transform-origin:center; animation:sc2-spin 24s linear infinite; }
+  .sc2-ai-star-small{ transform-box:fill-box; transform-origin:center; animation:sc2-twinkle 3.2s ease-in-out infinite alternate; }
+  @keyframes sc2-spin{ to{ rotate:360deg; } }
+  @keyframes sc2-twinkle{ from{ scale:0.8; fill-opacity:0.06; } to{ scale:1.1; fill-opacity:0.22; } }
+  .sc2-ai-card p{ position:relative; margin:0; width:348px; color:#fff;
+    font:400 16px/1.6 "Baloo Da 2", "Hind Siliguri", sans-serif; white-space:nowrap; }
+  @media (prefers-reduced-motion: reduce){
+    .sc2-ai-star-big, .sc2-ai-star-small{ animation:none; }
+  }
   .sc2-badge{ position:absolute; left:1167px; top:352px; width:269.5px; height:143px; z-index:4; pointer-events:none; }
   .sc2-decor{ position:absolute; left:1562px; top:162px; width:358px; height:331px; z-index:1; pointer-events:none; transform:rotate(180deg) scaleX(-1); }
 
@@ -1231,7 +1250,18 @@ function slideEl(data, i){
           <div class="p3-badge">01</div>
         </div>
         <div class="p3-list" style="left:488px; top:439px; width:452px;">${listHtml}</div>
-        <div class="sc2-composite"><img src="assets/web/phone/smartclass-phones23-nobadge.webp" alt=""></div>
+        <div class="sc2-composite"><img src="assets/web/phone/smartclass-phones23-nobadge.webp" alt="">
+        <div class="sc2-ai-card">
+          <canvas class="sc2-ai-shader" aria-hidden="true"></canvas>
+          <svg class="sc2-ai-stars" viewBox="0 0 100 98" aria-hidden="true">
+            <defs><clipPath id="sc2-ai-clip"><rect width="100" height="98" rx="12"/></clipPath></defs>
+            <g clip-path="url(#sc2-ai-clip)">
+              <path class="sc2-ai-star-big" d="M80.7333 -27.2421C80.7333 -27.2421 43.3395 -3.5438 39.7585 20.8764C36.1775 45.2967 65.1929 78.7333 65.1929 78.7333C65.1929 78.7333 41.4946 41.3395 17.0744 37.7585C-7.34585 34.1775 -40.7825 63.1929 -40.7825 63.1929C-40.7825 63.1929 -3.38869 39.4946 0.192332 15.0744C3.77335 -9.34585 -25.2421 -42.7825 -25.2421 -42.7825C-25.2421 -42.7825 -1.54381 -5.38869 22.8764 -1.80766C47.2967 1.77336 80.7333 -27.2421 80.7333 -27.2421Z" fill="#BA1DEE"/>
+              <path class="sc2-ai-star-small" d="M76.0364 8C76.0364 8 75.6155 18.2694 79.7095 22.3633C83.8034 26.4573 94.0728 26.0364 94.0728 26.0364C94.0728 26.0364 83.8034 25.6155 79.7095 29.7095C75.6155 33.8034 76.0364 44.0728 76.0364 44.0728C76.0364 44.0728 76.4573 33.8034 72.3633 29.7095C68.2694 25.6155 58 26.0364 58 26.0364C58 26.0364 68.2694 26.4573 72.3633 22.3633C76.4573 18.2694 76.0364 8 76.0364 8Z" fill="white" fill-opacity="0.11"/>
+            </g>
+          </svg>
+          <p>এই জায়গাটা অনেকেই গুলিয়ে ফেলে- তবে তোমার<br>আগের পারফরম্যান্স অনুযায়ী তুমি সরাসরি মূল সূত্রে চলে<br>যেতে পারো...</p>
+        </div></div>
         <img class="sc2-badge" src="assets/phone/badge-smart-class.svg" alt="">
       </div>`;
   } else if(data.type === 'routine2'){
@@ -2246,6 +2276,64 @@ function loadSlide(i){
   slideLoads.set(i, loaded);
   return loaded;
 }
+// ---- Smart Class AI card: live gradient shader ----
+// Figma's radial gradient (matrix 36.6 4.9 -2.452 18.315 6 0, r=10) with a slow light drifting through it.
+// Renders only while its slide is on screen; a single still frame under reduced motion.
+function startAiCardShaders(){
+  document.querySelectorAll('.sc2-ai-shader').forEach(canvas=>{
+    const gl = canvas.getContext('webgl', { premultipliedAlpha:false, antialias:false, preserveDrawingBuffer:true });
+    if(!gl) return;                                   // CSS gradient underneath stays as the fallback
+    canvas.width = 744; canvas.height = 196;          // 2x the card's 372x98
+    const vs = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
+    const fs = `precision mediump float;
+      uniform float t; uniform vec2 res;
+      vec3 ramp(float x){
+        vec3 c0 = vec3(60.,45.,78.)/255., c1 = vec3(80.,60.,104.)/255., c2 = vec3(100.,74.,129.)/255., c3 = vec3(139.,104.,180.)/255.;
+        x = clamp(x, 0., 1.);
+        if(x < .25) return mix(c0, c1, x/.25);
+        if(x < .5)  return mix(c1, c2, (x-.25)/.25);
+        return mix(c2, c3, (x-.5)/.5);
+      }
+      float n(vec2 q){ return sin(q.x)*sin(q.y); }
+      void main(){
+        vec2 P = vec2(gl_FragCoord.x, res.y - gl_FragCoord.y) / res * vec2(372., 98.);
+        // inverse of Figma's gradientTransform
+        vec2 d = P - vec2(6., 0.);
+        float det = 36.6*18.315 - (-2.452)*4.9;
+        vec2 u = vec2(18.315*d.x + 2.452*d.y, -4.9*d.x + 36.6*d.y) / det;
+        float g = length(u) / 10.;
+        // slow domain-warped light: a soft, shifting sheen, never brighter than the gradient's own end colour
+        vec2 q = P / vec2(372., 98.) * vec2(3.2, 1.4);
+        float w = n(q*1.3 + vec2(t*.23, -t*.17)) + .6*n(q*2.1 + vec2(-t*.31, t*.19) + 1.7);
+        float sheen = smoothstep(.15, 1.3, w) * .16;
+        gl_FragColor = vec4(ramp(g + sheen), 1.);
+      }`;
+    const sh = (type, src)=>{ const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+    const prog = gl.createProgram();
+    gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+    gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uT = gl.getUniformLocation(prog, 't');
+    gl.uniform2f(gl.getUniformLocation(prog, 'res'), canvas.width, canvas.height);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    const draw = sec=>{ gl.uniform1f(uT, sec); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); };
+    const slide = canvas.closest('.slide');
+    draw(0);
+    if(reduceMotion.matches) return;
+    const frame = now=>{
+      if(slide.classList.contains('active')) draw(now / 1000);
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  });
+}
+startAiCardShaders();
+
 loadSlide(0).then(async ()=>{
   for(let i = 1; i < slides.length; i++) await loadSlide(i);
 });
