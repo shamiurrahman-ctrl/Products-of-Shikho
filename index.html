@@ -325,11 +325,12 @@
 
   /* CAMPUS-BAND — plain photo band (matches Figma Campus section "Background"), reused top or bottom */
   /* Header/footer photo band that fades into the cream page (Figma 213:20309 top, 213:20077 bottom) */
-  .hb{ position:absolute; left:0; width:1920px; height:537px; overflow:hidden; z-index:0; pointer-events:none; }
+  .hb{ position:absolute; left:0; width:1920px; height:537px; overflow:hidden; z-index:0; pointer-events:none;
+    /* fade the photo itself to transparent (a cream overlay left a hairline seam at the edge when scaled) */
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 59.218%); mask-image:linear-gradient(180deg,transparent 0%,#000 59.218%); }
   .hb.top{ top:0; transform:scaleY(-1); }
   .hb.bottom{ top:543px; }
   .hb img{ position:absolute; left:0; top:-101.12%; width:100%; height:201.12%; max-width:none; display:block; }
-  .hb::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg,#f4f5e7 0%,rgba(244,245,231,0) 59.218%); }
   .campus-band{ position:absolute; left:0; width:1920px; overflow:hidden; z-index:0; }
   .campus-band img{ position:absolute; left:0; top:-284.34%; width:100%; height:384.34%; max-width:none; display:block; }
 
