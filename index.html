@@ -276,6 +276,7 @@
   /* SMARTCLASS2 — bespoke Smart Class slide with tilted phones 2&3 composite (node 111:25160), 1920x1080 1:1 px */
   .sc2-composite{ position:absolute; left:991px; top:335px; width:843px; height:669px; z-index:3; pointer-events:none; }
   .sc2-composite img{ width:100%; height:100%; display:block; }
+  .sc2-badge{ position:absolute; left:1167px; top:367.5px; width:269.5px; height:143px; z-index:4; pointer-events:none; }
   .sc2-decor{ position:absolute; left:1562px; top:162px; width:358px; height:331px; z-index:1; pointer-events:none; transform:rotate(180deg) scaleX(-1); }
 
   /* CRMLAPTOP — single-macbook + 1-bullet template (matches Figma "CRM - Dashboard"/"CRM - Lead Details"), 1920x1080 1:1 px */
@@ -1158,7 +1159,8 @@ function slideEl(data, i){
           <div class="p3-badge">01</div>
         </div>
         <div class="p3-list" style="left:488px; top:439px; width:452px;">${listHtml}</div>
-        <div class="sc2-composite"><img src="assets/phone/smartclass-phones23-transparent.png" alt=""></div>
+        <div class="sc2-composite"><img src="assets/phone/smartclass-phones23-nobadge.png" alt=""></div>
+        <img class="sc2-badge" src="assets/phone/badge-smart-class.svg" alt="">
       </div>`;
   } else if(data.type === 'routine2'){
     const listHtml = data.bullets.map((b,i)=>`
