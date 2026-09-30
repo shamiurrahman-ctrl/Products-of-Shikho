@@ -354,6 +354,10 @@
   .ip2-badge{ left:33px; top:5px; }
   .ip2-list{ position:absolute; width:509px; z-index:2; display:flex; flex-direction:column; justify-content:space-between; }
   .ip2-item{ display:flex; gap:20px; }
+  /* Teacher OS green header/footer band with the fade to cream baked in (Figma 215:20368 top, 215:20568 bottom) */
+  .tb{ position:absolute; left:0; width:1920px; height:537px; object-fit:cover; z-index:0; pointer-events:none; display:block; }
+  .tb.top{ top:0; }
+  .tb.bottom{ top:543px; transform:scaleY(-1); }
   .teacheros-band{ position:absolute; left:0; width:1920px; background:#14a16d; overflow:hidden; }
   .teacheros-band img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; mix-blend-mode:hard-light; transform:scaleX(-1); display:block; }
   .ip2-item-text{
@@ -507,6 +511,7 @@ const WAVY = (light)=>`<svg class="wavy ${light?'light':''}" viewBox="0 0 760 50
   </g>
 </svg>`;
 
+const TB = pos => `<img class="tb ${pos}" src="assets/teacheros/header-band.png" alt="">`;
 const HB = pos => `<div class="hb ${pos}"><img src="assets/campus/header-bg.png" alt=""></div>`;
 
 // ---- SLIDE DATA -------------------------------------------------
@@ -967,7 +972,7 @@ function slideEl(data, i){
       </div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <div class="teacheros-band" style="top:0px; height:281px;"><img src="assets/teacheros/band-texture.png" alt=""></div>
+        ${TB('top')}
         <div class="p3-header-bar">
           <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
@@ -996,8 +1001,8 @@ function slideEl(data, i){
     section.innerHTML = `
       <div class="stage phones3">
         ${data.bgGreenFull ? `<img src="assets/teacheros/intro2-bg.png" style="position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover; z-index:0; transform:scaleX(-1);" alt="">` : ''}
-        ${data.bandTop!==undefined ? `<div class="teacheros-band" style="top:${data.bandTop}px; height:${data.bandHeight||281}px;"><img src="assets/teacheros/band-texture.png" alt=""></div>` : ''}
-        ${data.bandBottom!==undefined ? `<div class="teacheros-band" style="top:${data.bandBottom}px; height:${data.bandHeight||260}px;"><img src="assets/teacheros/band-texture.png" alt=""></div>` : ''}
+        ${data.bandTop!==undefined ? TB('top') : ''}
+        ${data.bandBottom!==undefined ? TB('bottom') : ''}
         <div class="${headerBarClass}">
           <div class="${headerLeftClass}"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="${headerRightClass} editable" contenteditable="true">${data.pageTag||''}</div>
@@ -1016,7 +1021,7 @@ function slideEl(data, i){
       </div>`).join('');
     section.innerHTML = `
       <div class="stage phones3">
-        <div class="teacheros-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/teacheros/band-texture.png" alt=""></div>
+        ${TB(data.bandTop>=500?'bottom':'top')}
         <div class="hp-header-bar">
           <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
