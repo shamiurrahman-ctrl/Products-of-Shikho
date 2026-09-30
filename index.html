@@ -129,7 +129,7 @@
   .dp-bg-placeholder .ph-label{ color:rgba(12,26,67,0.45); }
   .dp-bg-placeholder .ph-path{ background:rgba(12,26,67,0.08); color:rgba(12,26,67,0.45); }
   .dp-card{
-    position:absolute; left:430px; top:72px; width:1402px; height:936px;
+    position:absolute; left:88px; top:72px; width:1402px; height:936px;
     border-radius:40px; overflow:hidden; z-index:1;
     background:rgba(255,255,255,0.8);
     backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px);
@@ -144,10 +144,14 @@
     position:absolute; left:0; top:0; width:1920px; height:1080px;
     object-fit:cover; z-index:3; pointer-events:none;
   }
-  .dp-logo{ position:absolute; left:77px; top:51px; width:174px; z-index:2; }
-  .dp-logo img{ width:100%; height:auto; display:block; }
+  /* Product cover (Figma 210:19820): card, photos and scribble mirrored; logo, title, description stacked on the left */
+  .dp-flip{ position:absolute; left:0; top:0; width:1920px; height:1080px; transform:scaleX(-1); pointer-events:none; }
+  .dp-flip.bg{ z-index:0; }
+  .dp-flip.fg{ z-index:3; }
+  .dp-logo{ position:absolute; left:77px; top:80px; height:80px; z-index:2; }
+  .dp-logo img{ height:100%; width:auto; display:block; }
   .dp-desc{
-    position:absolute; left:77px; top:268px; width:576px; z-index:2;
+    position:absolute; left:77px; top:602px; width:880px; z-index:2;
     font-family:"Satoshi","Inter",sans-serif; font-weight:400;
     font-size:32px; line-height:40px; letter-spacing:-0.32px; color:#0c1a43;
   }
@@ -157,18 +161,16 @@
     font-size:30px; letter-spacing:-0.3px; color:#fff; white-space:nowrap;
   }
   .dp-title{
-    position:absolute; right:88px; bottom:70px; width:861px; z-index:2;
+    position:absolute; left:77px; top:203px; width:1240px; z-index:2;
     font-family:"Satoshi","Inter",sans-serif; font-weight:900;
-    font-size:120px; line-height:128px; letter-spacing:-1.2px;
+    font-size:120px; line-height:110px; letter-spacing:-2.4px;
     padding-bottom:16px;
-    text-align:right;
-    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    background-image:linear-gradient(180deg,#2d4797 0%,#5367fd 140.34%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-  .dp-title.long{ font-size:84px; line-height:90px; letter-spacing:-0.8px; }
   .dp-scribble{
-    position:absolute; left:927.94px; top:910.98px; width:1059.07px; height:288.9px;
-    z-index:4; pointer-events:none;
+    position:absolute; left:-67.01px; top:910.98px; width:1059.07px; height:288.9px;
+    z-index:4; pointer-events:none; transform:scaleX(-1);
   }
   .dp-scribble img{ width:100%; height:100%; display:block; }
 
@@ -786,7 +788,7 @@ const ALL_SLIDES = [
     bullet:"A focused workspace for coordinators to manage term preparation, track records, flag unresolved issues, coordinate with the Chair, and keep key academic processes moving smoothly."
   },
 
-  { type:'divider', section:"Section 4", title:"Shikho CRM", desc:"A unified CRM platform that connects telesales, engagement, inbound, and retention operations — enabling teams to manage the complete student journey with actionable insights and efficient customer management.", tag:"Internal Platform", secLabel:"Sec 4/5", logo:"assets/crm-logo.svg", photoBg:"assets/sec-divider-bg-2.png?v=4", photoFg:"assets/sec-divider-fg-2.png?v=3" },
+  { type:'divider', section:"Section 4", title:"Shikho CRM", desc:"Telesales, Engagement, Inbound and Retention portals in one system — giving a complete, top-to-bottom view of every user to manage customers effectively.", tag:"Internal Platform", secLabel:"Sec 4/5", logo:"assets/crm-logo.svg", photoBg:"assets/sec-divider-bg-2-bw.png", photoFg:"assets/sec-divider-fg-2.png?v=3" },
   { type:'crmlaptop', header:"CRM", pageTag:"13", title:"Sales Performance at a Glance",
     laptopImg:"assets/crm/screen-dashboard2.png", laptopLeft:-126,
     listLeft:986, listTop:508,
@@ -890,15 +892,15 @@ function slideEl(data, i){
   } else if(data.type === 'divider' && data.photoBg){
     section.innerHTML = `
       <div class="stage divider-photo">
-        <div class="dp-bg-slot" style="${data.bgStyle||''}" data-media data-bg="true" data-src="${data.photoBg}" data-label="${data.title.replace(/<[^>]+>/g,'')} background photo"></div>
+        <div class="dp-flip bg"><div class="dp-bg-slot" style="${data.bgStyle||''}" data-media data-bg="true" data-src="${data.photoBg}" data-label="${data.title.replace(/<[^>]+>/g,'')} background photo"></div></div>
         <div class="dp-card">
           <img class="dp-blob" src="assets/sec-divider-blob.svg" alt="">
-          <div class="dp-logo" style="${data.logoWidth?`width:${data.logoWidth}px;`:''}"><img src="${data.logo||'assets/shikho-logo.svg'}" alt="Shikho"></div>
+          <div class="dp-logo"><img src="${data.logo||'assets/shikho-logo.svg'}" alt="Shikho"></div>
           <div class="dp-desc editable" contenteditable="true">${data.desc}</div>
           <div class="dp-seclabel editable" contenteditable="true">${data.secLabel||''}</div>
-          <div class="dp-title editable ${data.title.replace(/<[^>]+>/g,'').length>22?'long':''}" contenteditable="true">${data.title}</div>
+          <div class="dp-title editable" contenteditable="true">${data.title}</div>
         </div>
-        ${data.photoFg ? `<img class="dp-fg" style="${data.fgStyle||''}" src="${data.photoFg}" alt="">` : ''}
+        ${data.photoFg ? `<div class="dp-flip fg"><img class="dp-fg" style="${data.fgStyle||''}" src="${data.photoFg}" alt=""></div>` : ''}
         <div class="dp-scribble"><img src="assets/sec-divider-scribble.svg" alt=""></div>
       </div>`;
   } else if(data.type === 'divider'){
