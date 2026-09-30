@@ -1,2 +1,5 @@
 .DS_Store
 _cmp_test.html
+.agents/
+.claude/skills/
+skills-lock.json
