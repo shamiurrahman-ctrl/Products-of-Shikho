@@ -485,6 +485,59 @@
 
   .hint{ display:none; }
   .nav{ display:none; }
+
+  /* ---- MOTION -------------------------------------------------------
+     One system for the whole deck. Keyframes only define the *from* state
+     (fill-mode: backwards), so every element settles on its own authored
+     styles and the finished slide is pixel-identical to the static one.
+     Only the individual `translate` / `scale` properties move, so each
+     element's own `transform` (rotations, flips, angled mockups) is never
+     touched. Roles and delays are assigned in JS (assignMotion). */
+  :root{
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Slide transition: soft crossfade, incoming slide rises 12px */
+  .slide.is-leaving{ display:block; z-index:1; pointer-events:none; animation:mo-slide-out 400ms var(--ease-out) forwards; }
+  .slide.is-entering{ z-index:2; animation:mo-slide-in 550ms var(--ease-out) backwards; }
+  @keyframes mo-slide-in{ from{ opacity:0; translate:0 12px; } }
+  @keyframes mo-slide-out{ to{ opacity:0; } }
+
+  /* Entrance choreography: header → title → product → points → decor */
+  .slide.play [data-mo]{
+    animation-duration:var(--mo-t);
+    animation-delay:var(--mo-d, 0ms);
+    animation-timing-function:var(--ease-out);
+    animation-fill-mode:backwards;
+  }
+  .slide.play [data-mo="header"]{ --mo-t:420ms; animation-name:mo-lift-sm; }
+  .slide.play [data-mo="title"] { --mo-t:650ms; animation-name:mo-title; }
+  .slide.play [data-mo="hero"]  { --mo-t:850ms; animation-name:mo-hero; }
+  .slide.play [data-mo="float"] { --mo-t:600ms; animation-name:mo-lift; }
+  .slide.play [data-mo="item"]  { --mo-t:500ms; animation-name:mo-lift; }
+  .slide.play [data-mo="card"]  { --mo-t:700ms; animation-name:mo-lift; }
+  .slide.play [data-mo="decor"] { --mo-t:900ms; animation-name:mo-drift; }
+  /* Cover photo: pure fade so it registers exactly on the blurred copy behind it (movement would ghost) */
+  .slide.play [data-mo="photo"] { --mo-t:900ms; animation-name:mo-fade-in; }
+
+  @keyframes mo-lift-sm{ from{ opacity:0; translate:0 8px; } }
+  @keyframes mo-lift   { from{ opacity:0; translate:0 20px; } }
+  @keyframes mo-hero   { from{ opacity:0; translate:0 24px; scale:0.97; } }
+  @keyframes mo-drift  { from{ opacity:0; translate:0 12px; } }
+  @keyframes mo-fade-in{ from{ opacity:0; } }
+  /* Title rises out of a mask line under its final position */
+  @keyframes mo-title{
+    from{ opacity:0; translate:0 32px; clip-path:inset(-40px -40px 32px -40px); }
+    to  { clip-path:inset(-40px -40px -60px -40px); }
+  }
+
+  /* Reduced motion: keep the crossfade (it aids orientation), drop all movement */
+  @media (prefers-reduced-motion: reduce){
+    .slide.is-entering{ animation:mo-fade 200ms ease backwards; }
+    .slide.is-leaving { animation:mo-slide-out 200ms ease forwards; }
+    .slide.play [data-mo]{ animation:none; }
+    @keyframes mo-fade{ from{ opacity:0; } }
+  }
 </style>
 </head>
 <body>
@@ -1321,16 +1374,76 @@ function scaleStages(){
   });
 }
 
+// ---- MOTION: tag each element with a role + delay (see MOTION css) ----
+// Order of attention: header → title → product → points → decor.
+// Backgrounds (photo bands, full-bleed bgs) never animate; they arrive with the slide crossfade.
+const MO = { header:0, title:120, hero:300, heroStep:110, float:150, items:620, itemStep:170, decor:950 };
+function moSet(el, role, delay){ el.dataset.mo = role; el.style.setProperty('--mo-d', Math.round(delay)+'ms'); }
+function moIsBg(el){
+  const c = el.classList;
+  if(c.contains('hb') || c.contains('tb') || c.contains('hero-bg') || c.contains('sai-bg')) return true;
+  if(c.contains('dp-flip') && c.contains('bg')) return true;
+  return el.tagName === 'IMG' && !el.className && /-bg\./.test(el.getAttribute('src')||'');
+}
+function assignMotion(section){
+  const stage = section.querySelector('.stage');
+  if(!stage) return;
+  const heroes = [], floats = [];
+  let items = [];
+  [...stage.children].forEach(el=>{
+    const cls = String(el.className || '');
+    if(moIsBg(el)) return;
+    if(/header-bar|hero-logo/.test(cls)) return moSet(el, 'header', MO.header);
+    if(/-title\b/.test(cls)) return moSet(el, 'title', MO.title);
+    if(/decor|scribble/.test(cls)) return moSet(el, 'decor', MO.decor);
+    if(/-list\b/.test(cls)){ items = items.concat([...el.children]); return; }
+    if(/hero-subtitle/.test(cls)){ items.push(el); return; }
+    if(el.classList.contains('dp-card')){
+      // Product cover: card settles first, then its contents in the same order as other slides
+      moSet(el, 'card', 0);
+      el.querySelectorAll('.dp-logo, .dp-seclabel').forEach(x=>moSet(x, 'header', 180));
+      el.querySelectorAll('.dp-title').forEach(x=>moSet(x, 'title', 280));
+      el.querySelectorAll('.dp-desc').forEach(x=>moSet(x, 'item', 520));
+      return;
+    }
+    if(el.classList.contains('dp-flip')) return moSet(el, 'photo', 250);
+    if(/cl-float/.test(cls)) return floats.push(el);
+    heroes.push(el);
+  });
+  // Product visuals: main devices left to right, floating cards follow the device they describe
+  heroes.forEach((el,k)=>moSet(el, 'hero', MO.hero + k*MO.heroStep));
+  const afterHero = MO.hero + Math.max(heroes.length-1, 0)*MO.heroStep + MO.float;
+  floats.forEach((el,k)=>moSet(el, 'float', afterHero + k*MO.heroStep));
+  // Points: 01 establishes itself before 02 arrives
+  items.forEach((el,k)=>moSet(el, 'item', MO.items + k*MO.itemStep));
+}
+slides.forEach(assignMotion);
+
 function show(i){
+  const forward = i > idx;
   if(i<0) i = slides.length-1;
   if(i>=slides.length) i = 0;
-  slides[idx].classList.remove('active');
+  if(i === idx) return;
+  const prev = slides[idx], next = slides[i];
+
+  prev.classList.remove('active', 'is-entering', 'play');
+  prev.classList.add('is-leaving');
+  clearTimeout(prev._moLeave);
+  prev._moLeave = setTimeout(()=>prev.classList.remove('is-leaving'), 420);
+
+  next.classList.remove('is-leaving', 'is-entering', 'play');
+  void next.offsetWidth; // restart animations
+  next.classList.add('active', 'is-entering');
+  // Full choreography when moving forward; going back just crossfades to what was already seen
+  if(forward) next.classList.add('play');
+  clearTimeout(next._moEnter);
+  next._moEnter = setTimeout(()=>next.classList.remove('is-entering'), 600);
+
   idx = i;
-  slides[idx].classList.add('active');
   document.getElementById('cur').textContent = idx+1;
   jump.value = idx;
 }
-slides[0].classList.add('active');
+slides[0].classList.add('active', 'play');
 
 document.getElementById('prev').addEventListener('click', ()=>show(idx-1));
 document.getElementById('next').addEventListener('click', ()=>show(idx+1));
