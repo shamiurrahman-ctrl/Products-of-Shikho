@@ -164,7 +164,7 @@
     position:absolute; left:77px; top:203px; width:1240px; z-index:2;
     font-family:"Satoshi","Inter",sans-serif; font-weight:900;
     font-size:120px; line-height:110px; letter-spacing:-2.4px;
-    padding-bottom:16px;
+    padding-bottom:40px; /* room for descenders (g, p) so background-clip:text doesn't cut them */
     background-image:linear-gradient(180deg,#2d4797 0%,#5367fd 140.34%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
@@ -504,7 +504,7 @@ const WAVY = (light)=>`<svg class="wavy ${light?'light':''}" viewBox="0 0 760 50
 const ALL_SLIDES = [
   { type:'cover', title:"Product Ecosystem", subtitle:"Building the Future of <b>Learning</b>, <b>Teaching</b> &amp; Education <b>Management</b>", img:"assets/hero-collage.png" },
 
-  { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"The Complete Learning Companion for Class 6–12 Students", tag:"Core Product", secLabel:"Sec 1/5", photoBg:"assets/sec-divider-bg-1.png", photoFg:"assets/sec-divider-fg-1.png" },
+  { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"A complete learning experience for Class 6–12 students, combining classes, interactive content, practice, assessments, books, and AI-powered learning support.", tag:"Core Product", secLabel:"Sec 1/5", photoBg:"assets/sec-divider-bg-1.png", photoFg:"assets/sec-divider-fg-1.png" },
   { type:'phones3', header:"Learning App", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
     phones:[
       { num:"01", img:"assets/s1-1a-signup.png" },
