@@ -499,10 +499,10 @@ const WAVY = (light)=>`<svg class="wavy ${light?'light':''}" viewBox="0 0 760 50
 </svg>`;
 
 // ---- SLIDE DATA -------------------------------------------------
-const SLIDES = [
+const ALL_SLIDES = [
   { type:'cover', title:"Product Ecosystem", subtitle:"Building the Future of <b>Learning</b>, <b>Teaching</b> &amp; Education <b>Management</b>", img:"assets/hero-collage.png" },
 
-  { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"The Complete Learning Companion for Class 6–12 Students", tag:"Core Product", secLabel:"Sec 1/7", photoBg:"assets/sec-divider-bg-1.png", photoFg:"assets/sec-divider-fg-1.png" },
+  { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"The Complete Learning Companion for Class 6–12 Students", tag:"Core Product", secLabel:"Sec 1/5", photoBg:"assets/sec-divider-bg-1.png", photoFg:"assets/sec-divider-fg-1.png" },
   { type:'phones3', header:"Learning App", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
     phones:[
       { num:"01", img:"assets/s1-1a-signup.png" },
@@ -601,83 +601,7 @@ const SLIDES = [
     ]
   },
 
-  { type:'divider', section:"Section 2", title:"Shikho CRM", desc:"A unified CRM platform that connects telesales, engagement, inbound, and retention operations — enabling teams to manage the complete student journey with actionable insights and efficient customer management.", tag:"Internal Platform", secLabel:"Sec 2/7", logo:"assets/crm-logo.svg", photoBg:"assets/sec-divider-bg-2.png?v=4", photoFg:"assets/sec-divider-fg-2.png?v=3" },
-  { type:'crmlaptop', header:"CRM", pageTag:"13", title:"Sales Performance at a Glance",
-    laptopImg:"assets/crm/screen-dashboard2.png", laptopLeft:-126,
-    listLeft:986, listTop:508,
-    bullet:"Get a complete view of an agent's sales journey — from assigned leads and call activities to target achievement, revenue performance and pending tasks.",
-    decor:"assets/crm/decor-dashboard.svg?v=2", decorLeft:942, decorTop:617, decorWidth:978, decorHeight:463, decorTransform:"none",
-    floats:[
-      { img:"assets/crm/dashboard-floating-card.png", left:1450, top:330, width:473, height:700 }
-    ]
-  },
-  { type:'crmlaptop', header:"CRM", pageTag:"14", title:"Understand Every Lead Before Every Conversation",
-    laptopImg:"assets/crm/screen-lead2.png", laptopLeft:1027,
-    listLeft:496, listTop:472,
-    bullet:"Access complete lead information, including user profile, learning activities, course interactions, purchase history and engagement insights to make every conversation more effective.",
-    decor:"assets/crm/decor-lead.svg?v=2", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:422, decorTransform:"none",
-    floats:[
-      { img:"assets/crm/lead-card-top.png", left:86, top:361, width:342, height:310 },
-      { img:"assets/crm/lead-card-mid.png", left:86, top:684, width:342, height:49 },
-      { img:"assets/crm/lead-card-widget.png", left:86, top:753, width:342, height:254 }
-    ]
-  },
-
-  { type:'divider', section:"Section 3", title:"Shikho CMS", desc:"A centralized content and product management platform that powers Shikho's learning ecosystem — enabling teams to create, manage, and deliver courses, classes, e-books, and digital learning resources at scale.", tag:"Internal Platform", secLabel:"Sec 3/7",
-    logo:"assets/cms-logo.svg?v=2", logoWidth:260, photoBg:"assets/sec-divider-bg-3.png?v=3", photoFg:"assets/sec-divider-fg-3.png", fgStyle:"object-position:left center; transform:translateX(-260px);" },
-  { type:'crmlaptop', header:"CMS", pageTag:"13", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
-    title:"Platform Operations at a Glance",
-    decor:"assets/cms/decor.svg", decorLeft:932, decorTop:607, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
-    floats:[
-      { img:"assets/cms/float-1.png", left:1474, top:370, width:804.158, height:327.5 },
-      { img:"assets/cms/float-2.png", left:1474, top:717.5, width:520.023, height:257.5 }
-    ],
-    laptopLeft:-126, laptopImg:"assets/cms/screen.png",
-    listLeft:986, listTop:508,
-    bullet:"Manage users, academics, content, exams, commerce and QR operations from one place."
-  },
-
-  { type:'divider', section:"Section 4", title:"Shikho Skills", desc:"A career-focused learning platform offering skill-based courses designed to help learners build practical expertise and earn industry-recognized certifications.", tag:"Product", secLabel:"Sec 4/7", logo:"assets/skills-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-4.png?v=3", photoFg:"assets/sec-divider-fg-4.png" },
-  { type:'skillshome', header:"Skills", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
-    bandTop:820, bandHeight:260,
-    decor:"assets/skills/s1-decor.svg", decorLeft:1081, decorTop:663.7, decorWidth:1058.98, decorHeight:288.88, decorTransform:"none",
-    laptopLeft:-248, laptopTop:128, laptopWidth:1266, laptopHeight:767, laptopImg:"assets/skills/s1-screen.png",
-    floats:[
-      { img:"assets/skills/s1-card1.png?v=2", left:1551, top:136, width:312, height:365 },
-      { img:"assets/skills/s1-card2.png?v=2", left:1550, top:510, width:312, height:365 }
-    ],
-    title:"Build Skills. Learn at Your Own Pace.", titleLeft:"calc(50% - 633px)", titleTop:915, titleWidth:1600, titleColor:"#f4f5e7",
-    listLeft:974, listTop:188, listHeight:439, listWidth:509,
-    bullets:[
-      { num:"*", text:"Explore structured skill-development courses across technology, business, digital marketing, data, and other career-focused fields." },
-      { num:"*", text:"Learn through expert-led lessons, practical projects and assignments, assessments, and career-focused resources designed to build real-world skills." }
-    ]
-  },
-  { type:'skillsdetails', header:"Skills", pageTag:"05",
-    title:"Track the Journey. Measure the Growth.", titleLeft:"calc(50% - 892px)", titleTop:140, titleWidth:1606, titleFontSize:70, titleColor:"#f4f5e7",
-    decor:"assets/skills/s2-decor.svg", decorLeft:1713.47, decorTop:-177.73, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(-80.4deg)",
-    mockupsImg:"assets/skills/s2-mockups.png",
-    listLeft:720, listTop:348, listHeight:420, listWidth:509,
-    bullets:[
-      { num:"*", text:"Keep every learner's skill-development journey visible — from course enrollment and lesson progress to completed learning milestones." },
-      { num:"*", text:"Monitor detailed course activity, assessments, and learning progress to understand where learners are advancing and where they may need more support." }
-    ]
-  },
-
-  { type:'divider', section:"Section 5", title:"Shikho x Walton TV Application", desc:"A smart TV learning experience developed with Walton Bangladesh — bringing Shikho's recorded classes, animated lessons, and digital resources directly into learners' homes.", tag:"Partnership", secLabel:"Sec 5/7", logo:"assets/walton-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-5.png?v=3", photoFg:"assets/sec-divider-fg-5.png" },
-  { type:'waltonhome', header:"Shikho x Walton", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
-    bandTop:820, bandHeight:260,
-    decor:"assets/walton/decor.svg", decorLeft:1090.94, decorTop:-89.0, decorWidth:1059.08, decorHeight:288.91, decorTransform:"scaleX(-1)",
-    deviceImg:"assets/walton/tv-mockup2.png", deviceLeft:102, deviceTop:145, deviceWidth:1247.67, deviceHeight:770.4,
-    title:"A New Way to Learn with Shikho on TV", titleLeft:"calc(50% - 683px)", titleTop:915, titleWidth:1600, titleColor:"#f4f5e7",
-    listLeft:1389, listTop:194, listHeight:541, listWidth:430,
-    bullets:[
-      { num:"*", text:"Partnering with Walton to bring Shikho's digital learning experience to smart TVs, making quality education accessible through a larger and more immersive screen." },
-      { num:"*", text:"Students can seamlessly browse recorded classes, animated lessons, digital books, and learning resources — creating a complete home learning experience." }
-    ]
-  },
-
-  { type:'divider', section:"Section 6", title:"Teacher OS", desc:"An AI-powered operating system designed for teachers — bringing lesson planning, classroom tools, training resources, and smart teaching assistance into one unified platform for every classroom in Bangladesh.", tag:"Upcoming · Government Partnership", secLabel:"Sec 6/7",
+  { type:'divider', section:"Section 2", title:"Teacher OS", desc:"An AI-powered operating system designed for teachers — bringing lesson planning, classroom tools, training resources, and smart teaching assistance into one unified platform for every classroom in Bangladesh.", tag:"Upcoming · Government Partnership", secLabel:"Sec 2/5",
     logo:"assets/teacheros-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-6.png?v=3", photoFg:"assets/sec-divider-fg-6.png" },
   { type:'teacheros1', header:"Teacher OS", pageTag:"04", title:"One Platform. Every Teaching Need." },
   { type:'ipad2', header:"Teacher OS", pageTag:"05", title:"AI-Powered Lesson Planning",
@@ -807,7 +731,7 @@ const SLIDES = [
     ]
   },
 
-  { type:'divider', section:"Section 7", title:"Shikho Campus", desc:"A next-generation Campus OS designed for universities — streamlining academic operations, student management, faculty workflows, and institutional processes in one integrated platform.", tag:"Under Development", secLabel:"Sec 7/7",
+  { type:'divider', section:"Section 3", title:"Shikho Campus", desc:"A next-generation Campus OS designed for universities — streamlining academic operations, student management, faculty workflows, and institutional processes in one integrated platform.", tag:"Under Development", secLabel:"Sec 3/5",
     logo:"assets/campus-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-7.png?v=3", photoFg:"assets/sec-divider-fg-7.png" },
   { type:'campusintro', header:"Shikho Campus", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
     bandTop:820, bandHeight:260,
@@ -861,7 +785,85 @@ const SLIDES = [
     listLeft:529, listTop:314,
     bullet:"A focused workspace for coordinators to manage term preparation, track records, flag unresolved issues, coordinate with the Chair, and keep key academic processes moving smoothly."
   },
+
+  { type:'divider', section:"Section 4", title:"Shikho CRM", desc:"A unified CRM platform that connects telesales, engagement, inbound, and retention operations — enabling teams to manage the complete student journey with actionable insights and efficient customer management.", tag:"Internal Platform", secLabel:"Sec 4/5", logo:"assets/crm-logo.svg", photoBg:"assets/sec-divider-bg-2.png?v=4", photoFg:"assets/sec-divider-fg-2.png?v=3" },
+  { type:'crmlaptop', header:"CRM", pageTag:"13", title:"Sales Performance at a Glance",
+    laptopImg:"assets/crm/screen-dashboard2.png", laptopLeft:-126,
+    listLeft:986, listTop:508,
+    bullet:"Get a complete view of an agent's sales journey — from assigned leads and call activities to target achievement, revenue performance and pending tasks.",
+    decor:"assets/crm/decor-dashboard.svg?v=2", decorLeft:942, decorTop:617, decorWidth:978, decorHeight:463, decorTransform:"none",
+    floats:[
+      { img:"assets/crm/dashboard-floating-card.png", left:1450, top:330, width:473, height:700 }
+    ]
+  },
+  { type:'crmlaptop', header:"CRM", pageTag:"14", title:"Understand Every Lead Before Every Conversation",
+    laptopImg:"assets/crm/screen-lead2.png", laptopLeft:1027,
+    listLeft:496, listTop:472,
+    bullet:"Access complete lead information, including user profile, learning activities, course interactions, purchase history and engagement insights to make every conversation more effective.",
+    decor:"assets/crm/decor-lead.svg?v=2", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:422, decorTransform:"none",
+    floats:[
+      { img:"assets/crm/lead-card-top.png", left:86, top:361, width:342, height:310 },
+      { img:"assets/crm/lead-card-mid.png", left:86, top:684, width:342, height:49 },
+      { img:"assets/crm/lead-card-widget.png", left:86, top:753, width:342, height:254 }
+    ]
+  },
+
+  { type:'divider', section:"Section 5", title:"Shikho CMS", desc:"A centralized content and product management platform that powers Shikho's learning ecosystem — enabling teams to create, manage, and deliver courses, classes, e-books, and digital learning resources at scale.", tag:"Internal Platform", secLabel:"Sec 5/5",
+    logo:"assets/cms-logo.svg?v=2", logoWidth:260, photoBg:"assets/sec-divider-bg-3.png?v=3", photoFg:"assets/sec-divider-fg-3.png", fgStyle:"object-position:left center; transform:translateX(-260px);" },
+  { type:'crmlaptop', header:"CMS", pageTag:"13", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
+    title:"Platform Operations at a Glance",
+    decor:"assets/cms/decor.svg", decorLeft:932, decorTop:607, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
+    floats:[
+      { img:"assets/cms/float-1.png", left:1474, top:370, width:804.158, height:327.5 },
+      { img:"assets/cms/float-2.png", left:1474, top:717.5, width:520.023, height:257.5 }
+    ],
+    laptopLeft:-126, laptopImg:"assets/cms/screen.png",
+    listLeft:986, listTop:508,
+    bullet:"Manage users, academics, content, exams, commerce and QR operations from one place."
+  },
+
+  { hidden:true, type:'divider', section:"Section 4", title:"Shikho Skills", desc:"A career-focused learning platform offering skill-based courses designed to help learners build practical expertise and earn industry-recognized certifications.", tag:"Product", secLabel:"Sec 4/7", logo:"assets/skills-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-4.png?v=3", photoFg:"assets/sec-divider-fg-4.png" },
+  { hidden:true, type:'skillshome', header:"Skills", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
+    bandTop:820, bandHeight:260,
+    decor:"assets/skills/s1-decor.svg", decorLeft:1081, decorTop:663.7, decorWidth:1058.98, decorHeight:288.88, decorTransform:"none",
+    laptopLeft:-248, laptopTop:128, laptopWidth:1266, laptopHeight:767, laptopImg:"assets/skills/s1-screen.png",
+    floats:[
+      { img:"assets/skills/s1-card1.png?v=2", left:1551, top:136, width:312, height:365 },
+      { img:"assets/skills/s1-card2.png?v=2", left:1550, top:510, width:312, height:365 }
+    ],
+    title:"Build Skills. Learn at Your Own Pace.", titleLeft:"calc(50% - 633px)", titleTop:915, titleWidth:1600, titleColor:"#f4f5e7",
+    listLeft:974, listTop:188, listHeight:439, listWidth:509,
+    bullets:[
+      { num:"*", text:"Explore structured skill-development courses across technology, business, digital marketing, data, and other career-focused fields." },
+      { num:"*", text:"Learn through expert-led lessons, practical projects and assignments, assessments, and career-focused resources designed to build real-world skills." }
+    ]
+  },
+  { hidden:true, type:'skillsdetails', header:"Skills", pageTag:"05",
+    title:"Track the Journey. Measure the Growth.", titleLeft:"calc(50% - 892px)", titleTop:140, titleWidth:1606, titleFontSize:70, titleColor:"#f4f5e7",
+    decor:"assets/skills/s2-decor.svg", decorLeft:1713.47, decorTop:-177.73, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(-80.4deg)",
+    mockupsImg:"assets/skills/s2-mockups.png",
+    listLeft:720, listTop:348, listHeight:420, listWidth:509,
+    bullets:[
+      { num:"*", text:"Keep every learner's skill-development journey visible — from course enrollment and lesson progress to completed learning milestones." },
+      { num:"*", text:"Monitor detailed course activity, assessments, and learning progress to understand where learners are advancing and where they may need more support." }
+    ]
+  },
+
+  { hidden:true, type:'divider', section:"Section 5", title:"Shikho x Walton TV Application", desc:"A smart TV learning experience developed with Walton Bangladesh — bringing Shikho's recorded classes, animated lessons, and digital resources directly into learners' homes.", tag:"Partnership", secLabel:"Sec 5/7", logo:"assets/walton-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-5.png?v=3", photoFg:"assets/sec-divider-fg-5.png" },
+  { hidden:true, type:'waltonhome', header:"Shikho x Walton", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
+    bandTop:820, bandHeight:260,
+    decor:"assets/walton/decor.svg", decorLeft:1090.94, decorTop:-89.0, decorWidth:1059.08, decorHeight:288.91, decorTransform:"scaleX(-1)",
+    deviceImg:"assets/walton/tv-mockup2.png", deviceLeft:102, deviceTop:145, deviceWidth:1247.67, deviceHeight:770.4,
+    title:"A New Way to Learn with Shikho on TV", titleLeft:"calc(50% - 683px)", titleTop:915, titleWidth:1600, titleColor:"#f4f5e7",
+    listLeft:1389, listTop:194, listHeight:541, listWidth:430,
+    bullets:[
+      { num:"*", text:"Partnering with Walton to bring Shikho's digital learning experience to smart TVs, making quality education accessible through a larger and more immersive screen." },
+      { num:"*", text:"Students can seamlessly browse recorded classes, animated lessons, digital books, and learning resources — creating a complete home learning experience." }
+    ]
+  },
 ];
+// Slides marked hidden:true are kept for later but skipped in the presentation
+const SLIDES = ALL_SLIDES.filter(s => !s.hidden);
 
 // ---- RENDER -------------------------------------------------
 const deck = document.getElementById('deck');
