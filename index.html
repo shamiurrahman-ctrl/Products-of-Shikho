@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shikho Product Showcase</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f1efe9;
+    --ink: #17181a;
+    --sub: #4a4b4d;
+    --accent: #ff2e78;
+    --accent2: #6d3bf5;
+    --line: rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background:#0c0c0d;
+    font-family:"Inter","Hind Siliguri",system-ui,sans-serif;
+    color:var(--ink);
+    height:100%;
+    overflow:hidden;
+  }
+  .deck{ width:100vw; height:100vh; position:relative; }
+  .slide{
+    position:absolute; inset:0; width:100%; height:100%;
+    display:none;
+  }
+  .slide.active{ display:block; }
+
+  .stage{
+    position:absolute; top:50%; left:50%;
+    width:1920px; height:1080px;
+    transform-origin:center center;
+    background:var(--bg);
+    overflow:hidden;
+    box-shadow:0 40px 120px rgba(0,0,0,0.5);
+  }
+  .stage.dark{ background:#111225; color:#fff; }
+
+  .wavy{ position:absolute; left:-60px; bottom:-80px; width:760px; height:auto; opacity:0.55; pointer-events:none; }
+  .wavy.light{ opacity:0.14; }
+
+  .logo{ position:absolute; top:56px; left:80px; display:flex; align-items:center; gap:10px; z-index:3;}
+  .logo svg{ height:30px; width:auto; }
+  .logo-word{ font-weight:800; font-size:24px; letter-spacing:-0.5px; color:#1a1a2e; }
+  .stage.dark .logo-word{ color:#fff; }
+
+  .crumb{
+    position:absolute; top:60px; right:80px;
+    font-size:15px; color:var(--sub); font-weight:600;
+    letter-spacing:0.2px; text-align:right;
+    z-index:3;
+  }
+  .stage.dark .crumb{ color:rgba(255,255,255,0.6); }
+
+  /* COVER — matches Figma hero (node 26:4429), 1920x1080 1:1 pixel coordinates */
+  .stage.hero{
+    background:#fff;
+  }
+  .hero-bg{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; z-index:0;
+  }
+  .hero-logo{
+    position:absolute; left:422px; top:93px; width:296px; z-index:5;
+  }
+  .hero-logo img{ width:100%; height:auto; display:block; }
+  .hero-title{
+    position:absolute; left:766px; top:126px; width:661px;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:900;
+    font-size:100px; line-height:96px; letter-spacing:-1px; padding-bottom:14px;
+    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    z-index:5;
+  }
+  .hero-subtitle{
+    position:absolute; left:771px; top:337px; width:542px;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:400;
+    font-size:32px; line-height:40px; letter-spacing:-0.32px;
+    color:#0c1a43; z-index:5;
+  }
+  .hero-subtitle b{ font-weight:900; color:#e2008d; }
+  .hero-collage-frame{
+    position:absolute; left:196px; top:335px; width:1527px; height:683px;
+    z-index:2;
+  }
+  .hero-collage-frame img{ width:100%; height:100%; object-fit:contain; }
+  .hero-scribble-left{ position:absolute; left:-264px; top:110px; width:753.2px; height:637.41px; z-index:1; pointer-events:none; }
+  .hero-scribble-right{ position:absolute; left:1594px; top:534px; width:576.09px; height:607.75px; z-index:1; pointer-events:none; }
+  .hero-scribble-left img, .hero-scribble-right img{ width:100%; height:100%; display:block; }
+
+  /* DIVIDER */
+  .divider-num{
+    position:absolute; left:80px; top:140px;
+    font-size:22px; font-weight:700; letter-spacing:4px; text-transform:uppercase;
+    color:var(--accent);
+  }
+  .divider-title{
+    position:absolute; left:80px; top:420px; right:280px;
+    font-size:76px; font-weight:900; letter-spacing:-2px; line-height:1.05;
+  }
+  .divider-desc{
+    position:absolute; left:80px; top:660px; max-width:980px;
+    font-size:24px; line-height:1.55; color:rgba(255,255,255,0.72); font-weight:400;
+  }
+  .divider-tag{
+    position:absolute; right:80px; bottom:70px;
+    font-size:16px; color:rgba(255,255,255,0.4); font-weight:600; letter-spacing:1px; text-transform:uppercase;
+  }
+
+  /* DIVIDER — photo variant (matches Figma "Sec N slide", node 28:4764), 1920x1080 1:1 px */
+  .stage.divider-photo{ background:#ffffff; }
+  .dp-bg{
+    position:absolute; left:0; top:0; width:1920px; height:1080px;
+    object-fit:cover; z-index:0;
+  }
+  .dp-bg-placeholder{
+    position:absolute; left:0; top:0; width:1920px; height:1080px; z-index:0;
+    background:linear-gradient(150deg,#eef0f7 0%,#dfe3f0 45%,#e9e3ef 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .dp-bg-placeholder .ph-inner{ color:rgba(12,26,67,0.35); }
+  .dp-bg-placeholder .ph-label{ color:rgba(12,26,67,0.45); }
+  .dp-bg-placeholder .ph-path{ background:rgba(12,26,67,0.08); color:rgba(12,26,67,0.45); }
+  .dp-card{
+    position:absolute; left:430px; top:72px; width:1402px; height:936px;
+    border-radius:40px; overflow:hidden; z-index:1;
+    background:rgba(255,255,255,0.8);
+    backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px);
+    box-shadow:4px 4px 12px rgba(0,0,0,0.12);
+  }
+  .dp-blob{
+    position:absolute; left:679px; top:-212px; width:997px; height:1051px;
+    pointer-events:none; z-index:0;
+    transform:scaleX(-1);
+  }
+  .dp-fg{
+    position:absolute; left:0; top:0; width:1920px; height:1080px;
+    object-fit:cover; z-index:3; pointer-events:none;
+  }
+  .dp-logo{ position:absolute; left:77px; top:51px; width:174px; z-index:2; }
+  .dp-logo img{ width:100%; height:auto; display:block; }
+  .dp-desc{
+    position:absolute; left:77px; top:268px; width:576px; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:400;
+    font-size:32px; line-height:40px; letter-spacing:-0.32px; color:#0c1a43;
+  }
+  .dp-seclabel{
+    position:absolute; right:88px; top:70px; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:400;
+    font-size:30px; letter-spacing:-0.3px; color:#fff; white-space:nowrap;
+  }
+  .dp-title{
+    position:absolute; right:88px; bottom:70px; width:861px; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:900;
+    font-size:120px; line-height:128px; letter-spacing:-1.2px;
+    padding-bottom:16px;
+    text-align:right;
+    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .dp-title.long{ font-size:84px; line-height:90px; letter-spacing:-0.8px; }
+  .dp-scribble{
+    position:absolute; left:927.94px; top:910.98px; width:1059.07px; height:288.9px;
+    z-index:4; pointer-events:none;
+  }
+  .dp-scribble img{ width:100%; height:100%; display:block; }
+
+  /* PHONE-TRIO — matches Figma "Onboarding to Homepage" (node 33:7115), 1920x1080 1:1 px */
+  .stage.phones3{ background:#f4f5e7; }
+  .p3-header-bg{ position:absolute; left:0; top:0; width:1920px; height:281px; object-fit:cover; z-index:0; }
+  .p3-header-bar{
+    position:absolute; left:67px; top:60px; right:67px; z-index:2;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.4);
+  }
+  .p3-header-left{ display:flex; align-items:center; gap:10px; }
+  .p3-header-left img{ height:20px; width:auto; display:block; }
+  .p3-header-left span{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:22px; color:#fff; }
+  .p3-header-right{ font-family:"JetBrains Mono",monospace; font-size:15px; color:#fff; }
+  .p3-title{
+    position:absolute; left:65px; top:130px; width:1790px; white-space:nowrap; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:72px; line-height:1.12; letter-spacing:-2px; color:#f4f5e7;
+  }
+  .p3-decor{
+    position:absolute; right:-20px; top:140px; width:560px; height:auto;
+    z-index:1; pointer-events:none;
+  }
+  .p3-phone{ position:absolute; top:358px; width:382px; height:784px; z-index:3; }
+  .p3-phone .p3-screen, .rt-phone-left .p3-screen, .rt-phone-right .p3-screen{
+    position:absolute; left:16.8px; top:14.8px; width:348px; height:754.5px;
+    border-radius:34px; overflow:hidden; background:#e9ebd8;
+  }
+  .p3-phone .p3-screen img, .rt-phone-left .p3-screen img, .rt-phone-right .p3-screen img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .p3-phone .p3-frame, .rt-phone-left .p3-frame, .rt-phone-right .p3-frame{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .p3-badge{
+    position:absolute; left:-3px; top:-7px; width:58px; height:58px;
+    border-radius:50%; background:rgba(58,58,58,0.69); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-size:24px;
+    box-shadow:inset 0 0 5px 0 rgba(255,255,255,0.77), 0 6px 14px rgba(0,0,0,0.25); z-index:4;
+  }
+  .p3-list{ position:absolute; left:1328px; top:469px; width:509px; z-index:2; }
+  .p3-item{ display:flex; gap:20px; margin-bottom:48px; }
+  .p3-item:last-child{ margin-bottom:0; }
+  .p3-item-num{
+    font-family:"JetBrains Mono",monospace; font-weight:400; font-size:30px;
+    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    flex-shrink:0; line-height:1;
+  }
+  .p3-item-text{
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:28px;
+    line-height:1.25; letter-spacing:-0.5px; color:#2a2b20;
+  }
+  .p3-screen.placeholder{ display:flex; align-items:center; justify-content:center; }
+  .p3-screen .ph-inner{ padding:16px; }
+  .p3-screen .ph-icon{ font-size:26px; margin-bottom:8px; }
+  .p3-screen .ph-label{ font-size:13px; color:rgba(12,26,67,0.5); }
+  .p3-screen .ph-path{ font-size:9px; padding:3px 6px; }
+
+  /* ROUTINE2 — two-phone + middle list template (matches Figma "Live Class", node 74:9556), 1920x1080 1:1 px */
+  .rt-phone-left{ position:absolute; left:168px; top:230px; width:382px; height:784px; z-index:3; }
+  .rt-phone-right{ position:absolute; left:1344px; top:358px; width:382px; height:784px; z-index:3; }
+  .rt-badge-bottom{ position:absolute; left:-12px; top:726px; width:58px; height:58px; }
+  .rt-badge-top{ position:absolute; left:-3px; top:-7px; width:58px; height:58px; }
+  .rt-list{ position:absolute; left:666px; top:476px; width:509px; height:387px; z-index:2; display:flex; flex-direction:column; justify-content:space-between; }
+  .rt-item{ display:flex; gap:20px; }
+  .rt-item-text{
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:32px;
+    line-height:1.25; letter-spacing:-0.64px; color:#2a2b20;
+  }
+
+  /* SHIKHO AI — full-bleed gradient slide (matches Figma "Shikho AI", node 112:25551), 1920x1080 1:1 px */
+  .stage.shikhoai{ background:#0c1a43; overflow:hidden; }
+  .sai-bg{ position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover; z-index:0; }
+  .sai-header-bar{
+    position:absolute; left:67px; top:60px; right:67px; z-index:2;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.4);
+  }
+  .sai-header-left{ display:flex; align-items:center; gap:10px; }
+  .sai-header-left img{ height:20px; width:auto; display:block; }
+  .sai-header-left span{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:22px; color:#fff; }
+  .sai-header-right{ font-family:"JetBrains Mono",monospace; font-size:15px; color:#fff; }
+  .sai-title{
+    position:absolute; left:65px; top:130px; width:1790px; white-space:nowrap; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:72px; line-height:1.12; letter-spacing:-2px; color:#fff;
+    text-shadow:0 2px 3px rgba(0,0,0,0.13);
+  }
+  .sai-list{ position:absolute; left:65px; top:377px; width:509px; z-index:2; }
+  .sai-item{ display:flex; gap:20px; margin-bottom:48px; }
+  .sai-item:last-child{ margin-bottom:0; }
+  .sai-item-label{
+    font-family:"JetBrains Mono",monospace; font-weight:400; font-size:30px;
+    color:#fff; flex-shrink:0; line-height:1.15; width:110px;
+    text-transform:uppercase;
+  }
+  .sai-item-text{
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:32px;
+    line-height:1.25; letter-spacing:-0.64px; color:#fff;
+  }
+  .sai-mockup{ position:absolute; left:317px; top:199px; width:1521px; height:881px; z-index:3; pointer-events:none; overflow:hidden; }
+  .sai-mockup img{ width:100%; height:auto; display:block; }
+
+  /* SMARTCLASS2 — bespoke Smart Class slide with tilted phones 2&3 composite (node 111:25160), 1920x1080 1:1 px */
+  .sc2-composite{ position:absolute; left:991px; top:335px; width:843px; height:669px; z-index:3; pointer-events:none; }
+  .sc2-composite img{ width:100%; height:100%; display:block; }
+  .sc2-decor{ position:absolute; left:1562px; top:162px; width:358px; height:331px; z-index:1; pointer-events:none; transform:rotate(180deg) scaleX(-1); }
+
+  /* CRMLAPTOP — single-macbook + 1-bullet template (matches Figma "CRM - Dashboard"/"CRM - Lead Details"), 1920x1080 1:1 px */
+  .cl-header-bg{ position:absolute; left:0; top:0; width:1920px; height:281px; object-fit:cover; z-index:0; }
+  .cl-header-bar{
+    position:absolute; left:67px; top:60px; right:67px; z-index:2;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.4);
+  }
+  .cl-header-left{ display:flex; align-items:center; gap:10px; }
+  .cl-header-left img{ height:20px; width:auto; display:block; }
+  .cl-header-left span{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:22px; color:#fff; }
+  .cl-header-right{ font-family:"JetBrains Mono",monospace; font-size:15px; color:#fff; }
+  .cl-title{
+    position:absolute; left:65px; top:130px; width:1790px; white-space:nowrap; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:72px; line-height:1.12; letter-spacing:-2px; color:#f4f5e7;
+  }
+  .cl-decor{ position:absolute; z-index:1; pointer-events:none; transform-origin:center center; }
+  .cl-laptop{ position:absolute; top:314px; width:1175px; height:711.87px; overflow:hidden; z-index:3; }
+  .cl-laptop .cl-screen{
+    position:absolute; left:119.4px; top:24.2px; width:937.55px; height:609.4px;
+    overflow:hidden; background:#e9ebd8;
+  }
+  .cl-laptop .cl-screen img{ width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+  .cl-laptop .cl-frame{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+
+  /* CONTROLTOWER — two-macbook + 2-bullet template (matches Figma "Control Tower", node 177:14075), 1920x1080 1:1 px */
+  .ct-laptop{ position:absolute; overflow:hidden; z-index:3; }
+  .ct-laptop .ct-screen{ position:absolute; left:10.16%; top:3.39%; width:79.8%; height:85.6%; overflow:hidden; background:#e9ebd8; }
+  .ct-laptop .ct-screen img{ width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+  .ct-laptop .ct-frame{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .cl-list{ position:absolute; width:380px; z-index:2; }
+  .cl-item{ display:flex; gap:20px; }
+  .cl-item-num{
+    font-family:"JetBrains Mono",monospace; font-weight:400; font-size:30px;
+    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    flex-shrink:0; line-height:1;
+  }
+  .cl-item-text{
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:32px;
+    line-height:1.25; letter-spacing:-0.5px; color:#2a2b20;
+  }
+  .cl-float{ position:absolute; pointer-events:none; z-index:4; }
+  .cl-float img{ width:100%; height:100%; display:block; object-fit:contain; }
+
+  /* CAMPUS-BAND — plain photo band (matches Figma Campus section "Background"), reused top or bottom */
+  .campus-band{ position:absolute; left:0; width:1920px; overflow:hidden; z-index:0; }
+  .campus-band img{ position:absolute; left:0; top:-284.34%; width:100%; height:384.34%; max-width:none; display:block; }
+
+  /* TEACHEROS-INTRO — devices + bottom band template (matches Figma "Introduction Slide", node 152:8839), 1920x1080 1:1 px */
+  .ti-devices{ position:absolute; left:-120px; top:203px; width:1245.42px; height:693px; z-index:4; pointer-events:none; }
+  .ti-devices img{ width:100%; height:100%; display:block; object-fit:contain; }
+  .ti-hub{ position:absolute; left:1081px; top:-50px; width:915px; height:1353.94px; z-index:3; pointer-events:none; }
+  .ti-hub img{ width:100%; height:100%; display:block; object-fit:contain; }
+  .ti-decor{ position:absolute; left:-173px; top:110.7px; width:1058.79px; height:288.18px; z-index:1; pointer-events:none; }
+  .ti-decor img{ width:100%; height:100%; display:block; }
+  .ti-title{
+    position:absolute; left:67px; top:915px; z-index:6; white-space:nowrap;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:80px; line-height:1.1; letter-spacing:-2.4px; color:#f4f5e7;
+    text-align:left;
+  }
+
+  /* IPAD2 — two-iPad + 2-bullet template (matches Figma "Lesson Plan"/"Create Quiz"/etc, Section 6), 1920x1080 1:1 px */
+  .ip2-pad{ position:absolute; width:580px; z-index:3; }
+  .ip2-pad .ip2-mockup{ width:100%; height:auto; display:block; pointer-events:none; }
+  .ip2-badge{ left:33px; top:5px; }
+  .ip2-list{ position:absolute; width:509px; z-index:2; display:flex; flex-direction:column; justify-content:space-between; }
+  .ip2-item{ display:flex; gap:20px; }
+  .teacheros-band{ position:absolute; left:0; width:1920px; background:#14a16d; overflow:hidden; }
+  .teacheros-band img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; mix-blend-mode:hard-light; transform:scaleX(-1); display:block; }
+  .ip2-item-text{
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:32px;
+    line-height:1.1; letter-spacing:-0.64px; color:#2a2b20;
+  }
+
+  /* IFPHUB — single Surface Hub + 2-bullet template (matches Figma "IFP Board - ..." nodes, Section 6), 1920x1080 1:1 px */
+  .ih-hub{ position:absolute; z-index:3; pointer-events:none; }
+  .ih-hub img{ width:100%; height:100%; display:block; object-fit:contain; }
+  .ih-decor{ position:absolute; z-index:1; pointer-events:none; transform-origin:center center; }
+  .ih-decor img{ width:100%; height:100%; display:block; }
+  .ih-title{
+    position:absolute; z-index:6;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:80px; line-height:1.1; letter-spacing:-2.4px;
+  }
+  .ih-list{ position:absolute; width:509px; z-index:2; display:flex; flex-direction:column; justify-content:space-between; }
+  .ih-item{ display:flex; gap:20px; }
+  .ih-item-num{ font-family:"JetBrains Mono",monospace; font-weight:400; font-size:30px; flex-shrink:0; line-height:1; }
+  .ih-item-num.grad{
+    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .ih-item-num.wht{ color:#f7fbff; }
+  .ih-item-text{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:32px; line-height:1.1; letter-spacing:-0.64px; }
+  .ih-item-text.dark{ color:#2a2b20; }
+  .ih-item-text.wht{ color:#fff; }
+
+  /* HOMEPAGE — phone+laptop template (matches Figma "Homepage", node 33:7147), 1920x1080 1:1 px */
+  .stage.homepage2{ background:#f4f5e7; }
+  .hp-header-bar{
+    position:absolute; left:67px; top:60px; right:67px; z-index:5;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    padding-bottom:14px; border-bottom:1px solid rgba(23,23,23,0.15);
+  }
+  .hp-header-left{ display:flex; align-items:center; gap:10px; }
+  .hp-header-left img{ height:20px; width:auto; display:block; }
+  .hp-header-left span{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:22px; color:#171717; }
+  .hp-header-right{ font-family:"JetBrains Mono",monospace; font-size:15px; color:#525252; }
+  .hp-bottom-band{ position:absolute; left:0; top:820px; width:1920px; height:260px; object-fit:cover; z-index:2; }
+  .hp-scribble{ position:absolute; left:1081px; top:663.7px; width:1059px; height:288.9px; z-index:3; pointer-events:none; }
+  .hp-scribble img{ width:100%; height:100%; display:block; }
+  .hp-title{
+    position:absolute; left:0; right:0; top:930px; width:1920px; z-index:6;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:56px; line-height:1.15; letter-spacing:-1.6px; color:#f4f5e7;
+    text-align:center;
+  }
+  .hp-phone{ position:absolute; left:232px; top:191.18px; width:292.2px; height:599.79px; z-index:1; }
+  .hp-phone .hp-screen{
+    position:absolute; left:12.87px; top:11.29px; width:266.24px; height:577.21px;
+    border-radius:26px; overflow:hidden; background:#e9ebd8;
+  }
+  .hp-phone .hp-screen img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hp-phone .hp-frame{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .hp-laptop{ position:absolute; left:448px; top:140px; width:1266px; height:767px; z-index:4; }
+  .hp-laptop .hp-frame{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .hp-laptop .hp-screen{
+    position:absolute; left:128.65px; top:26.04px; width:1010.16px; height:656.6px;
+    overflow:hidden; background:#fff; border-radius:24px 24px 0 0;
+  }
+  .hp-laptop .hp-screen img{ width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+  .hp-screen.placeholder{ display:flex; align-items:center; justify-content:center; }
+  .hp-screen .ph-inner{ padding:16px; }
+  .hp-screen .ph-icon{ font-size:26px; margin-bottom:8px; }
+  .hp-screen .ph-label{ font-size:13px; color:rgba(12,26,67,0.5); }
+  .hp-screen .ph-path{ font-size:9px; padding:3px 6px; }
+
+  /* CONTENT: side layout */
+  .content-title{
+    position:absolute; left:80px; top:112px; right:60%;
+    font-size:44px; font-weight:800; letter-spacing:-1px; line-height:1.12;
+  }
+  .content-bullets{
+    position:absolute; left:80px; top:300px; width:44%;
+    font-size:19px; line-height:1.9; color:var(--sub); font-weight:500;
+  }
+  .content-bullets li{ margin-bottom:10px; list-style:none; position:relative; padding-left:22px; }
+  .content-bullets li::before{
+    content:""; position:absolute; left:0; top:9px; width:8px; height:8px; border-radius:50%;
+    background:var(--accent);
+  }
+
+  .media-slot{
+    position:absolute; top:0; right:0; height:100%; width:58%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .media-slot img{ height:88%; width:auto; max-width:96%; object-fit:contain; border-radius:20px; }
+  .media-slot.edge img{ height:100%; max-width:none; object-fit:cover; border-radius:0; }
+
+  .ph-card{
+    height:80%; width:88%;
+    background:linear-gradient(135deg,#1b1c2e,#2b2c46 40%,#1f3b34 100%);
+    border-radius:24px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ph-inner{ text-align:center; color:rgba(255,255,255,0.75); padding:40px; }
+  .ph-icon{ font-size:44px; margin-bottom:14px; opacity:0.7; }
+  .ph-label{ font-size:20px; font-weight:700; color:#fff; max-width:420px; margin:0 auto 10px; }
+  .ph-path{ font-size:13px; font-family:monospace; color:rgba(255,255,255,0.4); background:rgba(0,0,0,0.25); padding:5px 10px; border-radius:6px; display:inline-block; }
+
+  /* nav */
+  .nav{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:12px;
+    background:rgba(255,255,255,0.08); backdrop-filter:blur(12px);
+    padding:8px 14px; border-radius:999px; z-index:50; font-family:Inter,sans-serif;
+  }
+  .nav button{
+    background:rgba(255,255,255,0.12); border:none; color:#fff;
+    width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:15px;
+    display:flex; align-items:center; justify-content:center; transition:background .15s;
+  }
+  .nav button:hover{ background:rgba(255,255,255,0.25); }
+  .nav .count{ color:#eee; font-size:13px; min-width:52px; text-align:center; }
+  .nav select{
+    background:rgba(255,255,255,0.1); color:#fff; border:none; border-radius:999px;
+    padding:6px 10px; font-size:12px; max-width:220px; font-family:Inter,sans-serif;
+  }
+  .nav select option{ color:#111; }
+
+  .editable{ outline:none; }
+
+  .hint{ display:none; }
+  .nav{ display:none; }
+</style>
+</head>
+<body>
+
+<div class="hint">Click text to edit &middot; ← → / Space to navigate &middot; F fullscreen</div>
+
+<div class="deck" id="deck"></div>
+
+<div class="nav">
+  <button id="prev">&#8592;</button>
+  <select id="jump"></select>
+  <span class="count"><span id="cur">1</span> / <span id="tot">1</span></span>
+  <button id="next">&#8594;</button>
+</div>
+
+<script>
+const LOGO_SVG = `<svg viewBox="0 0 36 30" xmlns="http://www.w3.org/2000/svg"><path d="M4 26 C4 26 10 6 20 4 C26 3 30 6 30 6 C30 6 26 4 22 8 C30 8 34 14 34 14 C34 14 28 12 24 14 C30 16 32 22 32 22 C32 22 26 18 20 18 C14 18 4 26 4 26 Z" fill="#ff2e78"/></svg>`;
+
+const WAVY = (light)=>`<svg class="wavy ${light?'light':''}" viewBox="0 0 760 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="${light?'#ffffff':'#c9c6bd'}" stroke-width="1.2">
+    <path d="M-50 500 C 150 350, 250 550, 450 400 S 700 250, 800 350" />
+    <path d="M-50 460 C 150 310, 250 510, 450 360 S 700 210, 800 310" />
+    <path d="M-50 420 C 150 270, 250 470, 450 320 S 700 170, 800 270" />
+    <path d="M-50 380 C 150 230, 250 430, 450 280 S 700 130, 800 230" />
+  </g>
+</svg>`;
+
+// ---- SLIDE DATA -------------------------------------------------
+const SLIDES = [
+  { type:'cover', title:"Product Ecosystem", subtitle:"Building the Future of <b>Learning</b>, <b>Teaching</b> &amp; Education <b>Management</b>", img:"assets/hero-collage.png" },
+
+  { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"The Complete Learning Companion for Class 6–12 Students", tag:"Core Product", secLabel:"Sec 1/7", photoBg:"assets/sec-divider-bg-1.png", photoFg:"assets/sec-divider-fg-1.png" },
+  { type:'phones3', header:"Learning App", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
+    phones:[
+      { num:"01", img:"assets/s1-1a-signup.png" },
+      { num:"02", img:"assets/s1-1b-class-select.png?v=3" },
+      { num:"03", img:"assets/s1-1c-homepage.png?v=3" }
+    ],
+    bullets:[
+      "Get started in seconds with your phone number and a quick OTP verification.",
+      "Select your class, batch and group to set up your learning experience.",
+      "Tell us your name and gender to complete your personalized profile."
+    ] },
+  { type:'homepage2', header:"Learning App", pageTag:"04", title:"Your Entire Learning Journey, In One Place",
+    phoneImg:"assets/homepage/screen-mobile.png", laptopImg:"assets/homepage/screen-laptop.png" },
+  { type:'routine2', header:"Learning App", pageTag:"05", title:"From Routine to Real-Time Learning",
+    leftImg:"assets/routine/screen-routine.png", rightImg:"assets/routine/screen-liveclass.png",
+    bullets:[
+      "Stay on track with a structured routine that shows upcoming, ongoing and completed classes at a glance.",
+      "Join live classes, interact with mentors and ask questions in real time — all within the learning experience."
+    ]
+  },
+  { type:'smartclass2', header:"Learning App", pageTag:"06", title:"Smarter, More Interactive Recorded Learning",
+    phone1Img:"assets/s1-3a-smartclass1.png",
+    bullets:[
+      "Watch topic-wise segmented recordings and jump directly to the part you want to learn.",
+      "Use Smart Class AI to understand the specific segment with contextual explanations and guidance.",
+      "Practice what you learned with segment-specific quizzes and get directions for what to learn next."
+    ]
+  },
+  { type:'phones3', header:"Learning App", pageTag:"07", title:"Simplifying Concepts Through Animation",
+    decor:"assets/phone/decorative-coral.svg",
+    decorStyle:"right:-140px; width:720px;",
+    phoneLefts:[631, 1042.95, 1454.9],
+    listStyle:"left:69px; top:432px;",
+    phones:[
+      { num:"01", img:"assets/s1-4a-animated1.png" },
+      { num:"02", img:"assets/s1-4b-animated2.png" },
+      { num:"03", img:"assets/s1-4c-animated3.png" }
+    ],
+    bullets:[
+      "Browse animated lessons effortlessly by subject, chapter and topic.",
+      "Explore topic-wise lessons and quickly find the exact concept you want to learn.",
+      "Learn complex concepts through engaging animated lessons designed for easier understanding."
+    ]
+  },
+  { type:'phones3', header:"Learning App", pageTag:"08", title:"A Complete Library for Better Learning",
+    decor:"assets/phone/decorative-ebook.svg",
+    decorStyle:"left:1609.74px; top:69.49px; right:auto; width:326px; height:344px; transform:rotate(-37.03deg);",
+    phoneLefts:[69, 480.95, 1454.9],
+    listStyle:"left:893px; top:432px;",
+    phones:[
+      { num:"01", img:"assets/s1-4a-ebook1.png" },
+      { num:"02", img:"assets/s1-4b-ebook2.png" },
+      { num:"03", img:"assets/s1-4c-ebook3.png" }
+    ],
+    bullets:[
+      "Access a wide range of subject- and chapter-wise e-books and learning resources in one place.",
+      "Use Smart Book AI to understand the topic on screen and take a quiz to test your understanding.",
+      "Access lecture slides alongside recorded classes to follow the lesson and revisit key concepts easily."
+    ]
+  },
+  { type:'phones3', header:"Learning App", pageTag:"09", title:"Assess, Practice &amp; Track Your Progress",
+    decor:"assets/phone/decorative.svg",
+    decorStyle:"transform:scaleY(-1); right:-140px; width:720px;",
+    phoneLefts:[69, 480.95, 1454.9],
+    listStyle:"left:893px; top:457px;",
+    phones:[
+      { num:"01", img:"assets/s1-5a-assessment1.png" },
+      { num:"02", img:"assets/s1-5b-assessment2.png" },
+      { num:"03", img:"assets/s1-5c-assessment3.png?v=3" }
+    ],
+    bullets:[
+      "Practice MCQs anytime or take chapter-wise MCQ exams to strengthen your understanding.",
+      "Take comprehensive Model Tests and Quarter Exams with both CQ and MCQ to prepare for real exam conditions.",
+      "Get detailed results with performance feedback and solutions to identify gaps and improve."
+    ]
+  },
+  { type:'phones3', header:"Learning App", pageTag:"10", title:"Know Your Progress. Know What to Improve.",
+    decor:"assets/phone/decorative-pink.svg",
+    phoneLefts:[69, 480.95, 892.9],
+    listStyle:"left:1328px; top:469px;",
+    phones:[
+      { num:"01", img:"assets/s1-6a-reportcard1.png" },
+      { num:"02", img:"assets/s1-6b-reportcard2.png" },
+      { num:"03", img:"assets/s1-6c-reportcard3.png" }
+    ],
+    bullets:[
+      "Get a complete view of your overall performance, learning progress, activity and strongest and weakest areas.",
+      "Dive into subject- and chapter-level performance to see your scores, progress and the topics that need more attention.",
+      "See where you stand on the leaderboard and compare your performance with other learners."
+    ]
+  },
+  { type:'shikhoai', header:"Learning App", pageTag:"11", title:"Shikho AI - Your Personal Learning Companion",
+    items:[
+      { label:"Smart Class", text:"Get instant AI-powered explanations for the lesson you're watching, with guidance to help you understand difficult concepts." },
+      { label:"Shikho AI", text:"Ask questions, get step-by-step explanations and solve your learning doubts with an AI tutor anytime." }
+    ]
+  },
+
+  { type:'divider', section:"Section 2", title:"Shikho CRM", desc:"A unified CRM platform that connects telesales, engagement, inbound, and retention operations — enabling teams to manage the complete student journey with actionable insights and efficient customer management.", tag:"Internal Platform", secLabel:"Sec 2/7", logo:"assets/crm-logo.svg", photoBg:"assets/sec-divider-bg-2.png?v=4", photoFg:"assets/sec-divider-fg-2.png?v=3" },
+  { type:'crmlaptop', header:"CRM", pageTag:"13", title:"Sales Performance at a Glance",
+    laptopImg:"assets/crm/screen-dashboard2.png", laptopLeft:-126,
+    listLeft:986, listTop:508,
+    bullet:"Get a complete view of an agent's sales journey — from assigned leads and call activities to target achievement, revenue performance and pending tasks.",
+    decor:"assets/crm/decor-dashboard.svg?v=2", decorLeft:942, decorTop:617, decorWidth:978, decorHeight:463, decorTransform:"none",
+    floats:[
+      { img:"assets/crm/dashboard-floating-card.png", left:1450, top:330, width:473, height:700 }
+    ]
+  },
+  { type:'crmlaptop', header:"CRM", pageTag:"14", title:"Understand Every Lead Before Every Conversation",
+    laptopImg:"assets/crm/screen-lead2.png", laptopLeft:1027,
+    listLeft:496, listTop:472,
+    bullet:"Access complete lead information, including user profile, learning activities, course interactions, purchase history and engagement insights to make every conversation more effective.",
+    decor:"assets/crm/decor-lead.svg?v=2", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:422, decorTransform:"none",
+    floats:[
+      { img:"assets/crm/lead-card-top.png", left:86, top:361, width:342, height:310 },
+      { img:"assets/crm/lead-card-mid.png", left:86, top:684, width:342, height:49 },
+      { img:"assets/crm/lead-card-widget.png", left:86, top:753, width:342, height:254 }
+    ]
+  },
+
+  { type:'divider', section:"Section 3", title:"Shikho CMS", desc:"A centralized content and product management platform that powers Shikho's learning ecosystem — enabling teams to create, manage, and deliver courses, classes, e-books, and digital learning resources at scale.", tag:"Internal Platform", secLabel:"Sec 3/7",
+    logo:"assets/cms-logo.svg?v=2", logoWidth:260, photoBg:"assets/sec-divider-bg-3.png?v=3", photoFg:"assets/sec-divider-fg-3.png", fgStyle:"object-position:left center; transform:translateX(-260px);" },
+  { type:'crmlaptop', header:"CMS", pageTag:"13", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
+    title:"Platform Operations at a Glance",
+    decor:"assets/cms/decor.svg", decorLeft:932, decorTop:607, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
+    floats:[
+      { img:"assets/cms/float-1.png", left:1474, top:370, width:804.158, height:327.5 },
+      { img:"assets/cms/float-2.png", left:1474, top:717.5, width:520.023, height:257.5 }
+    ],
+    laptopLeft:-126, laptopImg:"assets/cms/screen.png",
+    listLeft:986, listTop:508,
+    bullet:"Manage users, academics, content, exams, commerce and QR operations from one place."
+  },
+
+  { type:'divider', section:"Section 4", title:"Shikho Skills", desc:"A career-focused learning platform offering skill-based courses designed to help learners build practical expertise and earn industry-recognized certifications.", tag:"Product", secLabel:"Sec 4/7", logo:"assets/skills-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-4.png?v=3", photoFg:"assets/sec-divider-fg-4.png" },
+  { type:'skillshome', header:"Skills", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
+    bandTop:820, bandHeight:260,
+    decor:"assets/skills/s1-decor.svg", decorLeft:1081, decorTop:663.7, decorWidth:1058.98, decorHeight:288.88, decorTransform:"none",
+    laptopLeft:-248, laptopTop:128, laptopWidth:1266, laptopHeight:767, laptopImg:"assets/skills/s1-screen.png",
+    floats:[
+      { img:"assets/skills/s1-card1.png?v=2", left:1551, top:136, width:312, height:365 },
+      { img:"assets/skills/s1-card2.png?v=2", left:1550, top:510, width:312, height:365 }
+    ],
+    title:"Build Skills. Learn at Your Own Pace.", titleLeft:"calc(50% - 633px)", titleTop:915, titleWidth:1600, titleColor:"#f4f5e7",
+    listLeft:974, listTop:188, listHeight:439, listWidth:509,
+    bullets:[
+      { num:"*", text:"Explore structured skill-development courses across technology, business, digital marketing, data, and other career-focused fields." },
+      { num:"*", text:"Learn through expert-led lessons, practical projects and assignments, assessments, and career-focused resources designed to build real-world skills." }
+    ]
+  },
+  { type:'skillsdetails', header:"Skills", pageTag:"05",
+    title:"Track the Journey. Measure the Growth.", titleLeft:"calc(50% - 892px)", titleTop:140, titleWidth:1606, titleFontSize:70, titleColor:"#f4f5e7",
+    decor:"assets/skills/s2-decor.svg", decorLeft:1713.47, decorTop:-177.73, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(-80.4deg)",
+    mockupsImg:"assets/skills/s2-mockups.png",
+    listLeft:720, listTop:348, listHeight:420, listWidth:509,
+    bullets:[
+      { num:"*", text:"Keep every learner's skill-development journey visible — from course enrollment and lesson progress to completed learning milestones." },
+      { num:"*", text:"Monitor detailed course activity, assessments, and learning progress to understand where learners are advancing and where they may need more support." }
+    ]
+  },
+
+  { type:'divider', section:"Section 5", title:"Shikho x Walton TV Application", desc:"A smart TV learning experience developed with Walton Bangladesh — bringing Shikho's recorded classes, animated lessons, and digital resources directly into learners' homes.", tag:"Partnership", secLabel:"Sec 5/7", logo:"assets/walton-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-5.png?v=3", photoFg:"assets/sec-divider-fg-5.png" },
+  { type:'waltonhome', header:"Shikho x Walton", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
+    bandTop:820, bandHeight:260,
+    decor:"assets/walton/decor.svg", decorLeft:1090.94, decorTop:-89.0, decorWidth:1059.08, decorHeight:288.91, decorTransform:"scaleX(-1)",
+    deviceImg:"assets/walton/tv-mockup2.png", deviceLeft:102, deviceTop:145, deviceWidth:1247.67, deviceHeight:770.4,
+    title:"A New Way to Learn with Shikho on TV", titleLeft:"calc(50% - 683px)", titleTop:915, titleWidth:1600, titleColor:"#f4f5e7",
+    listLeft:1389, listTop:194, listHeight:541, listWidth:430,
+    bullets:[
+      { num:"*", text:"Partnering with Walton to bring Shikho's digital learning experience to smart TVs, making quality education accessible through a larger and more immersive screen." },
+      { num:"*", text:"Students can seamlessly browse recorded classes, animated lessons, digital books, and learning resources — creating a complete home learning experience." }
+    ]
+  },
+
+  { type:'divider', section:"Section 6", title:"Teacher OS", desc:"An AI-powered operating system designed for teachers — bringing lesson planning, classroom tools, training resources, and smart teaching assistance into one unified platform for every classroom in Bangladesh.", tag:"Upcoming · Government Partnership", secLabel:"Sec 6/7",
+    logo:"assets/teacheros-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-6.png?v=3", photoFg:"assets/sec-divider-fg-6.png" },
+  { type:'teacheros1', header:"Teacher OS", pageTag:"04", title:"One Platform. Every Teaching Need." },
+  { type:'ipad2', header:"Teacher OS", pageTag:"05", title:"AI-Powered Lesson Planning",
+    decor:"assets/teacheros/decor-lessonplan.svg", decorLeft:-317, decorTop:243, decorWidth:1058.78, decorHeight:288.18, decorTransform:"none",
+    pad1Left:63.74, pad1Top:433, pad1Img:"assets/teacheros/mockup-lessonplan1.png",
+    pad2Left:1287, pad2Top:325.78, pad2Img:"assets/teacheros/mockup-lessonplan2.png",
+    listLeft:686, listTop:398, listHeight:526,
+    bullets:[
+      "Prepare every class with AI-powered resources — generate lesson plans, explore smart videos, and study smart books designed to help teachers understand how to teach each topic effectively.",
+      "Generate structured lesson plans instantly with AI-powered recommendations, including objectives, key concepts, and classroom activities."
+    ]
+  },
+  { type:'ipad2', header:"Teacher OS", pageTag:"06", title:"Smart Quiz Generation",
+    decor:"assets/teacheros/decor-quiz.svg?v=2", decorLeft:1713.5, decorTop:-453.7, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    pad1Left:63.74, pad1Top:325.78, pad1Img:"assets/teacheros/mockup-quiz1.png",
+    pad2Left:616.74, pad2Top:325.78, pad2Img:"assets/teacheros/mockup-quiz2.png",
+    listLeft:1226, listTop:493, listHeight:459,
+    bullets:[
+      "Customize quizzes by selecting subjects, multiple chapters, topics, question count, and difficulty level based on the specific needs of each class.",
+      "Generate AI-powered quizzes instantly, with options to regenerate questions, refine assessments, and print them for classroom use."
+    ]
+  },
+  { type:'ipad2', header:"Teacher OS", pageTag:"07", title:"AI-Enhanced Smart Books",
+    decor:"assets/teacheros/decor-smartbook-v2.svg?v=2", decorLeft:-184.48, decorTop:489.48, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(-90deg) scaleX(-1)",
+    pad1Left:733.74, pad1Top:325.78, pad1Img:"assets/teacheros/mockup-smartbooks1.png",
+    pad2Left:1287, pad2Top:325.78, pad2Img:"assets/teacheros/mockup-smartbooks2.png",
+    listLeft:78, listTop:370, listHeight:459,
+    bullets:[
+      "Explore teacher-focused smart books with detailed explanations and learning resources to build deeper understanding of each topic before class.",
+      "Use AI-powered explanations, examples, and insights to understand concepts better and prepare effective teaching approaches."
+    ]
+  },
+  { type:'ipad2', header:"Teacher OS", pageTag:"08", title:"Interactive Video Learning",
+    decor:"assets/teacheros/decor-smartvideos.svg", decorLeft:1713.5, decorTop:-453.7, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    pad1Left:63.74, pad1Top:325.78, pad1Img:"assets/teacheros/mockup-smartvideos1.png",
+    pad2Left:617, pad2Top:325.78, pad2Img:"assets/teacheros/mockup-smartvideos2.png",
+    listLeft:1226, listTop:473, listHeight:459,
+    bullets:[
+      "Watch teacher-focused smart videos with concept breakdowns and explanations to understand how to effectively teach each topic.",
+      "Explore AI-powered video insights with key concepts and contextual guidance to make classroom delivery more effective."
+    ]
+  },
+  { type:'ipad2', header:"Teacher OS", pageTag:"09", title:"AI Teaching Companion",
+    decor:"assets/teacheros/decor-aiassist.svg?v=2", decorLeft:-155.6, decorTop:544.3, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    pad1Left:780.74, pad1Top:334.78, pad1Img:"assets/teacheros/mockup-aiassist1.png",
+    pad2Left:1334, pad2Top:334.78, pad2Img:"assets/teacheros/mockup-aiassist2.png",
+    listLeft:76, listTop:410, listHeight:380,
+    bullets:[
+      "Ask subject-specific questions and get AI assistance tailored to the selected class, chapter, and topic.",
+      "Receive instant explanations, examples, and teaching support to prepare better classroom experiences."
+    ]
+  },
+  { type:'ipad2', header:"Teacher OS", pageTag:"10", title:"Digital Attendance Tracking",
+    decor:"assets/teacheros/decor-attendance.svg?v=2", decorLeft:1713.5, decorTop:-453.7, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    pad1Left:63.74, pad1Top:325.78, pad1Img:"assets/teacheros/mockup-attendance1.png",
+    pad2Left:616.74, pad2Top:325.78, pad2Img:"assets/teacheros/mockup-attendance2.png",
+    listLeft:1226, listTop:493, listHeight:459,
+    bullets:[
+      "Take attendance effortlessly with AI-powered scanning through registered student records for faster and more accurate tracking.",
+      "View attendance reports, store records, and share updates digitally to monitor student participation and maintain classroom data."
+    ]
+  },
+  { type:'ipad2', header:"Teacher OS", pageTag:"11", title:"Learning Performance Analytics",
+    decor:"assets/teacheros/decor-assessment.svg", decorLeft:1399.4, decorTop:402.3, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    pad1Left:63.74, pad1Top:325.78, pad1Img:"assets/teacheros/mockup-assessment1.png",
+    pad2Left:617, pad2Top:325.78, pad2Img:"assets/teacheros/mockup-assessment2.png",
+    listLeft:1226, listTop:427, listHeight:422,
+    bullets:[
+      "Monitor student performance at a glance through assessment dashboards with insights on learning progress and outcomes.",
+      "Digitally record CQ and MCQ scores by scanning answer papers, making assessment tracking faster and more accurate."
+    ]
+  },
+  { type:'ifphub', header:"Teacher OS", pageTag:"12", headerVariant:"wht", bgGreenFull:true,
+    title:"Your Classroom Starts with the Right Topic", titleLeft:"1015px", titleTop:193, titleWidth:837, titleColor:"#fff", titleNowrap:false,
+    decor:"assets/teacheros/decor-topichome.svg", decorLeft:-385.0, decorTop:96.0, decorWidth:1058.92, decorHeight:288.9, decorTransform:"none",
+    hubImg:"assets/teacheros/hub-topichome.png?v=3", hubLeft:0, hubTop:0, hubWidth:1920, hubHeight:1080,
+    numStyle:"wht", textColor:"wht",
+    listLeft:1133, listTop:531, listHeight:401,
+    bullets:[
+      { num:"*", text:"Select class, subject, chapter, and topic to instantly access all teaching resources designed for that specific lesson." },
+      { num:"*", text:"Bring videos, books, quizzes, and AI-powered tools together in one place for an effective classroom experience." }
+    ]
+  },
+  { type:'ifphub', header:"Teacher OS", pageTag:"13", headerVariant:"wht", bandTop:0, bandHeight:281,
+    title:"Interactive Visual Learning with Smart Videos", titleLeft:"65px", titleTop:130, titleWidth:1790, titleColor:"#f4f5e7",
+    decor:"assets/teacheros/decor-smartvideo.svg?v=2", decorLeft:294.41, decorTop:393.28, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    hubImg:"assets/teacheros/hub-smartvideo.png?v=4", hubLeft:0, hubTop:0, hubWidth:1920, hubHeight:1080,
+    numStyle:"grad", textColor:"dark",
+    listLeft:82, listTop:407, listHeight:435,
+    bullets:[
+      { num:"*", text:"Bring lessons to life with rich, animated video content that simplifies complex topics for better understanding." },
+      { num:"*", text:"Enhance classroom engagement with topic-wise videos, AI-powered explanations, and guided learning support that help teachers deliver clearer and more impactful lessons." }
+    ]
+  },
+  { type:'ifphub', header:"Teacher OS", pageTag:"14", headerVariant:"dark", headerIcon:"assets/phone/bird-icon-colored.svg", bandBottom:820, bandHeight:260,
+    title:"Digital Books with AI-Powered Teaching Support", titleLeft:"calc(50% - 225px)", titleTop:862, titleWidth:1045, titleColor:"#f4f5e7", titleNowrap:false,
+    decor:"assets/teacheros/decor-smartbook.svg?v=2", decorLeft:1273.79, decorTop:184.28, decorWidth:1058.78, decorHeight:288.18, decorTransform:"rotate(90deg)",
+    hubImg:"assets/teacheros/hub-smartbook.png?v=3", hubLeft:0, hubTop:0, hubWidth:1920, hubHeight:1080,
+    numStyle:"grad", textColor:"dark",
+    listLeft:1085, listTop:226, listHeight:500,
+    bullets:[
+      { num:"*", text:"Access topic-wise digital books with rich content and interactive resources to explain concepts clearly during classroom teaching." },
+      { num:"*", text:"Use Smart Book AI to get instant explanations, generate MCQs and class quizzes, explore related books, and connect with relevant smart videos for a complete teaching experience." }
+    ]
+  },
+  { type:'ifphub', header:"Teacher OS", pageTag:"15", headerVariant:"wht", bandTop:0, bandHeight:281,
+    title:"AI-Powered Interactive Classroom Assessment", titleLeft:"65px", titleTop:130, titleWidth:1790, titleColor:"#f4f5e7",
+    decor:"assets/teacheros/decor-classquiz.svg?v=2", decorLeft:294.41, decorTop:393.28, decorWidth:499.834, decorHeight:1250.88, decorTransform:"rotate(80.4deg) scaleX(-1)",
+    hubImg:"assets/teacheros/hub-classquiz.png?v=3", hubLeft:0, hubTop:0, hubWidth:1920, hubHeight:1080,
+    numStyle:"grad", textColor:"dark",
+    listLeft:82, listTop:429, listHeight:343,
+    bullets:[
+      { num:"*", text:"Launch AI-generated quizzes live in class with instant question sets tailored to the current topic." },
+      { num:"*", text:"Track real-time student participation and results to gauge understanding on the spot." }
+    ]
+  },
+  { type:'controltower', header:"Teacher OS", pageTag:"16", headerIcon:"assets/phone/bird-icon-colored.svg",
+    bandTop:820, bandHeight:281,
+    decor:"assets/teacheros/decor-controltower.svg", decorLeft:586.94, decorTop:-80.03, decorWidth:1059.06, decorHeight:288.9, decorTransform:"scaleX(-1)",
+    laptop1Left:-366, laptop2Left:1173, laptopTop:224, laptopWidth:1059.36, laptopHeight:641.96,
+    laptop1Img:"assets/teacheros/screen-controltower1.png", laptop2Img:"assets/teacheros/screen-controltower2.png",
+    title:"Centralized Education Management Dashboard", titleLeft:"calc(50% - 830px)", titleTop:915, titleWidth:1660, titleColor:"#f4f5e7",
+    listLeft:680, listTop:203, listHeight:552,
+    bullets:[
+      { num:"*", text:"Monitor the entire Teacher OS ecosystem with real-time insights across schools, teachers, students, training progress, attendance, and classroom activities from one centralized dashboard." },
+      { num:"*", text:"Analyze performance trends, identify improvement areas, and make data-driven decisions with detailed reports on academic engagement, resource usage, and institutional progress." }
+    ]
+  },
+
+  { type:'divider', section:"Section 7", title:"Shikho Campus", desc:"A next-generation Campus OS designed for universities — streamlining academic operations, student management, faculty workflows, and institutional processes in one integrated platform.", tag:"Under Development", secLabel:"Sec 7/7",
+    logo:"assets/campus-logo.svg", logoWidth:260, photoBg:"assets/sec-divider-bg-7.png?v=3", photoFg:"assets/sec-divider-fg-7.png" },
+  { type:'campusintro', header:"Shikho Campus", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
+    bandTop:820, bandHeight:260,
+    decor:"assets/campus/intro-decor.svg", decorLeft:1081, decorTop:663.7, decorWidth:1058.98, decorHeight:288.88, decorTransform:"none",
+    laptopLeft:327, laptopTop:102, laptopWidth:1266, laptopHeight:767, laptopImg:"assets/campus/intro-screen.png",
+    title:"One Platform for the Entire Academic Experience", titleLeft:"calc(50% - 858px)", titleTop:915, titleWidth:1716, titleColor:"#f4f5e7"
+  },
+  { type:'crmlaptop', header:"Student Portal", pageTag:"13", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
+    title:"Everything Students Need, in One Place",
+    decor:"assets/campus/student-decor.svg", decorLeft:942, decorTop:617, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
+    floats:[
+      { img:"assets/campus/student-float-top.png", left:1516, top:358, width:338, height:408 },
+      { img:"assets/campus/student-float-bottom.png", left:1516, top:776, width:338, height:168 }
+    ],
+    laptopLeft:-126, laptopImg:"assets/campus/student-screen.png",
+    listLeft:994, listTop:386,
+    bullet:"A personalized home that helps students stay on top of their day — join live classes, track upcoming tasks, continue learning, monitor course progress, and get AI-powered support when they need it."
+  },
+  { type:'crmlaptop', header:"Teacher Portal", pageTag:"14", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
+    title:"Teach, Manage, and Support",
+    decor:"assets/campus/faculty-decor.svg", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:635.354, decorTransform:"none",
+    floats:[
+      { img:"assets/campus/faculty-float-1.png", left:52, top:314, width:370, height:450 },
+      { img:"assets/campus/faculty-float-2.png", left:52, top:754, width:370, height:274 }
+    ],
+    laptopLeft:1005, laptopImg:"assets/campus/faculty-screen.png",
+    listLeft:481, listTop:428,
+    bullet:"A unified workspace for faculty to run classes, publish learning materials, create assessments, review student work, and quickly identify students who may need support."
+  },
+  { type:'crmlaptop', header:"Administrator Portal", pageTag:"13", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
+    title:"See the Whole Academic Operation at a Glance",
+    decor:"assets/campus/admin-decor.svg", decorLeft:942, decorTop:617, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
+    floats:[
+      { img:"assets/campus/admin-float-1.png", left:1451.69, top:302, width:401.359, height:264.797, rotate:-5.86 },
+      { img:"assets/campus/admin-float-2.png", left:1451.64, top:504.42, width:401.755, height:265.054, rotate:5.86 },
+      { img:"assets/campus/admin-float-3.png", left:1451.8, top:707.03, width:401.628, height:264.97, rotate:-5.86 }
+    ],
+    laptopLeft:-126, laptopImg:"assets/campus/admin-screen.png",
+    listLeft:975, listTop:358,
+    bullet:"A central view of academic operations — monitor grades, eligibility, staffing, performance, and term progress, then quickly act on issues that need attention."
+  },
+  { type:'crmlaptop', header:"Coordinator Portal", pageTag:"14", headerBg:"assets/campus/header-bg.png", headerBgPos:"bottom",
+    title:"Coordinate Academic Operations with Clarity",
+    decor:"assets/campus/coord-decor.svg", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:635.354, decorTransform:"none",
+    floats:[
+      { img:"assets/campus/coord-float-1.png", left:65, top:449, width:370, height:203 },
+      { img:"assets/campus/coord-float-2.png", left:197, top:599, width:370, height:203 },
+      { img:"assets/campus/coord-float-3.png", left:65, top:749, width:370, height:203 }
+    ],
+    laptopLeft:1005, laptopImg:"assets/campus/coord-screen.png",
+    listLeft:529, listTop:314,
+    bullet:"A focused workspace for coordinators to manage term preparation, track records, flag unresolved issues, coordinate with the Chair, and keep key academic processes moving smoothly."
+  },
+];
+
+// ---- RENDER -------------------------------------------------
+const deck = document.getElementById('deck');
+const jump = document.getElementById('jump');
+let idx = 0;
+
+function slideEl(data, i){
+  const section = document.createElement('section');
+  section.className = 'slide';
+  section.dataset.index = i;
+  data.pageTag = String(i+1).padStart(2,'0');
+
+  if(data.type === 'cover'){
+    section.innerHTML = `
+      <div class="stage hero">
+        <img class="hero-bg" src="assets/hero-bg.png" alt="">
+        <div class="hero-logo"><img src="assets/shikho-logo.svg" alt="Shikho"></div>
+        <div class="hero-title editable" contenteditable="true">${data.title}</div>
+        <div class="hero-subtitle editable" contenteditable="true">${data.subtitle}</div>
+        <div class="hero-scribble-left"><img src="assets/hero-scribble-left.svg" alt=""></div>
+        <div class="hero-scribble-right"><img src="assets/hero-scribble-right.svg" alt=""></div>
+        <div class="hero-collage-frame" data-media data-src="${data.img}" data-label="Product collage"></div>
+      </div>`;
+  } else if(data.type === 'divider' && data.photoBg){
+    section.innerHTML = `
+      <div class="stage divider-photo">
+        <div class="dp-bg-slot" style="${data.bgStyle||''}" data-media data-bg="true" data-src="${data.photoBg}" data-label="${data.title.replace(/<[^>]+>/g,'')} background photo"></div>
+        <div class="dp-card">
+          <img class="dp-blob" src="assets/sec-divider-blob.svg" alt="">
+          <div class="dp-logo" style="${data.logoWidth?`width:${data.logoWidth}px;`:''}"><img src="${data.logo||'assets/shikho-logo.svg'}" alt="Shikho"></div>
+          <div class="dp-desc editable" contenteditable="true">${data.desc}</div>
+          <div class="dp-seclabel editable" contenteditable="true">${data.secLabel||''}</div>
+          <div class="dp-title editable ${data.title.replace(/<[^>]+>/g,'').length>22?'long':''}" contenteditable="true">${data.title}</div>
+        </div>
+        ${data.photoFg ? `<img class="dp-fg" style="${data.fgStyle||''}" src="${data.photoFg}" alt="">` : ''}
+        <div class="dp-scribble"><img src="assets/sec-divider-scribble.svg" alt=""></div>
+      </div>`;
+  } else if(data.type === 'divider'){
+    section.innerHTML = `
+      <div class="stage dark">
+        ${WAVY(true)}
+        <div class="divider-num editable" contenteditable="true">${data.section}</div>
+        <div class="divider-title editable" contenteditable="true">${data.title}</div>
+        <div class="divider-desc editable" contenteditable="true">${data.desc}</div>
+        <div class="divider-tag editable" contenteditable="true">${data.tag}</div>
+      </div>`;
+  } else if(data.type === 'phones3'){
+    const phoneLefts = data.phoneLefts || [69, 480.95, 892.9];
+    const phonesHtml = data.phones.map((p,i)=>`
+      <div class="p3-phone" style="left:${phoneLefts[i]}px;">
+        <div class="p3-screen" data-media data-src="${p.img}" data-label="Screen ${p.num}"></div>
+        <img class="p3-frame" src="assets/phone/iphone-frame1.png?v=3" alt="">
+        <div class="p3-badge">${p.num}</div>
+      </div>`).join('');
+    const listHtml = data.bullets.map((b,i)=>`
+      <div class="p3-item">
+        <div class="p3-item-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="p3-item-text editable" contenteditable="true">${b}</div>
+      </div>`).join('');
+    const listStyle = data.listStyle || 'left:1328px; top:469px; height:auto;';
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="p3-header-bg" src="assets/phone/header-bg.png" alt="">
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="p3-title editable" contenteditable="true">${data.title}</div>
+        <img class="p3-decor" src="${data.decor||'assets/phone/decorative.svg'}" style="${data.decorStyle||''}" alt="">
+        ${phonesHtml}
+        <div class="p3-list" style="${listStyle}">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'teacheros1'){
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img src="assets/teacheros/intro2-bg.png" style="position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover; z-index:0;" alt="">
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <img class="ih-decor" src="assets/teacheros/intro-decor2.svg" style="left:1014.91px; top:-46.98px; width:1058.88px; height:288.14px; transform:rotate(180deg) scaleX(-1); z-index:1;" alt="">
+        <div class="ih-title editable" contenteditable="true" style="left:calc(50% - 883px); top:180px; width:938px; color:#f4f5e7; white-space:normal; z-index:6;">${data.title}</div>
+        <img src="assets/teacheros/intro2-mockups.png" style="position:absolute; left:0; top:0; width:1920px; height:1080px; z-index:4; pointer-events:none;" alt="">
+      </div>`;
+  } else if(data.type === 'ipad2'){
+    const listHtml = data.bullets.map((b,i)=>`
+      <div class="ip2-item">
+        <div class="p3-item-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="ip2-item-text editable" contenteditable="true">${b}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <div class="teacheros-band" style="top:0px; height:281px;"><img src="assets/teacheros/band-texture.png" alt=""></div>
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="p3-title editable" contenteditable="true">${data.title}</div>
+        <img class="cl-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''};" alt="">
+        <div class="ip2-pad" style="left:${data.pad1Left}px; top:${data.pad1Top}px;">
+          <img class="ip2-mockup" src="${data.pad1Img}" alt="Screen 01">
+          <div class="p3-badge ip2-badge">01</div>
+        </div>
+        <div class="ip2-pad" style="left:${data.pad2Left}px; top:${data.pad2Top}px;">
+          <img class="ip2-mockup" src="${data.pad2Img}" alt="Screen 02">
+          <div class="p3-badge ip2-badge">02</div>
+        </div>
+        <div class="ip2-list" style="left:${data.listLeft}px; top:${data.listTop}px; height:${data.listHeight}px;">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'ifphub'){
+    const headerBarClass = data.headerVariant==='wht' ? 'p3-header-bar' : 'hp-header-bar';
+    const headerLeftClass = data.headerVariant==='wht' ? 'p3-header-left' : 'hp-header-left';
+    const headerRightClass = data.headerVariant==='wht' ? 'p3-header-right' : 'hp-header-right';
+    const listHtml = data.bullets.map(b=>`
+      <div class="ih-item">
+        <div class="ih-item-num ${data.numStyle}">${b.num}</div>
+        <div class="ih-item-text ${data.textColor} editable" contenteditable="true">${b.text}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        ${data.bgGreenFull ? `<img src="assets/teacheros/intro2-bg.png" style="position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover; z-index:0; transform:scaleX(-1);" alt="">` : ''}
+        ${data.bandTop!==undefined ? `<div class="teacheros-band" style="top:${data.bandTop}px; height:${data.bandHeight||281}px;"><img src="assets/teacheros/band-texture.png" alt=""></div>` : ''}
+        ${data.bandBottom!==undefined ? `<div class="teacheros-band" style="top:${data.bandBottom}px; height:${data.bandHeight||260}px;"><img src="assets/teacheros/band-texture.png" alt=""></div>` : ''}
+        <div class="${headerBarClass}">
+          <div class="${headerLeftClass}"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="${headerRightClass} editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="ih-title editable" contenteditable="true" style="left:${data.titleLeft}; top:${data.titleTop}px; width:${data.titleWidth}px; color:${data.titleColor}; white-space:${data.titleNowrap===false?'normal':'nowrap'};">${data.title}</div>
+        <img class="ih-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''};" alt="">
+        <div class="ih-hub" style="left:${data.hubLeft}px; top:${data.hubTop}px; width:${data.hubWidth}px; height:${data.hubHeight}px;"><img src="${data.hubImg}" alt=""></div>
+        ${data.badge ? `<div class="p3-badge" style="left:${data.badge.left}px; top:${data.badge.top}px;">${data.badge.text}</div>` : ''}
+        <div class="ih-list" style="left:${data.listLeft}px; top:${data.listTop}px; height:${data.listHeight}px;">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'controltower'){
+    const listHtml = data.bullets.map(b=>`
+      <div class="ih-item">
+        <div class="ih-item-num grad">${b.num}</div>
+        <div class="ih-item-text dark editable" contenteditable="true">${b.text}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <div class="teacheros-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/teacheros/band-texture.png" alt=""></div>
+        <div class="hp-header-bar">
+          <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <img class="ih-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''};" alt="">
+        <div class="ct-laptop" style="left:${data.laptop1Left}px; top:${data.laptopTop}px; width:${data.laptopWidth}px; height:${data.laptopHeight}px;">
+          <div class="ct-screen" data-media data-src="${data.laptop1Img}" data-label="Laptop 01"></div>
+          <img class="ct-frame" src="assets/homepage/macbook-frame.png?v=3" alt="">
+        </div>
+        <div class="ct-laptop" style="left:${data.laptop2Left}px; top:${data.laptopTop}px; width:${data.laptopWidth}px; height:${data.laptopHeight}px;">
+          <div class="ct-screen" data-media data-src="${data.laptop2Img}" data-label="Laptop 02"></div>
+          <img class="ct-frame" src="assets/homepage/macbook-frame.png?v=3" alt="">
+        </div>
+        <div class="ih-title editable" contenteditable="true" style="left:${data.titleLeft}; top:${data.titleTop}px; width:${data.titleWidth}px; color:${data.titleColor};">${data.title}</div>
+        <div class="ih-list" style="left:${data.listLeft}px; top:${data.listTop}px; height:${data.listHeight}px;">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'crmlaptop'){
+    const floatsHtml = (data.floats||[]).map(f=>`
+      <div class="cl-float" style="left:${f.left}px; top:${f.top}px; width:${f.width}px; height:${f.height}px; transform:${f.rotate?`rotate(${f.rotate}deg)`:'none'};"><img src="${f.img}" alt=""></div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="cl-header-bg" src="${data.headerBg||'assets/phone/header-bg.png'}" style="object-position:${data.headerBgPos||'center'};" alt="">
+        <div class="cl-header-bar">
+          <div class="cl-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="cl-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="cl-title editable" contenteditable="true">${data.title}</div>
+        <img class="cl-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''};" alt="">
+        ${floatsHtml}
+        <div class="cl-laptop" style="left:${data.laptopLeft}px;">
+          <div class="cl-screen" data-media data-src="${data.laptopImg}" data-label="Laptop screen"></div>
+          <img class="cl-frame" src="assets/homepage/macbook-frame.png?v=3" alt="">
+        </div>
+        <div class="cl-list" style="left:${data.listLeft}px; top:${data.listTop}px;">
+          <div class="cl-item">
+            <div class="cl-item-num">01</div>
+            <div class="cl-item-text editable" contenteditable="true">${data.bullet}</div>
+          </div>
+        </div>
+      </div>`;
+  } else if(data.type === 'campusintro'){
+    section.innerHTML = `
+      <div class="stage phones3">
+        <div class="campus-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/campus/header-bg.png" alt=""></div>
+        <div class="hp-header-bar">
+          <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <img class="ih-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''}; z-index:1;" alt="">
+        <div class="ct-laptop" style="left:${data.laptopLeft}px; top:${data.laptopTop}px; width:${data.laptopWidth}px; height:${data.laptopHeight}px; z-index:4;">
+          <div class="ct-screen" data-media data-src="${data.laptopImg}" data-label="Laptop screen"></div>
+          <img class="ct-frame" src="assets/homepage/macbook-frame.png?v=3" alt="">
+        </div>
+        <div class="ih-title editable" contenteditable="true" style="left:${data.titleLeft}; top:${data.titleTop}px; width:${data.titleWidth}px; color:${data.titleColor}; z-index:6;">${data.title}</div>
+      </div>`;
+  } else if(data.type === 'waltonhome'){
+    const listHtml = data.bullets.map(b=>`
+      <div class="ih-item">
+        <div class="ih-item-num grad">${b.num}</div>
+        <div class="ih-item-text dark editable" contenteditable="true">${b.text}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <div class="campus-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/walton/header-bg.png" alt=""></div>
+        <div class="hp-header-bar">
+          <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <img class="ih-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''}; z-index:1;" alt="">
+        <div style="position:absolute; left:${data.deviceLeft}px; top:${data.deviceTop}px; width:${data.deviceWidth}px; height:${data.deviceHeight}px; z-index:4; pointer-events:none;"><img src="${data.deviceImg}" style="width:100%;height:100%;object-fit:contain;display:block;" alt=""></div>
+        <div class="ih-title editable" contenteditable="true" style="left:${data.titleLeft}; top:${data.titleTop}px; width:${data.titleWidth}px; color:${data.titleColor}; z-index:6;">${data.title}</div>
+        <div class="ih-list" style="left:${data.listLeft}px; top:${data.listTop}px; height:${data.listHeight}px; width:${data.listWidth||509}px; z-index:5;">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'skillshome'){
+    const listHtml = data.bullets.map(b=>`
+      <div class="ih-item">
+        <div class="ih-item-num grad">${b.num}</div>
+        <div class="ih-item-text dark editable" contenteditable="true">${b.text}</div>
+      </div>`).join('');
+    const floatsHtml = (data.floats||[]).map(f=>`
+      <div class="cl-float" style="left:${f.left}px; top:${f.top}px; width:${f.width}px; height:${f.height}px;"><img src="${f.img}" alt=""></div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <div class="campus-band" style="top:${data.bandTop}px; height:${data.bandHeight}px;"><img src="assets/campus/header-bg.png" alt=""></div>
+        <div class="hp-header-bar">
+          <div class="hp-header-left"><img src="${data.headerIcon||'assets/phone/bird-icon.svg'}" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <img class="ih-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''}; z-index:1;" alt="">
+        <div class="ct-laptop" style="left:${data.laptopLeft}px; top:${data.laptopTop}px; width:${data.laptopWidth}px; height:${data.laptopHeight}px; z-index:4;">
+          <div class="ct-screen" data-media data-src="${data.laptopImg}" data-label="Laptop screen"></div>
+          <img class="ct-frame" src="assets/homepage/macbook-frame.png?v=3" alt="">
+        </div>
+        ${floatsHtml}
+        <div class="ih-title editable" contenteditable="true" style="left:${data.titleLeft}; top:${data.titleTop}px; width:${data.titleWidth}px; color:${data.titleColor}; z-index:6;">${data.title}</div>
+        <div class="ih-list" style="left:${data.listLeft}px; top:${data.listTop}px; height:${data.listHeight}px; width:${data.listWidth||509}px; z-index:5;">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'skillsdetails'){
+    const listHtml = data.bullets.map(b=>`
+      <div class="ih-item">
+        <div class="ih-item-num grad">${b.num}</div>
+        <div class="ih-item-text dark editable" contenteditable="true">${b.text}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <div class="campus-band" style="top:0px; height:281px;"><img src="assets/campus/header-bg.png" alt=""></div>
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="ih-title editable" contenteditable="true" style="left:${data.titleLeft}; top:${data.titleTop}px; width:${data.titleWidth}px; font-size:${data.titleFontSize||80}px; color:${data.titleColor}; z-index:6;">${data.title}</div>
+        <img class="ih-decor" src="${data.decor}" style="left:${data.decorLeft}px; top:${data.decorTop}px; width:${data.decorWidth}px; height:${data.decorHeight}px; transform:${data.decorTransform||''}; z-index:1;" alt="">
+        <img src="${data.mockupsImg}" style="position:absolute; left:0; top:0; width:1920px; height:1080px; z-index:4; pointer-events:none;" alt="">
+        <div class="ih-list" style="left:${data.listLeft}px; top:${data.listTop}px; height:${data.listHeight}px; width:${data.listWidth||509}px; z-index:5;">${listHtml}</div>
+      </div>`;
+  } else if(data.type === 'smartclass2'){
+    const listHtml = data.bullets.map((b,i)=>`
+      <div class="p3-item">
+        <div class="p3-item-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="p3-item-text editable" contenteditable="true">${b}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="p3-header-bg" src="assets/phone/header-bg-smartclass.png" alt="">
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="p3-title editable" contenteditable="true">${data.title}</div>
+        <img class="sc2-decor" src="assets/phone/decorative-smartclass.svg" alt="">
+        <div class="p3-phone" style="left:69px;">
+          <div class="p3-screen" data-media data-src="${data.phone1Img}" data-label="Screen 01"></div>
+          <img class="p3-frame" src="assets/phone/iphone-frame1.png?v=3" alt="">
+          <div class="p3-badge">01</div>
+        </div>
+        <div class="p3-list" style="left:488px; top:439px; width:452px;">${listHtml}</div>
+        <div class="sc2-composite"><img src="assets/phone/smartclass-phones23-transparent.png" alt=""></div>
+      </div>`;
+  } else if(data.type === 'routine2'){
+    const listHtml = data.bullets.map((b,i)=>`
+      <div class="rt-item">
+        <div class="p3-item-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="rt-item-text editable" contenteditable="true">${b}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="p3-header-bg" src="assets/phone/header-bg.png" alt="">
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="p3-title editable" contenteditable="true">${data.title}</div>
+        <img class="p3-decor" src="assets/phone/decorative-liveclass.svg" style="left:76px; top:852px; right:auto; width:1522px; height:392px; transform:scaleX(-1);" alt="">
+        <div class="rt-phone-left">
+          <div class="p3-screen" data-media data-src="${data.leftImg}" data-label="Routine screen"></div>
+          <img class="p3-frame" src="assets/phone/iphone-frame1.png?v=3" alt="">
+          <div class="p3-badge rt-badge-bottom">01</div>
+        </div>
+        <div class="rt-list">${listHtml}</div>
+        <div class="rt-phone-right">
+          <div class="p3-screen" data-media data-src="${data.rightImg}" data-label="Live class screen"></div>
+          <img class="p3-frame" src="assets/phone/iphone-frame1.png?v=3" alt="">
+          <div class="p3-badge rt-badge-top">02</div>
+        </div>
+      </div>`;
+  } else if(data.type === 'shikhoai'){
+    const listHtml = data.items.map(it=>`
+      <div class="sai-item">
+        <div class="sai-item-label">${it.label}</div>
+        <div class="sai-item-text editable" contenteditable="true">${it.text}</div>
+      </div>`).join('');
+    section.innerHTML = `
+      <div class="stage shikhoai">
+        <img class="sai-bg" src="assets/shikho-ai/bg.png" alt="">
+        <div class="sai-header-bar">
+          <div class="sai-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="sai-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="sai-title editable" contenteditable="true">${data.title}</div>
+        <div class="sai-list">${listHtml}</div>
+        <div class="sai-mockup"><img src="assets/shikho-ai/mockup-scribble.png?v=3" alt=""></div>
+      </div>`;
+  } else if(data.type === 'homepage2'){
+    section.innerHTML = `
+      <div class="stage homepage2">
+        <div class="hp-header-bar">
+          <div class="hp-header-left"><img src="assets/phone/bird-icon-colored.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
+          <div class="hp-header-right editable" contenteditable="true">${data.pageTag||''}</div>
+        </div>
+        <div class="hp-phone">
+          <div class="hp-screen" data-media data-src="${data.phoneImg}" data-label="Mobile screen"></div>
+          <img class="hp-frame" src="assets/phone/iphone-frame1.png?v=3" alt="">
+        </div>
+        <img class="hp-bottom-band" src="assets/homepage/bottom-band.png?v=3" alt="">
+        <div class="hp-scribble"><img src="assets/homepage/scribble-orange.svg" alt=""></div>
+        <div class="hp-laptop">
+          <div class="hp-screen" data-media data-src="${data.laptopImg}" data-label="Laptop screen"></div>
+          <img class="hp-frame" src="assets/homepage/macbook-frame.png?v=3" alt="">
+        </div>
+        <div class="hp-title editable" contenteditable="true">${data.title}</div>
+      </div>`;
+  } else {
+    const bulletsHtml = data.bullets
+      ? `<ul class="content-bullets">${data.bullets.map(b=>`<li class="editable" contenteditable="true">${b}</li>`).join('')}</ul>`
+      : '';
+    section.innerHTML = `
+      <div class="stage">
+        ${WAVY(false)}
+        <div class="crumb editable" contenteditable="true">${data.section}</div>
+        <div class="content-title editable" contenteditable="true">${data.title}</div>
+        ${bulletsHtml}
+        <div class="media-slot" data-media data-src="${data.img}" data-label="${data.title.replace(/<[^>]+>/g,'')}" ${data.edge?'data-edge="true"':''}></div>
+      </div>`;
+  }
+  section.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
+  return section;
+}
+
+function loadMedia(slot){
+  const src = slot.dataset.src;
+  const label = slot.dataset.label || '';
+  const edge = slot.dataset.edge === 'true';
+  const isBg = slot.dataset.bg === 'true';
+  const isPhoneScreen = slot.classList.contains('p3-screen') || slot.classList.contains('hp-screen');
+
+  if(isPhoneScreen){
+    slot.classList.add('placeholder');
+    slot.innerHTML = `<div class="ph-inner"><div class="ph-icon">&#128241;</div><div class="ph-label">${label}</div><div class="ph-path">${src||''}</div></div>`;
+    if(!src) return;
+    const probe = new Image();
+    probe.onload = () => {
+      slot.classList.remove('placeholder');
+      slot.innerHTML = '';
+      const im = document.createElement('img');
+      im.src = src; im.alt = label;
+      slot.appendChild(im);
+    };
+    probe.src = src;
+    return;
+  }
+
+  if(isBg){
+    slot.classList.add('dp-bg-placeholder');
+    slot.innerHTML = `<div class="ph-inner"><div class="ph-icon">&#128247;</div><div class="ph-label">${label}</div><div class="ph-path">${src}</div></div>`;
+    if(!src) return;
+    const probe = new Image();
+    probe.onload = () => {
+      slot.classList.remove('dp-bg-placeholder');
+      slot.classList.add('dp-bg');
+      slot.innerHTML = '';
+      const im = document.createElement('img');
+      im.src = src; im.alt = label;
+      im.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+      slot.appendChild(im);
+    };
+    probe.src = src;
+    return;
+  }
+
+  if(!src){
+    slot.innerHTML = `<div class="ph-card"><div class="ph-inner"><div class="ph-icon">&#128247;</div><div class="ph-label">${label}</div></div></div>`;
+    return;
+  }
+  const probe = new Image();
+  probe.onload = () => {
+    slot.classList.remove('placeholder');
+    slot.innerHTML = '';
+    const im = document.createElement('img');
+    im.src = src; im.alt = label;
+    if(edge) slot.classList.add('edge');
+    slot.appendChild(im);
+  };
+  probe.onerror = () => {
+    slot.innerHTML = `<div class="ph-card"><div class="ph-inner"><div class="ph-icon">&#128247;</div><div class="ph-label">${label}</div><div class="ph-path">${src}</div></div></div>`;
+  };
+  probe.src = src;
+}
+
+SLIDES.forEach((data, i) => {
+  deck.appendChild(slideEl(data, i));
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = `${i+1}. ${(data.title||'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&')}`;
+  jump.appendChild(opt);
+});
+document.querySelectorAll('[data-media]').forEach(loadMedia);
+
+const slides = Array.from(document.querySelectorAll('.slide'));
+document.getElementById('tot').textContent = slides.length;
+
+function scaleStages(){
+  document.querySelectorAll('.stage').forEach(st=>{
+    const scale = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+    st.style.transform = `translate(-50%,-50%) scale(${scale})`;
+  });
+}
+
+function show(i){
+  if(i<0) i = slides.length-1;
+  if(i>=slides.length) i = 0;
+  slides[idx].classList.remove('active');
+  idx = i;
+  slides[idx].classList.add('active');
+  document.getElementById('cur').textContent = idx+1;
+  jump.value = idx;
+}
+slides[0].classList.add('active');
+
+document.getElementById('prev').addEventListener('click', ()=>show(idx-1));
+document.getElementById('next').addEventListener('click', ()=>show(idx+1));
+jump.addEventListener('change', (e)=> show(parseInt(e.target.value,10)));
+
+window.addEventListener('keydown', (e)=>{
+  if(e.target.isContentEditable) return;
+  if(e.key==='ArrowRight' || e.key===' ') { show(idx+1); e.preventDefault(); }
+  if(e.key==='ArrowLeft') { show(idx-1); e.preventDefault(); }
+  if(e.key.toLowerCase()==='f') {
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+});
+
+window.addEventListener('resize', scaleStages);
+scaleStages();
+</script>
+
+</body>
+</html>
