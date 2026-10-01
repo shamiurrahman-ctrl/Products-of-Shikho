@@ -540,6 +540,19 @@
 
   .editable{ outline:none; }
 
+  /* Feature-slide header (Figma 256:30917). Declared late so it overrides the per-template header bars. */
+  .feat-header{ left:68px; right:68px; top:48px; height:59px; padding:0; border:none; align-items:center; justify-content:flex-start; }
+  .feat-header > img{ height:25px; width:auto; display:block; margin-right:12px; }
+  .feat-product{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:24px; line-height:21px; color:#fff; white-space:nowrap; }
+  .feat-pill{ margin-left:18px; padding:12px 14px; border-radius:45px; background:#111973; box-shadow:inset 0 0 7.8px rgba(255,255,255,0.46);
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:26px; line-height:18px; letter-spacing:-0.26px; text-transform:uppercase; color:#f7fbff; white-space:nowrap; }
+  .feat-rule{ flex:1; height:1px; margin:0 24px; background:rgba(255,255,255,0.4); }
+  .feat-meta{ font-family:"JetBrains Mono",monospace; font-size:12.75px; line-height:17.85px; color:#fff; white-space:nowrap; text-transform:none; }
+  .feat-dark .feat-product{ color:#171717; }
+  .feat-dark .feat-rule{ background:rgba(23,23,23,0.15); }
+  .feat-dark .feat-meta{ color:#525252; }
+  .feat-stage .p3-title, .feat-stage .sai-title{ top:150px; font-size:70px; line-height:1.1; letter-spacing:-2.1px; }
+
   .hint{ display:none; }
   .nav{ display:none; }
 
@@ -636,7 +649,7 @@ const ALL_SLIDES = [
     note:"Reuse the core.<br>Build the experience each customer needs." },
 
   { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"A complete learning experience for Class 6–12 students, combining classes, interactive content, practice, assessments, books, and AI-powered learning support.", tag:"Core Product", secLabel:"Sec 1/5", photoBg:"assets/web/sec-divider-bg-1.webp", photoFg:"assets/web/sec-divider-fg-1.webp" },
-  { type:'phones3', header:"Learning App", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
+  { type:'phones3', header:"Learning App", feature:"Onboarding", chapter:"01/05", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
     phones:[
       { num:"01", img:"assets/web/s1-1a-signup.webp" },
       { num:"02", img:"assets/web/s1-1b-class-select.webp" },
@@ -647,16 +660,16 @@ const ALL_SLIDES = [
       "Select your class, batch and group to set up your learning experience.",
       "Tell us your name and gender to complete your personalized profile."
     ] },
-  { type:'homepage2', header:"Learning App", pageTag:"04", title:"Your Entire Learning Journey, In One Place",
+  { type:'homepage2', header:"Learning App", feature:"Homepage", chapter:"01/05", pageTag:"04", title:"Your Entire Learning Journey, In One Place",
     phoneImg:"assets/web/homepage/screen-mobile.webp", laptopImg:"assets/web/homepage/screen-laptop.webp" },
-  { type:'routine2', header:"Learning App", pageTag:"05", title:"From Routine to Real-Time Learning",
+  { type:'routine2', header:"Learning App", feature:"Live Class", chapter:"01/05", pageTag:"05", title:"From Routine to Real-Time Learning",
     leftImg:"assets/web/routine/screen-routine.webp", rightImg:"assets/web/routine/screen-liveclass.webp",
     bullets:[
       "Stay on track with a structured routine that shows upcoming, ongoing and completed classes at a glance.",
       "Join live classes, interact with mentors and ask questions in real time — all within the learning experience."
     ]
   },
-  { type:'smartclass2', header:"Learning App", pageTag:"06", title:"Smarter, More Interactive Recorded Learning",
+  { type:'smartclass2', header:"Learning App", feature:"Smart Class", chapter:"01/05", pageTag:"06", title:"Smarter, More Interactive Recorded Learning",
     phone1Img:"assets/web/smartclass/screen-01.webp",   // Figma 225:24063; frozen equaliser bars painted out, the animated one sits on top
     phone1Video:"assets/smartclass/class-video.webp",   // real class recording (Figma 225:24063), plays over the screen's video area
     bullets:[
@@ -665,7 +678,7 @@ const ALL_SLIDES = [
       "Practice what you learned with segment-specific quizzes and get directions for what to learn next."
     ]
   },
-  { type:'phones3', header:"Learning App", pageTag:"07", title:"Simplifying Concepts Through Animation",
+  { type:'phones3', header:"Learning App", feature:"Animated Lessons", chapter:"01/05", pageTag:"07", title:"Simplifying Concepts Through Animation",
     decor:"assets/phone/decorative-coral.svg",
     decorStyle:"right:-140px; width:720px;",
     phoneLefts:[631, 1042.95, 1454.9],
@@ -681,7 +694,7 @@ const ALL_SLIDES = [
       "Learn complex concepts through engaging animated lessons designed for easier understanding."
     ]
   },
-  { type:'phones3', header:"Learning App", pageTag:"08", title:"A Complete Library for Better Learning",
+  { type:'phones3', header:"Learning App", feature:"E-Book", chapter:"01/05", pageTag:"08", title:"A Complete Library for Better Learning",
     decor:"assets/phone/decorative-ebook.svg",
     decorStyle:"left:1609.74px; top:69.49px; right:auto; width:326px; height:344px; transform:rotate(-37.03deg);",
     phoneLefts:[69, 480.95, 1454.9],
@@ -697,7 +710,7 @@ const ALL_SLIDES = [
       "Access lecture slides alongside recorded classes to follow the lesson and revisit key concepts easily."
     ]
   },
-  { type:'phones3', header:"Learning App", pageTag:"09", title:"Assess, Practice &amp; Track Your Progress",
+  { type:'phones3', header:"Learning App", feature:"Assessment", chapter:"01/05", pageTag:"09", title:"Assess, Practice &amp; Track Your Progress",
     decor:"assets/phone/decorative.svg",
     decorStyle:"transform:scaleY(-1); right:-140px; width:720px;",
     phoneLefts:[69, 480.95, 1454.9],
@@ -713,7 +726,7 @@ const ALL_SLIDES = [
       "Get detailed results with performance feedback and solutions to identify gaps and improve."
     ]
   },
-  { type:'phones3', header:"Learning App", pageTag:"10", title:"Know Your Progress. Know What to Improve.",
+  { type:'phones3', header:"Learning App", feature:"Report Card", chapter:"01/05", pageTag:"10", title:"Know Your Progress. Know What to Improve.",
     decor:"assets/phone/decorative-pink.svg",
     phoneLefts:[69, 480.95, 892.9],
     listStyle:"left:1328px; top:469px;",
@@ -728,7 +741,7 @@ const ALL_SLIDES = [
       "See where you stand on the leaderboard and compare your performance with other learners."
     ]
   },
-  { type:'shikhoai', header:"Learning App", pageTag:"11", title:"Shikho AI - Your Personal Learning Companion",
+  { type:'shikhoai', header:"Learning App", feature:"Shikho AI", chapter:"01/05", pageTag:"11", title:"Shikho AI - Your Personal Learning Companion",
     items:[
       { label:"Smart Class", text:"Get instant AI-powered explanations for the lesson you're watching, with guidance to help you understand difficult concepts." },
       { label:"Shikho AI", text:"Ask questions, get step-by-step explanations and solve your learning doubts with an AI tutor anytime." }
@@ -1417,7 +1430,21 @@ function slideEl(data, i){
       </div>`;
   }
   section.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
+  if(data.feature) applyFeatureHeader(section, data);
   return section;
+}
+
+// Feature slides (Figma 256:30917): product name, feature pill, rule, chapter and page on one line
+function applyFeatureHeader(section, data){
+  const bar = section.querySelector('.p3-header-bar, .hp-header-bar, .sai-header-bar');
+  if(!bar) return;
+  const bird = bar.querySelector('img');
+  bar.classList.add('feat-header');
+  if(bar.classList.contains('hp-header-bar')) bar.classList.add('feat-dark');
+  bar.innerHTML = `<img src="${bird ? bird.getAttribute('src') : 'assets/phone/bird-icon.svg'}" alt="">`+
+    `<span class="feat-product">${data.header}</span><span class="feat-pill">${data.feature}</span>`+
+    `<i class="feat-rule"></i><span class="feat-meta">CHAPTER ${data.chapter} · Page ${data.pageTag}</span>`;
+  section.querySelector('.stage').classList.add('feat-stage');
 }
 
 function loadMedia(slot){
