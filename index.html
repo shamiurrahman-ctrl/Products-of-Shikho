@@ -197,6 +197,18 @@
     background-image:linear-gradient(180deg,#2d4797 0%,#5367fd 140.34%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
+  /* Chapter cover (Figma 260:3071 / 260:2387 / 260:1989 / 233:26363): bigger title, lead + body, chapter number, three steps */
+  .dp-v2 .dp-logo{ left:70px; top:70px; }
+  .dp-v2 .dp-title{ left:70px; top:210px; width:auto; white-space:nowrap; font-size:150px; line-height:130px; letter-spacing:-3px; padding-bottom:40px; }
+  .dp-v2 .dp-desc{ left:70px; top:646px; width:756px; display:flex; flex-direction:column; gap:10px; line-height:40px; }
+  .dp-v2 .dp-desc p{ margin:0; font-size:30px; letter-spacing:-0.3px; }
+  .dp-v2 .dp-desc .dp-lead{ font-weight:700; font-size:32px; letter-spacing:-0.32px; }
+  .dp-num{ position:absolute; left:914px; top:40px; z-index:1; pointer-events:none; white-space:nowrap;
+    font-family:"Inter",sans-serif; font-weight:800; font-size:339.62px; line-height:339.62px; letter-spacing:-22.11px; color:rgba(64,87,202,0.1); }
+  .dp-steps{ position:absolute; left:926px; top:400.4px; width:284px; z-index:2; }
+  .dp-step{ position:relative; height:70.294px; border-bottom:0.79px solid rgba(0,0,0,0.14);
+    padding:20.54px 0 0 33px; box-sizing:border-box; font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:23.694px; color:#0c1a43; white-space:nowrap; }
+  .dp-step span{ position:absolute; left:0; top:30.8px; font-size:14px; color:#3f56c7; }
   .dp-scribble{
     position:absolute; left:-67.01px; top:910.98px; width:1059.07px; height:288.9px;
     z-index:4; pointer-events:none; transform:scaleX(-1);
@@ -648,7 +660,7 @@ const ALL_SLIDES = [
   { type:'engine', header:"Products of Shikho", title:"One engine. More possibilities.",
     note:"Reuse the core.<br>Build the experience each customer needs." },
 
-  { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"A complete learning experience for Class 6–12 students, combining classes, interactive content, practice, assessments, books, and AI-powered learning support.", tag:"Core Product", secLabel:"Sec 1/5", photoBg:"assets/web/sec-divider-bg-1.webp", photoFg:"assets/web/sec-divider-fg-1.webp" },
+  { type:'divider', section:"Section 1", title:"Learning App", lead:"A direct relationship with every learner.", steps:["Learn", "Practise", "Understand"], chapterNum:"01", desc:"For students and families: national-curriculum lessons, practice, assessment and AI support in one app.", tag:"Core Product", secLabel:"Chapter 1/5", photoBg:"assets/web/sec-divider-bg-1.webp", photoFg:"assets/web/sec-divider-fg-1.webp" },
   { type:'phones3', header:"Learning App", feature:"Onboarding", chapter:"01/05", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
     phones:[
       { num:"01", img:"assets/web/s1-1a-signup.webp" },
@@ -748,7 +760,7 @@ const ALL_SLIDES = [
     ]
   },
 
-  { type:'divider', section:"Section 2", title:"Teacher OS", desc:"An AI-powered operating system designed for teachers — bringing lesson planning, classroom tools, training resources, and smart teaching assistance into one unified platform for every classroom in Bangladesh.", tag:"Upcoming · Government Partnership", secLabel:"Sec 2/5",
+  { type:'divider', section:"Section 2", title:"Teacher OS", lead:"The teaching day. Connected.", steps:["Prepare", "Teach", "Assess"], chapterNum:"02", desc:"For schools and public education: preparation, classroom delivery, assessment and system-level visibility.", tag:"Upcoming · Government Partnership", secLabel:"Chapter 2/5",
     logo:"assets/teacheros-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-6.webp", photoFg:"assets/web/sec-divider-fg-6.webp" },
   { type:'teacheros1', header:"Teacher OS", pageTag:"04", title:"One Platform. Every Teaching Need." },
   { type:'ipad2', header:"Teacher OS", pageTag:"05", title:"AI-Powered Lesson Planning",
@@ -878,7 +890,7 @@ const ALL_SLIDES = [
     ]
   },
 
-  { type:'divider', section:"Section 3", title:"Shikho Campus", desc:"A next-generation Campus OS designed for universities — streamlining academic operations, student management, faculty workflows, and institutional processes in one integrated platform.", tag:"Under Development", secLabel:"Sec 3/5",
+  { type:'divider', section:"Section 3", title:"Campus", lead:"The university learning experience. Connected.", steps:["Students", "Faculty", "Administration"], chapterNum:"03", desc:"For universities: one academic workspace for students, faculty and administration.", tag:"Under Development", secLabel:"Chapter 3/5",
     logo:"assets/campus-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-7.webp", photoFg:"assets/web/sec-divider-fg-7.webp" },
   { type:'campusintro', header:"Shikho Campus", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
     bandTop:820, bandHeight:260,
@@ -933,7 +945,7 @@ const ALL_SLIDES = [
     bullet:"A focused workspace for coordinators to manage term preparation, track records, flag unresolved issues, coordinate with the Chair, and keep key academic processes moving smoothly."
   },
 
-  { type:'divider', section:"Section 4", title:"Shikho CRM", desc:"Telesales, Engagement, Inbound and Retention portals in one system — giving a complete, top-to-bottom view of every user to manage customers effectively.", tag:"Internal Platform", secLabel:"Sec 4/5", logo:"assets/crm-logo.svg", photoBg:"assets/web/sec-divider-bg-2-bw.webp", photoFg:"assets/web/sec-divider-fg-2.webp" },
+  { type:'divider', section:"Section 4", title:"CRM", lead:"Know the learner. Make the next interaction count.", steps:["Understand", "Engage", "Support"], chapterNum:"04", desc:"Profiles, learning activity, engagement and purchase history give our teams the context to support each learner.", tag:"Internal Platform", secLabel:"Chapter 4/5", logo:"assets/crm-logo.svg", photoBg:"assets/web/sec-divider-bg-2-bw.webp", photoFg:"assets/web/sec-divider-fg-2.webp" },
   { type:'crmlaptop', header:"CRM", pageTag:"13", title:"Sales Performance at a Glance",
     laptopImg:"assets/web/crm/screen-dashboard2.webp", laptopLeft:-126,
     listLeft:986, listTop:508,
@@ -1083,10 +1095,12 @@ function slideEl(data, i){
     section.innerHTML = `
       <div class="stage divider-photo">
         <div class="dp-flip bg"><div class="dp-bg-slot" style="${data.bgStyle||''}" data-media data-bg="true" data-src="${data.photoBg}" data-label="${data.title.replace(/<[^>]+>/g,'')} background photo"></div></div>
-        <div class="dp-card">
+        <div class="dp-card${data.lead ? ' dp-v2' : ''}">
           <img class="dp-blob" src="assets/sec-divider-blob.svg" alt="">
+          ${data.chapterNum ? `<div class="dp-num">${data.chapterNum}</div>` : ''}
           <div class="dp-logo"><img src="${data.logo||'assets/shikho-logo.svg'}" alt="Shikho"></div>
-          <div class="dp-desc editable" contenteditable="true">${data.desc}</div>
+          <div class="dp-desc editable" contenteditable="true">${data.lead ? `<p class="dp-lead">${data.lead}</p><p>${data.desc}</p>` : data.desc}</div>
+          ${data.steps ? `<div class="dp-steps">${data.steps.map((s,k)=>`<div class="dp-step"><span>${String(k+1).padStart(2,'0')}</span>${s}</div>`).join('')}</div>` : ''}
           <div class="dp-seclabel editable" contenteditable="true">${data.secLabel||''}</div>
           <div class="dp-title editable" contenteditable="true">${data.title}</div>
         </div>
@@ -2303,7 +2317,9 @@ function assignMotion(section){
       moSet(el, 'card', 0);
       el.querySelectorAll('.dp-logo, .dp-seclabel').forEach(x=>moSet(x, 'header', 180));
       el.querySelectorAll('.dp-title').forEach(x=>moSet(x, 'title', 280));
+      el.querySelectorAll('.dp-num').forEach(x=>moSet(x, 'card', 240));
       el.querySelectorAll('.dp-desc').forEach(x=>moSet(x, 'item', 520));
+      el.querySelectorAll('.dp-step').forEach((x,k)=>moSet(x, 'item', 640 + k*120));
       return;
     }
     if(el.classList.contains('dp-flip')) return moSet(el, 'photo', 250);
