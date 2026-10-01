@@ -95,7 +95,7 @@
   .intro-art{ position:absolute; z-index:2; display:block; }
   .intro-header-bar-rule{ position:absolute; left:67px; top:197px; width:1786px; height:1px; background:rgba(255,255,255,0.4); z-index:2; }
   .routes-title{
-    position:absolute; left:67px; top:95px; width:1600px; z-index:2;
+    position:absolute; left:67px; top:140px; width:1600px; z-index:2;
     font-family:"Satoshi","Inter",sans-serif; font-weight:700; text-transform:uppercase;
     font-size:80px; line-height:1.1; letter-spacing:-2.4px; color:#f4f5e7;
   }
@@ -573,6 +573,7 @@
   .tos-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
   .tos-devices{ position:absolute; left:0; top:442.5px; width:1145px; height:637.5px; z-index:4; display:block; }
   .feat-header{ left:68px; right:68px; top:48px; height:59px; padding:0; border:none; align-items:center; justify-content:flex-start; }
+  .feat-header:not(:has(.feat-pill)){ height:59px; }
   .feat-header > img{ height:25px; width:auto; display:block; margin-right:12px; }
   .feat-product{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:24px; line-height:21px; color:#fff; white-space:nowrap; }
   .feat-pill{ margin-left:18px; padding:12px 14px; border-radius:45px; background:#111973; box-shadow:inset 0 0 7.8px rgba(255,255,255,0.46);
@@ -674,9 +675,9 @@ const ALL_SLIDES = [
   { type:'cover', title:"THE SHIKHO PRODUCT EXPERIENCE",
     subtitle:"Direct to families. Through schools. Across universities.<br>Built on learning services, learner intelligence and content operations.",
     footLeft:"Product team showcase", footRight:"Interfaces and product previews" },
-  { type:'routes', header:"Products of Shikho", title:"Built around the learner.",
+  { type:'routes', pageHeader:true, header:"Products of Shikho", title:"Built around the learner.",
     lead:"One learning platform.<br>Three routes to learners.", behind:"Behind<br>the Experience" },
-  { type:'engine', header:"Products of Shikho", title:"One engine. More possibilities.",
+  { type:'engine', pageHeader:true, header:"Products of Shikho", title:"One engine. More possibilities.",
     note:"Reuse the core.<br>Build the experience each customer needs." },
 
   { type:'divider', section:"Section 1", title:"Learning App", lead:"A direct relationship with every learner.", steps:["Learn", "Practise", "Understand"], chapterNum:"01", desc:"For students and families: national-curriculum lessons, practice, assessment and AI support in one app.", tag:"Core Product", secLabel:"Chapter 1/5", photoBg:"assets/web/sec-divider-bg-1.webp", photoFg:"assets/web/sec-divider-fg-1.webp" },
@@ -781,7 +782,7 @@ const ALL_SLIDES = [
 
   { type:'divider', section:"Section 2", title:"Teacher OS", lead:"The teaching day. Connected.", steps:["Prepare", "Teach", "Assess"], chapterNum:"02", desc:"For schools and public education: preparation, classroom delivery, assessment and system-level visibility.", tag:"Upcoming · Government Partnership", secLabel:"Chapter 2/5",
     logo:"assets/teacheros-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-6.webp", photoFg:"assets/web/sec-divider-fg-6.webp" },
-  { type:'teacheros1', header:"Teacher OS", pageTag:"04", title:"One Platform. <br>Every Teaching Need." },
+  { type:'teacheros1', header:"Teacher OS", chapter:"02/05", pageTag:"04", title:"One Platform. <br>Every Teaching Need." },
   { type:'ipad2', header:"Teacher OS", feature:"Lesson Plan", chapter:"02/05", pageTag:"05", title:"AI-Powered Lesson Planning",
     decor:"assets/teacheros/decor-lessonplan.svg", decorLeft:-317, decorTop:243, decorWidth:1058.78, decorHeight:288.18, decorTransform:"none",
     pad1Left:63.74, pad1Top:433, pad1Img:"assets/web/teacheros/mockup-lessonplan1.webp",
@@ -911,13 +912,13 @@ const ALL_SLIDES = [
 
   { type:'divider', section:"Section 3", title:"Campus", lead:"The university learning experience. Connected.", steps:["Students", "Faculty", "Administration"], chapterNum:"03", desc:"For universities: one academic workspace for students, faculty and administration.", tag:"Under Development", secLabel:"Chapter 3/5",
     logo:"assets/campus-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-7.webp", photoFg:"assets/web/sec-divider-fg-7.webp" },
-  { type:'campusintro', header:"Shikho Campus", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
+  { type:'campusintro', header:"Campus", chapter:"03/05", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
     bandTop:820, bandHeight:260,
     decor:"assets/campus/intro-decor.svg", decorLeft:1081, decorTop:663.7, decorWidth:1058.98, decorHeight:288.88, decorTransform:"none",
     laptopLeft:327, laptopTop:102, laptopWidth:1266, laptopHeight:767, laptopImg:"assets/web/campus/intro-screen.webp",
     title:"One Platform for the Entire Academic Experience", titleLeft:"calc(50% - 858px)", titleTop:915, titleWidth:1716, titleColor:"#f4f5e7"
   },
-  { type:'crmlaptop', header:"Student Portal", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
+  { type:'crmlaptop', header:"Campus", feature:"Student Portal", chapter:"03/05", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
     title:"Everything Students Need, in One Place",
     decor:"assets/campus/student-decor.svg", decorLeft:942, decorTop:617, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
     floats:[
@@ -928,7 +929,7 @@ const ALL_SLIDES = [
     listLeft:994, listTop:386,
     bullet:"A personalized home that helps students stay on top of their day — join live classes, track upcoming tasks, continue learning, monitor course progress, and get AI-powered support when they need it."
   },
-  { type:'crmlaptop', header:"Teacher Portal", pageTag:"14", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
+  { type:'crmlaptop', header:"Campus", feature:"Teacher Portal", chapter:"03/05", pageTag:"14", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
     title:"Teach, Manage, and Support",
     decor:"assets/campus/faculty-decor.svg", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:635.354, decorTransform:"none",
     floats:[
@@ -939,7 +940,7 @@ const ALL_SLIDES = [
     listLeft:481, listTop:428,
     bullet:"A unified workspace for faculty to run classes, publish learning materials, create assessments, review student work, and quickly identify students who may need support."
   },
-  { type:'crmlaptop', header:"Administrator Portal", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
+  { type:'crmlaptop', header:"Campus", feature:"Administrator Portal", chapter:"03/05", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
     title:"See the Whole Academic Operation at a Glance",
     decor:"assets/campus/admin-decor.svg", decorLeft:942, decorTop:617, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
     floats:[
@@ -951,7 +952,7 @@ const ALL_SLIDES = [
     listLeft:975, listTop:358,
     bullet:"A central view of academic operations — monitor grades, eligibility, staffing, performance, and term progress, then quickly act on issues that need attention."
   },
-  { type:'crmlaptop', header:"Coordinator Portal", pageTag:"14", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
+  { type:'crmlaptop', header:"Campus", feature:"Coordinator Portal", chapter:"03/05", pageTag:"14", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
     title:"Coordinate Academic Operations with Clarity",
     decor:"assets/campus/coord-decor.svg", decorLeft:0, decorTop:658, decorWidth:1472, decorHeight:635.354, decorTransform:"none",
     floats:[
@@ -965,7 +966,7 @@ const ALL_SLIDES = [
   },
 
   { type:'divider', section:"Section 4", title:"CRM", lead:"Know the learner. Make the next interaction count.", steps:["Understand", "Engage", "Support"], chapterNum:"04", desc:"Profiles, learning activity, engagement and purchase history give our teams the context to support each learner.", tag:"Internal Platform", secLabel:"Chapter 4/5", logo:"assets/crm-logo.svg", photoBg:"assets/web/sec-divider-bg-2-bw.webp", photoFg:"assets/web/sec-divider-fg-2.webp" },
-  { type:'crmlaptop', header:"CRM", pageTag:"13", title:"Sales Performance at a Glance",
+  { type:'crmlaptop', header:"CRM", chapter:"04/05", pageTag:"13", title:"Sales Performance at a Glance",
     laptopImg:"assets/web/crm/screen-dashboard2.webp", laptopLeft:-126,
     listLeft:986, listTop:508,
     bullet:"Get a complete view of an agent's sales journey — from assigned leads and call activities to target achievement, revenue performance and pending tasks.",
@@ -974,7 +975,7 @@ const ALL_SLIDES = [
       { img:"assets/web/crm/dashboard-floating-card.webp", left:1450, top:330, width:473, height:700 }
     ]
   },
-  { type:'crmlaptop', header:"CRM", pageTag:"14", title:"Understand Every Lead Before Every Conversation",
+  { type:'crmlaptop', header:"CRM", chapter:"04/05", pageTag:"14", title:"Understand Every Lead Before Every Conversation",
     laptopImg:"assets/web/crm/screen-lead2.webp", laptopLeft:1027,
     listLeft:496, listTop:472,
     bullet:"Access complete lead information, including user profile, learning activities, course interactions, purchase history and engagement insights to make every conversation more effective.",
@@ -988,7 +989,7 @@ const ALL_SLIDES = [
 
   { type:'divider', section:"Section 5", title:"CMS", lead:"The operating layer behind learning.", steps:["Create", "Organise", "Deliver"], chapterNum:"05", desc:"Manage curriculum, content, assessments and delivery workflows from one operational workspace.", tag:"Internal Platform", secLabel:"Chapter 5/5",
     logo:"assets/cms-logo.svg?v=2", logoWidth:260, photoBg:"assets/web/sec-divider-bg-3.webp", photoFg:"assets/web/cms/chapter-fg.webp", fgStyle:"left:-399px; top:416px; width:1011px; height:674px;" },
-  { type:'crmlaptop', header:"CMS", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
+  { type:'crmlaptop', header:"CMS", chapter:"05/05", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
     title:"Platform Operations at a Glance",
     decor:"assets/cms/decor.svg", decorLeft:932, decorTop:607, decorWidth:1317.17, decorHeight:787.614, decorTransform:"none",
     floats:[
@@ -1000,7 +1001,7 @@ const ALL_SLIDES = [
     bullet:"Manage users, academics, content, exams, commerce and QR operations from one place."
   },
 
-  { type:'closing', header:"From learning to earning.",
+  { type:'closing', pageHeader:true, header:"From learning to earning.",
     steps:[
       { num:"01", title:"Understand", text:"Learning &amp; relationship history", img:"assets/web/closing/icon-understand.webp", w:240, crop:"left:0; width:100%;" },
       { num:"02", title:"Guide", text:"More contextual AI support", img:"assets/web/closing/icon-guide.webp", w:397.714, crop:"left:-12.92%; width:120.56%;" },
@@ -1493,20 +1494,22 @@ function slideEl(data, i){
       </div>`;
   }
   section.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
-  if(data.feature) applyFeatureHeader(section, data);
+  if(data.feature || data.chapter || data.pageHeader) applyFeatureHeader(section, data);
   return section;
 }
 
 // Feature slides (Figma 256:30917): product name, feature pill, rule, chapter and page on one line
 function applyFeatureHeader(section, data){
-  const bar = section.querySelector('.p3-header-bar, .hp-header-bar, .sai-header-bar');
+  const bar = section.querySelector('.p3-header-bar, .hp-header-bar, .sai-header-bar, .cl-header-bar');
   if(!bar) return;
   const bird = bar.querySelector('img');
   bar.classList.add('feat-header');
   if(bar.classList.contains('hp-header-bar')) bar.classList.add('feat-dark');
   bar.innerHTML = `<img src="${bird ? bird.getAttribute('src') : 'assets/phone/bird-icon.svg'}" alt="">`+
-    `<span class="feat-product">${data.header}</span><span class="feat-pill">${data.feature}</span>`+
-    `<i class="feat-rule"></i><span class="feat-meta">CHAPTER ${data.chapter} · Page ${data.pageTag}</span>`;
+    `<span class="feat-product">${data.header}</span>${data.feature ? `<span class="feat-pill">${data.feature}</span>` : ''}`+
+    `<i class="feat-rule"></i><span class="feat-meta">${data.chapter ? `CHAPTER ${data.chapter} · ` : ''}Page ${data.pageTag}</span>`;
+  const oldRule = section.querySelector('.intro-header-bar-rule');
+  if(oldRule) oldRule.remove();
   section.querySelector('.stage').classList.add('feat-stage');
 }
 
