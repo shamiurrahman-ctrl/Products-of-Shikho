@@ -119,6 +119,18 @@
   @keyframes flow-draw{ from{ stroke-dashoffset:1; } }
   @keyframes flow-head{ from{ opacity:0; } }
   @media (prefers-reduced-motion: reduce){ .slide.play .flow-line, .slide.play .flow-head{ animation:none; } }
+  /* Closing slide (Figma 260:2731) */
+  .close-title{ position:absolute; left:65px; top:140px; width:1606px; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700; font-size:110px; line-height:1.1; letter-spacing:-3.3px; color:#f4f5e7; padding-bottom:12px; }
+  .close-title span{ background-image:linear-gradient(180deg,#2d4797 36.435%,#5367fd 140.34%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .close-list{ position:absolute; left:131.8px; top:504px; z-index:2; display:flex; align-items:center; gap:60px; }
+  .close-card{ width:400px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .close-icon{ position:relative; height:240px; overflow:hidden; }
+  .close-icon img{ position:absolute; top:0; height:100%; max-width:none; display:block; }
+  .close-num{ padding-top:22.566px; font-family:"Inter",sans-serif; font-weight:500; font-size:22.857px; letter-spacing:1.8px; color:#e2008d; }
+  .close-h{ padding-top:10.832px; font-family:"Satoshi","Inter",sans-serif; font-weight:700; font-size:48px; color:#0c1a43; }
+  .close-p{ padding-top:10.832px; font-family:"Satoshi","Inter",sans-serif; font-weight:400; font-size:24px; line-height:32.179px; color:#0c1a43; white-space:nowrap; }
+  .close-arrow{ width:107.965px; height:24.953px; display:block; }
   .engine-note{
     position:absolute; left:1426px; top:873px; width:385px; z-index:2; text-align:right;
     font-family:"Satoshi","Inter",sans-serif; font-weight:400; font-size:32px; line-height:0.98; color:#262626;
@@ -988,6 +1000,13 @@ const ALL_SLIDES = [
     bullet:"Manage users, academics, content, exams, commerce and QR operations from one place."
   },
 
+  { type:'closing', header:"From learning to earning.",
+    steps:[
+      { num:"01", title:"Understand", text:"Learning &amp; relationship history", img:"assets/web/closing/icon-understand.webp", w:240, crop:"left:0; width:100%;" },
+      { num:"02", title:"Guide", text:"More contextual AI support", img:"assets/web/closing/icon-guide.webp", w:397.714, crop:"left:-12.92%; width:120.56%;" },
+      { num:"03", title:"Enable", text:"Partner-led financial access", img:"assets/web/closing/icon-enable.webp", w:347.429, crop:"left:-3.92%; width:103.78%;" }
+    ] },
+
   { hidden:true, type:'divider', section:"Section 4", title:"Shikho Skills", desc:"A career-focused learning platform offering skill-based courses designed to help learners build practical expertise and earn industry-recognized certifications.", tag:"Product", secLabel:"Sec 4/7", logo:"assets/skills-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-4.webp", photoFg:"assets/web/sec-divider-fg-4.webp" },
   { hidden:true, type:'skillshome', header:"Skills", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
     bandTop:820, bandHeight:260,
@@ -1074,6 +1093,27 @@ function slideEl(data, i){
         <div class="routes-behind">${data.behind}</div>
         <img class="intro-art" src="assets/intro/s2-arrow.svg" style="left:401px; top:956.6px; width:522px; height:14.73px;" alt="">
         <img class="intro-art" src="assets/web/intro/s2-cards-behind.webp" style="left:954.5px; top:763.5px; width:885.5px; height:227px;" alt="CRM and CMS">
+      </div>`;
+  } else if(data.type === 'closing'){
+    // Figma 260:2731
+    const arrow = flip => `<img class="close-arrow" src="assets/closing/arrow.svg" style="${flip?'transform:scaleY(-1);':''}" alt="">`;
+    const cards = data.steps.map(s=>`
+      <div class="close-card">
+        <div class="close-icon" style="width:${s.w}px;"><img src="${s.img}" style="${s.crop}" alt=""></div>
+        <div class="close-num">${s.num}</div>
+        <div class="close-h">${s.title}</div>
+        <div class="close-p">${s.text}</div>
+      </div>`);
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="hero-bg" src="assets/web/closing/bg-src.webp" style="transform:scaleY(-1);" alt="">
+        <div class="intro-decor" style="left:1599.9px; top:162.97px; width:489px; height:414px;"><img src="assets/closing/decor.svg" alt=""></div>
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span>${data.header}</span></div>
+          <div class="p3-header-right">${data.pageTag}</div>
+        </div>
+        <div class="close-title">A relationship that grows<br><span>with the learner.</span></div>
+        <div class="close-list">${cards[0]}${arrow(false)}${cards[1]}${arrow(true)}${cards[2]}</div>
       </div>`;
   } else if(data.type === 'engine'){
     section.innerHTML = `
@@ -1647,6 +1687,25 @@ const SCRIBBLE_MAPS = {
   ],
   "len": 4464.3,
   "strokes": 3
+ },
+ "assets/closing/decor.svg": {
+  "map": "assets/web/scribble-maps/closing-decor.webp",
+  "vb": [
+   0.0,
+   0.0,
+   489.0,
+   414.0
+  ],
+  "a": [
+   158.01,
+   413.51
+  ],
+  "b": [
+   488.69,
+   362.78
+  ],
+  "len": 2352.6,
+  "strokes": 2
  },
  "assets/cms/decor.svg": {
   "map": "assets/web/scribble-maps/cms-decor.webp",
