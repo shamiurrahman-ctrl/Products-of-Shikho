@@ -553,6 +553,13 @@
   .editable{ outline:none; }
 
   /* Feature-slide header (Figma 256:30917). Declared late so it overrides the per-template header bars. */
+  .tos-photo{ position:absolute; left:99px; top:-199px; width:3061px; height:1724px; z-index:3; pointer-events:none;
+    -webkit-mask-image:url('assets/teacheros/intro3/photo-mask.svg'); mask-image:url('assets/teacheros/intro3/photo-mask.svg');
+    -webkit-mask-position:888.501px 147.052px; mask-position:888.501px 147.052px;
+    -webkit-mask-size:1178.687px 1163.411px; mask-size:1178.687px 1163.411px;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; mask-mode:alpha; }
+  .tos-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .tos-devices{ position:absolute; left:0; top:442.5px; width:1145px; height:637.5px; z-index:4; display:block; }
   .feat-header{ left:68px; right:68px; top:48px; height:59px; padding:0; border:none; align-items:center; justify-content:flex-start; }
   .feat-header > img{ height:25px; width:auto; display:block; margin-right:12px; }
   .feat-product{ font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:24px; line-height:21px; color:#fff; white-space:nowrap; }
@@ -762,7 +769,7 @@ const ALL_SLIDES = [
 
   { type:'divider', section:"Section 2", title:"Teacher OS", lead:"The teaching day. Connected.", steps:["Prepare", "Teach", "Assess"], chapterNum:"02", desc:"For schools and public education: preparation, classroom delivery, assessment and system-level visibility.", tag:"Upcoming · Government Partnership", secLabel:"Chapter 2/5",
     logo:"assets/teacheros-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-6.webp", photoFg:"assets/web/sec-divider-fg-6.webp" },
-  { type:'teacheros1', header:"Teacher OS", pageTag:"04", title:"One Platform. Every Teaching Need." },
+  { type:'teacheros1', header:"Teacher OS", pageTag:"04", title:"One Platform. <br>Every Teaching Need." },
   { type:'ipad2', header:"Teacher OS", pageTag:"05", title:"AI-Powered Lesson Planning",
     decor:"assets/teacheros/decor-lessonplan.svg", decorLeft:-317, decorTop:243, decorWidth:1058.78, decorHeight:288.18, decorTransform:"none",
     pad1Left:63.74, pad1Top:433, pad1Img:"assets/web/teacheros/mockup-lessonplan1.webp",
@@ -1143,16 +1150,18 @@ function slideEl(data, i){
         <div class="p3-list" style="${listStyle}">${listHtml}</div>
       </div>`;
   } else if(data.type === 'teacheros1'){
+    // Figma 289:31694: real classroom photo (soft blurred-blob mask) with laptop + tablet
     section.innerHTML = `
       <div class="stage phones3">
-        <img src="assets/web/teacheros/intro2-bg.webp" style="position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover; z-index:0;" alt="">
+        <img class="hero-bg" src="assets/web/teacheros/intro3/bg.webp" alt="">
         <div class="p3-header-bar">
           <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span class="editable" contenteditable="true">${data.header||''}</span></div>
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
         </div>
-        <img class="ih-decor" src="assets/teacheros/intro-decor2.svg" style="left:1014.91px; top:-46.98px; width:1058.88px; height:288.14px; transform:rotate(180deg) scaleX(-1); z-index:1;" alt="">
-        <div class="ih-title editable" contenteditable="true" style="left:calc(50% - 883px); top:180px; width:938px; color:#f4f5e7; white-space:normal; z-index:6;">${data.title}</div>
-        <img src="assets/web/teacheros/intro2-mockups.webp" style="position:absolute; left:0; top:0; width:1920px; height:1080px; z-index:4; pointer-events:none;" alt="">
+        <div class="ih-title editable" contenteditable="true" style="left:calc(50% - 883px); top:180px; width:938px; color:#f4f5e7; white-space:normal; font-size:80px; line-height:1.1; letter-spacing:-2.4px; z-index:6;">${data.title}</div>
+        <div class="tos-photo"><img src="assets/web/teacheros/intro3/class-photo-src.webp" alt="A teacher using Teacher OS on a classroom smart board"></div>
+        <img class="tos-devices" src="assets/web/teacheros/intro3/devices.webp" alt="Teacher OS on laptop and tablet">
+        <img class="ih-decor" src="assets/teacheros/intro3/decor.svg" style="left:1124.9px; top:842px; width:1062.9px; height:288.2px; z-index:5;" alt="">
       </div>`;
   } else if(data.type === 'ipad2'){
     const listHtml = data.bullets.map((b,i)=>`
@@ -2254,6 +2263,25 @@ const SCRIBBLE_MAPS = {
    0.0,
    1058.78,
    288.184
+  ],
+  "a": [
+   0.66,
+   241.53
+  ],
+  "b": [
+   1058.12,
+   74.78
+  ],
+  "len": 2720.4,
+  "strokes": 2
+ },
+ "assets/teacheros/intro3/decor.svg": {
+  "map": "assets/web/scribble-maps/teacheros-intro3-decor.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1058.78,
+   288.185
   ],
   "a": [
    0.66,
