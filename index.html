@@ -110,6 +110,15 @@
     font-family:"Satoshi","Inter",sans-serif; font-weight:700; text-transform:uppercase;
     font-size:100px; line-height:1.1; letter-spacing:-3px; color:#f4f5e7;
   }
+  /* Flow arrows into the shared engine: drawn from each product into the engine (stroke reveal), head lands last */
+  .flow-arrow{ position:absolute; z-index:2; overflow:visible; pointer-events:none; }
+  .flow-arrow path{ fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .flow-line{ stroke-dasharray:1 1; }
+  .slide.play .flow-line{ animation:flow-draw 800ms var(--ease-out) calc(900ms + var(--d)) backwards; }
+  .slide.play .flow-head{ animation:flow-head 260ms var(--ease-out) calc(1560ms + var(--d)) backwards; }
+  @keyframes flow-draw{ from{ stroke-dashoffset:1; } }
+  @keyframes flow-head{ from{ opacity:0; } }
+  @media (prefers-reduced-motion: reduce){ .slide.play .flow-line, .slide.play .flow-head{ animation:none; } }
   .engine-note{
     position:absolute; left:1426px; top:873px; width:385px; z-index:2; text-align:right;
     font-family:"Satoshi","Inter",sans-serif; font-weight:400; font-size:32px; line-height:0.98; color:#262626;
@@ -1044,10 +1053,16 @@ function slideEl(data, i){
           <div class="p3-header-right">${data.pageTag}</div>
         </div>
         <div class="engine-title">${data.title}</div>
-        <img class="intro-art" src="assets/web/intro/s3-pills.webp" style="left:198.5px; top:415px; width:1488px; height:190px;" alt="Learning App, Teacher OS and Campus">
-        <img class="intro-art" src="assets/intro/s3-arrow-left.svg" style="left:414.5px; top:606px; width:285px; height:211.76px;" alt="">
-        <img class="intro-art" src="assets/intro/s3-arrow-mid.svg" style="left:935.6px; top:611px; width:14.73px; height:74.5px;" alt="">
-        <img class="intro-art" src="assets/intro/s3-arrow-right.svg" style="left:1182px; top:606px; width:288.5px; height:211.49px;" alt="">
+        <img class="intro-art" src="assets/web/intro/s3-pills.webp?v=2" style="left:198.5px; top:399px; width:1488px; height:226px;" alt="Learning App, Teacher OS and Campus">
+        <svg class="flow-arrow" style="left:414.5px; top:606px; width:285px; height:211.76px; --d:0ms;" viewBox="0 0 285 211.76" aria-hidden="true"><defs><linearGradient id="fa-l" x1="133.25" y1="-19" x2="133.25" y2="205.5" gradientUnits="userSpaceOnUse"><stop stop-opacity="0.02"/><stop offset="1" stop-opacity="0.47"/></linearGradient></defs>
+          <path class="flow-line" pathLength="1" stroke="url(#fa-l)" d="M5 1C5 1 7 12 11 27C16.9 42.7 27.4 64.2 46 87C83.4 132.8 153.4 184 284 205.6"/>
+          <path class="flow-head" stroke="url(#fa-l)" d="M278.4 197.9L284.2 205.6L276.6 210.8"/></svg>
+        <svg class="flow-arrow" style="left:935.6px; top:611px; width:14.73px; height:74.5px; --d:120ms;" viewBox="0 0 14.7279 74.5" aria-hidden="true"><defs><linearGradient id="fa-m" x1="14.364" y1="1" x2="14.364" y2="90.99" gradientUnits="userSpaceOnUse"><stop stop-opacity="0.02"/><stop offset="1" stop-opacity="0.47"/></linearGradient></defs>
+          <path class="flow-line" pathLength="1" stroke="url(#fa-m)" d="M7.364 1V73"/>
+          <path class="flow-head" stroke="url(#fa-m)" d="M1 67.1L7.364 73.5L13.73 67.1"/></svg>
+        <svg class="flow-arrow" style="left:1182px; top:606px; width:288.5px; height:211.49px; --d:240ms;" viewBox="0 0 288.5 211.49" aria-hidden="true"><defs><linearGradient id="fa-r" x1="173.25" y1="-19" x2="173.25" y2="205.5" gradientUnits="userSpaceOnUse"><stop stop-opacity="0.02"/><stop offset="1" stop-opacity="0.47"/></linearGradient></defs>
+          <path class="flow-line" pathLength="1" stroke="url(#fa-r)" d="M283.5 1C283.5 1 278 15 270 26.6C261.1 41.7 247 63 226.4 86.4C183.9 131.9 113.2 183 1 205.5"/>
+          <path class="flow-head" stroke="url(#fa-r)" d="M6.8 197.9L1.2 205.3L8.5 210.6"/></svg>
         <img class="intro-art" src="assets/web/intro/s3-engine.webp" style="left:681.5px; top:688.5px; width:523px; height:303px;" alt="Shared learning engine: content, assessment, AI, commerce, data, APIs">
         <div class="engine-note">${data.note}</div>
       </div>`;
@@ -2265,6 +2280,7 @@ function assignMotion(section){
       return;
     }
     if(el.classList.contains('dp-flip')) return moSet(el, 'photo', 250);
+    if(/flow-arrow/.test(cls)) return;               // draws itself (see .flow-line)
     if(/cl-float/.test(cls)) return floats.push(el);
     heroes.push(el);
   });
