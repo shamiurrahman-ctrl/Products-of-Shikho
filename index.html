@@ -381,6 +381,7 @@
     font-family:"Satoshi","Inter",sans-serif; font-weight:700;
     font-size:72px; line-height:1.12; letter-spacing:-2px; color:#f4f5e7;
   }
+  .crm-art{ position:absolute; z-index:2; display:block; pointer-events:none; }
   .cl-decor{ position:absolute; z-index:1; pointer-events:none; transform-origin:center center; }
   .cl-laptop{ position:absolute; top:314px; width:1175px; height:711.87px; overflow:hidden; z-index:3; }
   .cl-laptop .cl-screen{
@@ -981,6 +982,14 @@ const ALL_SLIDES = [
       { img:"assets/web/crm/dash-card-followups.webp", left:1514, top:646.16, width:406, height:298 }
     ]
   },
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Track, Motivate, and Perform", 
+    bullet:"A unified view of agent activity, sales pipelines, incentives, and revenue performance—helping teams monitor productivity, track progress, and act on opportunities faster.", listLeft:972, listTop:391, textWidth:468,
+    decor:"assets/crm2/decor-data.svg", decorBox:[1028,-159.75,1472,673.748], decorTransform:"scaleX(-1)",
+    art:"assets/web/crm2/art-data.webp", artBox:[118.0,320.0,1724.0,760.0] },
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Know Every Lead. Act at the Right Time.", 
+    bullet:"See every lead’s source, stage, distribution, and latest activity in one place—helping agents prioritize the right prospects and follow up with context.", listLeft:69, listTop:343, textWidth:468,
+    decor:"assets/crm2/decor-leads.svg", decorBox:[-173,658,1472,635.354], decorTransform:"",
+    art:"assets/web/crm2/art-leads.webp", artBox:[0.0,330.0,1920.0,718.5] },
   { type:'crmlaptop', header:"CRM", chapter:"04/05", pageTag:"14", title:"Understand Every Lead Before Every Conversation",
     laptopImg:"assets/web/crm/screen-lead2.webp", laptopLeft:1027,
     listLeft:496, listTop:472,
@@ -993,6 +1002,18 @@ const ALL_SLIDES = [
     ]
   },
 
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"See Who’s Leading. See What Drives It.", 
+    bullet:"Track individual and team performance through rankings, sales, revenue, and target achievement—making progress visible and keeping every agent focused on their goals.", listLeft:393, listTop:362, textWidth:430,
+    decor:"assets/crm2/decor-board.svg", decorBox:[-281,617,1317.17,787.614], decorTransform:"",
+    art:"assets/web/crm2/art-board.webp", artBox:[62.5,298.0,1857.5,730.0] },
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"See Every Learner Segment Clearly.", titleWidth:1256, 
+    bullet:"Understand how learners are distributed across plans and engagement levels—giving teams a clear picture of the active user base and where engagement stands.", listLeft:900, listTop:447, textWidth:430,
+    decor:"assets/crm2/decor-seg.svg", decorBox:[1008.96,775.98,489,414], decorTransform:"",
+    art:"assets/web/crm2/art-seg.webp", artBox:[0.0,138.5,1905.5,941.5] },
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Know Who’s Engaged. Know Who Needs Attention.", titleWidth:1256, 
+    bullet:"Monitor learner engagement, renewal health, and satisfaction in one view—helping teams identify at-risk users, prioritize renewals, and strengthen retention.", listLeft:884, listTop:474, textWidth:430,
+    decor:"assets/crm2/decor-eng.svg", decorBox:[942,617,1317.17,787.614], decorTransform:"",
+    art:"assets/web/crm2/art-eng.webp", artBox:[0.0,244.0,1860.0,819.5] },
   { type:'divider', section:"Section 5", title:"CMS", lead:"The operating layer behind learning.", steps:["Create", "Organise", "Deliver"], chapterNum:"05", desc:"Manage curriculum, content, assessments and delivery workflows from one operational workspace.", tag:"Internal Platform", secLabel:"Chapter 5/5",
     logo:"assets/cms-logo.svg?v=2", logoWidth:260, photoBg:"assets/web/sec-divider-bg-3.webp", photoFg:"assets/web/cms/chapter-fg.webp", fgStyle:"left:-399px; top:416px; width:1011px; height:674px;" },
   { type:'crmlaptop', header:"CMS", chapter:"05/05", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
@@ -1306,6 +1327,26 @@ function slideEl(data, i){
           <div class="cl-item">
             <div class="cl-item-num">01</div>
             <div class="cl-item-text editable" contenteditable="true">${data.bullet}</div>
+          </div>
+        </div>
+      </div>`;
+  } else if(data.type === 'crmart'){
+    // CRM chapter slides (Figma section 340:14162): live title + point, drawn scribble, product art cut from Figma
+    const [dl,dt,dw,dh] = data.decorBox, [al,at,aw,ah] = data.artBox;
+    section.innerHTML = `
+      <div class="stage phones3">
+        ${HB('top')}
+        <div class="cl-header-bar">
+          <div class="cl-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span>${data.header}</span></div>
+          <div class="cl-header-right">${data.pageTag}</div>
+        </div>
+        <div class="cl-title" style="top:138px; font-size:80px; line-height:1.1; letter-spacing:-2.4px; ${data.titleWidth ? `width:${data.titleWidth}px; white-space:normal;` : ''}">${data.title}</div>
+        <img class="cl-decor" src="${data.decor}" style="left:${dl}px; top:${dt}px; width:${dw}px; height:${dh}px; transform:${data.decorTransform||'none'};" alt="">
+        <img class="crm-art" src="${data.art}" style="left:${al}px; top:${at}px; width:${aw}px; height:${ah}px;" alt="">
+        <div class="cl-list" style="left:${data.listLeft}px; top:${data.listTop}px; width:509px;">
+          <div class="cl-item">
+            <div class="cl-item-num">01</div>
+            <div class="cl-item-text" style="width:${data.textWidth}px;">${data.bullet}</div>
           </div>
         </div>
       </div>`;
@@ -1774,6 +1815,101 @@ const SCRIBBLE_MAPS = {
   ],
   "len": 3094.1,
   "strokes": 5
+ },
+ "assets/crm2/decor-board.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-board.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1317.17,
+   787.614
+  ],
+  "a": [
+   50.22,
+   341.64
+  ],
+  "b": [
+   1316.35,
+   534.28
+  ],
+  "len": 4464.3,
+  "strokes": 3
+ },
+ "assets/crm2/decor-data.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-data.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1472.0,
+   673.748
+  ],
+  "a": [
+   346.84,
+   488.52
+  ],
+  "b": [
+   1401.16,
+   39.56
+  ],
+  "len": 3396.1,
+  "strokes": 1
+ },
+ "assets/crm2/decor-eng.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-eng.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1317.17,
+   787.614
+  ],
+  "a": [
+   50.22,
+   341.64
+  ],
+  "b": [
+   1316.35,
+   534.28
+  ],
+  "len": 4464.3,
+  "strokes": 3
+ },
+ "assets/crm2/decor-leads.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-leads.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1472.0,
+   635.354
+  ],
+  "a": [
+   216.2,
+   569.48
+  ],
+  "b": [
+   1391.96,
+   72.68
+  ],
+  "len": 3839.3,
+  "strokes": 1
+ },
+ "assets/crm2/decor-seg.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-seg.webp",
+  "vb": [
+   0.0,
+   0.0,
+   489.0,
+   414.0
+  ],
+  "a": [
+   158.01,
+   413.51
+  ],
+  "b": [
+   488.69,
+   362.78
+  ],
+  "len": 2352.6,
+  "strokes": 2
  },
  "assets/hero-scribble-left.svg": {
   "map": "assets/web/scribble-maps/hero-scribble-left.webp",
