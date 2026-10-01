@@ -60,41 +60,60 @@
   }
   .stage.dark .crumb{ color:rgba(255,255,255,0.6); }
 
-  /* COVER — matches Figma hero (node 26:4429), 1920x1080 1:1 pixel coordinates */
-  .stage.hero{
-    background:#fff;
-  }
-  .hero-bg{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; z-index:0;
-  }
-  .hero-logo{
-    position:absolute; left:422px; top:93px; width:296px; z-index:5;
-  }
-  .hero-logo img{ width:100%; height:auto; display:block; }
+  /* COVER — Figma "Hero Slide" (240:26573), 1920x1080 1:1 */
+  .stage.hero{ background:#fff; }
+  .hero-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+  .hero-logo{ position:absolute; left:209.1px; top:58.97px; width:296.3px; height:125.8px; z-index:5; }
+  .hero-logo img{ width:100%; height:100%; display:block; }
   .hero-title{
-    position:absolute; left:766px; top:126px; width:661px;
+    position:absolute; left:586px; top:152px; width:661px; padding:12px 0 14px; z-index:5;
     font-family:"Satoshi","Inter",sans-serif; font-weight:900;
-    font-size:100px; line-height:96px; letter-spacing:-1px; padding-bottom:14px;
-    background-image:linear-gradient(180deg,#2d4797,#5367fd);
+    font-size:100px; line-height:88px; letter-spacing:-1px;
+    background-image:linear-gradient(180deg,#2d4797 0%,#5367fd 140.34%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    z-index:5;
   }
   .hero-subtitle{
-    position:absolute; left:771px; top:337px; width:542px;
+    position:absolute; left:1292px; top:114px; width:458px; z-index:5;
     font-family:"Satoshi","Inter",sans-serif; font-weight:400;
-    font-size:32px; line-height:40px; letter-spacing:-0.32px;
-    color:#0c1a43; z-index:5;
+    font-size:32px; line-height:40px; letter-spacing:-0.32px; color:#0c1a43;
   }
-  .hero-subtitle b{ font-weight:900; color:#e2008d; }
-  .hero-collage-frame{
-    position:absolute; left:196px; top:335px; width:1527px; height:683px;
-    z-index:2;
+  .hero-collage{ position:absolute; left:220.5px; top:312px; width:1524.5px; height:674px; z-index:2; display:block; }
+  .hero-decor-l{ position:absolute; left:-132.1px; top:222.05px; width:489px; height:414px; z-index:1; pointer-events:none; }
+  .hero-decor-r{ position:absolute; left:1596.7px; top:799.5px; width:326px; height:344px; z-index:1; pointer-events:none; mix-blend-mode:luminosity; }
+  .hero-decor-l img, .hero-decor-r img{ width:100%; height:100%; display:block; }
+  .hero-decor-r img{ transform:rotate(-37.03deg); }
+  .hero-footer{
+    position:absolute; left:70.3px; top:991px; width:1778.4px; z-index:5;
+    display:flex; justify-content:space-between; padding-top:15.75px; border-top:0.75px solid #dfe5f0;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:500; font-size:24px; line-height:21px; color:#fff;
   }
-  .hero-collage-frame img{ width:100%; height:100%; object-fit:contain; }
-  .hero-scribble-left{ position:absolute; left:-264px; top:110px; width:753.2px; height:637.41px; z-index:1; pointer-events:none; }
-  .hero-scribble-right{ position:absolute; left:1594px; top:534px; width:576.09px; height:607.75px; z-index:1; pointer-events:none; }
-  .hero-scribble-left img, .hero-scribble-right img{ width:100%; height:100%; display:block; }
+
+  /* INTRO SLIDES — Figma "Slide 02" (256:27572) and "One engine" (256:28447) */
+  .intro-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+  .intro-decor{ position:absolute; z-index:1; pointer-events:none; }
+  .intro-decor img{ width:100%; height:100%; display:block; }
+  .intro-art{ position:absolute; z-index:2; display:block; }
+  .intro-header-bar-rule{ position:absolute; left:67px; top:197px; width:1786px; height:1px; background:rgba(255,255,255,0.4); z-index:2; }
+  .routes-title{
+    position:absolute; left:67px; top:95px; width:1600px; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:80px; line-height:1.1; letter-spacing:-2.4px; color:#f4f5e7;
+  }
+  .routes-lead, .routes-behind{
+    position:absolute; z-index:2; font-family:"Satoshi","Inter",sans-serif; font-weight:700;
+    font-size:56px; line-height:1.1; letter-spacing:-1.68px; color:#f7fbff; text-transform:capitalize;
+  }
+  .routes-lead{ left:67px; top:271px; width:1710px; }
+  .routes-behind{ left:460px; top:809px; width:462px; text-align:right; }
+  .engine-title{
+    position:absolute; left:358px; top:132px; width:1204px; z-index:2; text-align:center;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:100px; line-height:1.1; letter-spacing:-3px; color:#f4f5e7;
+  }
+  .engine-note{
+    position:absolute; left:1426px; top:873px; width:385px; z-index:2; text-align:right;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:400; font-size:32px; line-height:0.98; color:#262626;
+  }
 
   /* DIVIDER */
   .divider-num{
@@ -599,7 +618,13 @@ const HB = pos => `<div class="hb ${pos}"><img src="assets/web/campus/header-bg.
 
 // ---- SLIDE DATA -------------------------------------------------
 const ALL_SLIDES = [
-  { type:'cover', title:"Product Ecosystem", subtitle:"Building the Future of <b>Learning</b>, <b>Teaching</b> &amp; Education <b>Management</b>", img:"assets/web/hero-collage.webp" },
+  { type:'cover', title:"THE SHIKHO PRODUCT EXPERIENCE",
+    subtitle:"Direct to families. Through schools. Across universities.<br>Built on learning services, learner intelligence and content operations.",
+    footLeft:"Product team showcase", footRight:"Interfaces and product previews" },
+  { type:'routes', header:"Products of Shikho", title:"Built around the learner.",
+    lead:"One learning platform.<br>Three routes to learners.", behind:"Behind<br>the Experience" },
+  { type:'engine', header:"Products of Shikho", title:"One engine. More possibilities.",
+    note:"Reuse the core.<br>Build the experience each customer needs." },
 
   { type:'divider', section:"Section 1", title:"Shikho Learning App", desc:"A complete learning experience for Class 6–12 students, combining classes, interactive content, practice, assessments, books, and AI-powered learning support.", tag:"Core Product", secLabel:"Sec 1/5", photoBg:"assets/web/sec-divider-bg-1.webp", photoFg:"assets/web/sec-divider-fg-1.webp" },
   { type:'phones3', header:"Learning App", pageTag:"03", title:"A Seamless Learning Journey Begins Here",
@@ -982,13 +1007,49 @@ function slideEl(data, i){
   if(data.type === 'cover'){
     section.innerHTML = `
       <div class="stage hero">
-        <img class="hero-bg" src="assets/web/hero-bg.webp" alt="">
+        <img class="hero-bg" src="assets/web/intro/hero-bg.webp" alt="">
+        <div class="hero-decor-r"><img src="assets/intro/hero-decor-right.svg" alt=""></div>
+        <div class="hero-decor-l"><img src="assets/intro/hero-decor-left.svg" alt=""></div>
+        <img class="hero-collage" src="assets/web/intro/hero-collage.webp" alt="Shikho product interfaces">
         <div class="hero-logo"><img src="assets/shikho-logo.svg" alt="Shikho"></div>
-        <div class="hero-title editable" contenteditable="true">${data.title}</div>
-        <div class="hero-subtitle editable" contenteditable="true">${data.subtitle}</div>
-        <div class="hero-scribble-left"><img src="assets/hero-scribble-left.svg" alt=""></div>
-        <div class="hero-scribble-right"><img src="assets/hero-scribble-right.svg" alt=""></div>
-        <div class="hero-collage-frame" data-media data-src="${data.img}" data-label="Product collage"></div>
+        <div class="hero-title">${data.title}</div>
+        <div class="hero-subtitle">${data.subtitle}</div>
+        <div class="hero-footer"><span>${data.footLeft}</span><span>${data.footRight}</span></div>
+      </div>`;
+  } else if(data.type === 'routes'){
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="intro-bg hero-bg" src="assets/web/intro/s2-bg.webp" alt="">
+        <div class="intro-decor" style="left:12.3px; top:784.9px; width:326px; height:344px;"><img src="assets/intro/s2-decor-left.svg" style="transform:rotate(137.81deg) scaleX(-1);" alt=""></div>
+        <div class="intro-decor" style="left:1599.9px; top:162.97px; width:489px; height:414px;"><img src="assets/intro/s2-decor-right.svg" alt=""></div>
+        <div class="p3-header-bar" style="border-bottom:none;">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span>${data.header}</span></div>
+          <div class="p3-header-right">${data.pageTag}</div>
+        </div>
+        <div class="intro-header-bar-rule"></div>
+        <div class="routes-title">${data.title}</div>
+        <div class="routes-lead">${data.lead}</div>
+        <img class="intro-art" src="assets/web/intro/s2-cards-routes.webp" style="left:70.5px; top:444.5px; width:1328px; height:227px;" alt="Learning App, Teacher OS and Campus">
+        <div class="routes-behind">${data.behind}</div>
+        <img class="intro-art" src="assets/intro/s2-arrow.svg" style="left:401px; top:956.6px; width:522px; height:14.73px;" alt="">
+        <img class="intro-art" src="assets/web/intro/s2-cards-behind.webp" style="left:954.5px; top:763.5px; width:885.5px; height:227px;" alt="CRM and CMS">
+      </div>`;
+  } else if(data.type === 'engine'){
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="intro-bg hero-bg" src="assets/web/intro/s3-bg.webp" alt="">
+        <div class="intro-decor" style="left:-475px; top:857px; width:1059.1px; height:288.9px;"><img src="assets/intro/s3-decor.svg" style="transform:scaleX(-1);" alt=""></div>
+        <div class="p3-header-bar">
+          <div class="p3-header-left"><img src="assets/phone/bird-icon.svg" alt=""><span>${data.header}</span></div>
+          <div class="p3-header-right">${data.pageTag}</div>
+        </div>
+        <div class="engine-title">${data.title}</div>
+        <img class="intro-art" src="assets/web/intro/s3-pills.webp" style="left:198.5px; top:415px; width:1488px; height:190px;" alt="Learning App, Teacher OS and Campus">
+        <img class="intro-art" src="assets/intro/s3-arrow-left.svg" style="left:414.5px; top:606px; width:285px; height:211.76px;" alt="">
+        <img class="intro-art" src="assets/intro/s3-arrow-mid.svg" style="left:935.6px; top:611px; width:14.73px; height:74.5px;" alt="">
+        <img class="intro-art" src="assets/intro/s3-arrow-right.svg" style="left:1182px; top:606px; width:288.5px; height:211.49px;" alt="">
+        <img class="intro-art" src="assets/web/intro/s3-engine.webp" style="left:681.5px; top:688.5px; width:523px; height:303px;" alt="Shared learning engine: content, assessment, AI, commerce, data, APIs">
+        <div class="engine-note">${data.note}</div>
       </div>`;
   } else if(data.type === 'divider' && data.photoBg){
     section.innerHTML = `
@@ -1634,6 +1695,101 @@ const SCRIBBLE_MAPS = {
    88.62
   ],
   "len": 2412.3,
+  "strokes": 2
+ },
+ "assets/intro/hero-decor-left.svg": {
+  "map": "assets/web/scribble-maps/intro-hero-decor-left.webp",
+  "vb": [
+   0.0,
+   0.0,
+   489.0,
+   414.0
+  ],
+  "a": [
+   158.01,
+   413.51
+  ],
+  "b": [
+   488.69,
+   362.78
+  ],
+  "len": 2352.6,
+  "strokes": 2
+ },
+ "assets/intro/hero-decor-right.svg": {
+  "map": "assets/web/scribble-maps/intro-hero-decor-right.webp",
+  "vb": [
+   0.0,
+   0.0,
+   326.0,
+   344.0
+  ],
+  "a": [
+   4.51,
+   330.02
+  ],
+  "b": [
+   322.28,
+   343.78
+  ],
+  "len": 1268.6,
+  "strokes": 1
+ },
+ "assets/intro/s2-decor-left.svg": {
+  "map": "assets/web/scribble-maps/intro-s2-decor-left.webp",
+  "vb": [
+   0.0,
+   0.0,
+   326.0,
+   344.0
+  ],
+  "a": [
+   4.51,
+   330.02
+  ],
+  "b": [
+   322.28,
+   343.78
+  ],
+  "len": 1268.6,
+  "strokes": 1
+ },
+ "assets/intro/s2-decor-right.svg": {
+  "map": "assets/web/scribble-maps/intro-s2-decor-right.webp",
+  "vb": [
+   0.0,
+   0.0,
+   489.0,
+   414.0
+  ],
+  "a": [
+   158.01,
+   413.51
+  ],
+  "b": [
+   488.69,
+   362.78
+  ],
+  "len": 2352.6,
+  "strokes": 2
+ },
+ "assets/intro/s3-decor.svg": {
+  "map": "assets/web/scribble-maps/intro-s3-decor.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1058.79,
+   288.185
+  ],
+  "a": [
+   0.66,
+   241.54
+  ],
+  "b": [
+   1058.13,
+   74.78
+  ],
+  "len": 2720.4,
   "strokes": 2
  },
  "assets/phone/decorative-coral.svg": {
