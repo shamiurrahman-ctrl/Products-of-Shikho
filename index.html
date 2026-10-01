@@ -360,6 +360,8 @@
   /* Looping lesson clip over a phone screen's video area (Figma 76:11708: 412x257 at y110, scaled to the 348px screen) */
   .p3-video{ position:absolute; left:16.8px; top:107.7px; width:348px; height:217.1px; overflow:hidden; background:#000; }
   .p3-video img{ width:100%; height:100%; object-fit:cover; display:block; }
+  /* Live class clip fills the top of the screen (Figma 74:9751: full-width 412x230.7 at y0) */
+  .p3-video.lc-video{ top:14.8px; height:194.9px; border-radius:34px 34px 0 0; }
   .sc2-badge{ position:absolute; left:1167px; top:352px; width:269.5px; height:143px; z-index:4; pointer-events:none; }
   .sc2-decor{ position:absolute; left:1562px; top:162px; width:358px; height:331px; z-index:1; pointer-events:none; transform:rotate(180deg) scaleX(-1); }
 
@@ -698,7 +700,7 @@ const ALL_SLIDES = [
   { type:'homepage2', header:"Learning App", feature:"Homepage", chapter:"01/05", pageTag:"04", title:"Your learning day. In one place.",
     phoneImg:"assets/web/homepage/screen-mobile.webp", laptopImg:"assets/web/homepage/screen-laptop.webp" },
   { type:'routine2', header:"Learning App", feature:"Live Class", chapter:"01/05", pageTag:"05", title:"From Routine to Real-Time Learning",
-    leftImg:"assets/web/routine/screen-routine.webp", rightImg:"assets/web/routine/screen-liveclass.webp",
+    leftImg:"assets/web/routine/screen-routine.webp", rightImg:"assets/web/liveclass/screen-02.webp", rightVideo:"assets/liveclass/live.webp",
     bullets:[
       "Stay on track with a structured routine that shows upcoming, ongoing and completed classes at a glance.",
       "Join live classes, interact with mentors and ask questions in real time — all within the learning experience."
@@ -1444,6 +1446,7 @@ function slideEl(data, i){
         <div class="rt-list">${listHtml}</div>
         <div class="rt-phone-right">
           <div class="p3-screen" data-media data-src="${data.rightImg}" data-label="Live class screen"></div>
+          ${data.rightVideo ? `<div class="p3-video lc-video"><img src="${data.rightVideo}" alt=""></div>` : ''}
           <img class="p3-frame" src="assets/web/phone/iphone-frame1.webp" alt="">
           <div class="p3-badge rt-badge-top">02</div>
         </div>
