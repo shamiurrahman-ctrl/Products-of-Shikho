@@ -592,6 +592,8 @@
     -webkit-mask-size:1178.687px 1163.411px; mask-size:1178.687px 1163.411px;
     -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; mask-mode:alpha; }
   .tos-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  /* Closer-framed classroom photo: placed so the smart board lands where Figma has it (board 552px wide in the source, shown at 650px) */
+  .tos-photo img.tos-photo-ifp{ position:absolute; left:596.6px; top:174.1px; width:1885px; height:1063px; object-fit:fill; }
   .tos-devices{ position:absolute; left:0; top:442.5px; width:1145px; height:637.5px; z-index:4; display:block; }
   .feat-header{ left:68px; right:68px; top:48px; height:59px; padding:0; border:none; align-items:center; justify-content:flex-start; }
   .feat-header:not(:has(.feat-pill)){ height:59px; }
@@ -1262,7 +1264,7 @@ function slideEl(data, i){
           <div class="p3-header-right editable" contenteditable="true">${data.pageTag||''}</div>
         </div>
         <div class="ih-title editable" contenteditable="true" style="left:calc(50% - 883px); top:180px; width:938px; color:#f4f5e7; white-space:normal; font-size:80px; line-height:1.1; letter-spacing:-2.4px; z-index:6;">${data.title}</div>
-        <div class="tos-photo"><img src="assets/web/teacheros/intro3/class-photo-hd.webp" alt="A teacher using Teacher OS on a classroom smart board"></div>
+        <div class="tos-photo"><img class="tos-photo-ifp" src="assets/web/teacheros/intro3/class-photo-ifp-hd.webp" alt="A teacher using Teacher OS on a classroom smart board"></div>
         <img class="tos-devices" src="assets/web/teacheros/intro3/devices.webp" alt="Teacher OS on laptop and tablet">
         <img class="ih-decor" src="assets/teacheros/intro3/decor.svg" style="left:1124.9px; top:842px; width:1062.9px; height:288.2px; z-index:5;" alt="">
       </div>`;
