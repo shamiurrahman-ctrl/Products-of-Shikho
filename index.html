@@ -131,6 +131,21 @@
   .close-h{ padding-top:10.832px; font-family:"Satoshi","Inter",sans-serif; font-weight:700; font-size:48px; color:#0c1a43; }
   .close-p{ padding-top:10.832px; font-family:"Satoshi","Inter",sans-serif; font-weight:400; font-size:24px; line-height:32.179px; color:#0c1a43; white-space:nowrap; }
   .close-arrow{ width:107.965px; height:24.953px; display:block; }
+  /* Final slide (Figma 359:14163) */
+  .finale-title{ position:absolute; left:98px; top:177px; width:1606px; z-index:2;
+    font-family:"Satoshi","Inter",sans-serif; font-weight:700; font-size:80px; line-height:1.1; letter-spacing:-2.4px; padding-bottom:10px;
+    background-image:linear-gradient(180deg,#2d4797 36.435%,#5367fd 140.34%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .finale-title span{ color:#5468ff; -webkit-text-fill-color:#5468ff; }
+  .finale-decor{ position:absolute; left:-65.09px; top:763.02px; width:1059.07px; height:288.9px; z-index:1; pointer-events:none; }
+  .finale-cta{ position:absolute; left:1123px; top:856px; z-index:4; display:flex; align-items:center; gap:21px;
+    padding:0; border:0; background:none; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .finale-cta span{ display:block; height:137px; font-family:"Satoshi","Inter",sans-serif; font-weight:700; font-size:110px; line-height:1.1; letter-spacing:-3.3px;
+    background-image:linear-gradient(180deg,#2d4797 36.435%,#5367fd 140.34%); -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-decoration:underline wavy #4a5fe0; text-decoration-thickness:6.5%; text-underline-offset:14px; }
+  .finale-cta img{ width:98px; height:98px; display:block; transition:transform 450ms var(--ease-out); }
+  .finale-cta:focus-visible{ outline:3px solid #5468ff; outline-offset:12px; border-radius:16px; }
+  @media (hover:hover) and (pointer:fine){ .finale-cta:hover img{ transform:rotate(-180deg); } }
+  @media (prefers-reduced-motion: reduce){ .finale-cta img{ transition:none; } }
   .engine-note{
     position:absolute; left:1426px; top:873px; width:385px; z-index:2; text-align:right;
     font-family:"Satoshi","Inter",sans-serif; font-weight:400; font-size:32px; line-height:0.98; color:#262626;
@@ -1035,6 +1050,9 @@ const ALL_SLIDES = [
       { num:"03", title:"Enable", text:"Partner-led financial access", img:"assets/web/closing/icon-enable.webp", w:347.429, crop:"left:-3.92%; width:103.78%;" }
     ] },
 
+  { type:'finale', pageHeader:true, header:"Shikho",
+    title:"Reimagining how Bangladesh learns.", subtitle:"One platform. Every learner. A smarter future.", cta:"Start Again" },
+
   { hidden:true, type:'divider', section:"Section 4", title:"Shikho Skills", desc:"A career-focused learning platform offering skill-based courses designed to help learners build practical expertise and earn industry-recognized certifications.", tag:"Product", secLabel:"Sec 4/7", logo:"assets/skills-logo.svg", logoWidth:260, photoBg:"assets/web/sec-divider-bg-4.webp", photoFg:"assets/web/sec-divider-fg-4.webp" },
   { hidden:true, type:'skillshome', header:"Skills", pageTag:"04", headerIcon:"assets/phone/bird-icon-colored.svg",
     bandTop:820, bandHeight:260,
@@ -1143,6 +1161,22 @@ function slideEl(data, i){
         <div class="close-title">A relationship that grows<br><span>with the learner.</span></div>
         <div class="close-list">${cards[0]}${arrow(false)}${cards[1]}${arrow(true)}${cards[2]}</div>
       </div>`;
+  } else if(data.type === 'finale'){
+    // Final slide (Figma 359:14163). "Start Again" restarts the deck through the normal show() navigation.
+    section.innerHTML = `
+      <div class="stage phones3">
+        <img class="hero-bg" src="assets/web/finale/thankyou.webp" style="top:563px; height:517px;" alt="">
+        <div class="hp-header-bar">
+          <div class="hp-header-left"><img src="assets/phone/bird-icon-colored.svg" alt=""><span>${data.header}</span></div>
+          <div class="hp-header-right">${data.pageTag}</div>
+        </div>
+        <div class="finale-title">${data.title}<br><span>${data.subtitle}</span></div>
+        <img class="finale-decor" src="assets/finale/decor.svg" alt="">
+        <button type="button" class="finale-cta" aria-label="Start the presentation again">
+          <span>${data.cta}</span><img src="assets/finale/restart-icon.svg" alt="">
+        </button>
+      </div>`;
+    section.querySelector('.finale-cta').addEventListener('click', e=>{ e.stopPropagation(); show(0, true); });
   } else if(data.type === 'engine'){
     section.innerHTML = `
       <div class="stage phones3">
@@ -1909,6 +1943,25 @@ const SCRIBBLE_MAPS = {
    362.78
   ],
   "len": 2352.6,
+  "strokes": 2
+ },
+ "assets/finale/decor.svg": {
+  "map": "assets/web/scribble-maps/finale-decor.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1058.78,
+   288.185
+  ],
+  "a": [
+   0.66,
+   241.53
+  ],
+  "b": [
+   1058.12,
+   74.78
+  ],
+  "len": 2720.4,
   "strokes": 2
  },
  "assets/hero-scribble-left.svg": {
@@ -2795,8 +2848,8 @@ loadSlide(0).then(async ()=>{
   for(let i = 1; i < slides.length; i++) await loadSlide(i);
 });
 
-function show(i){
-  const forward = i > idx;
+function show(i, replay){
+  const forward = i > idx || !!replay;
   // No wrap-around: stop at the first and last slide
   if(i<0) i = 0;
   if(i>=slides.length) i = slides.length-1;
