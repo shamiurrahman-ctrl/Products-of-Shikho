@@ -2797,8 +2797,9 @@ loadSlide(0).then(async ()=>{
 
 function show(i){
   const forward = i > idx;
-  if(i<0) i = slides.length-1;
-  if(i>=slides.length) i = 0;
+  // No wrap-around: stop at the first and last slide
+  if(i<0) i = 0;
+  if(i>=slides.length) i = slides.length-1;
   if(i === idx) return;
   loadSlide(i);
   loadSlide(i + 1);
