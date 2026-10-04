@@ -1027,10 +1027,18 @@ const ALL_SLIDES = [
     bullet:"Understand how learners are distributed across plans and engagement levels—giving teams a clear picture of the active user base and where engagement stands.", listLeft:900, listTop:447, textWidth:430,
     decor:"assets/crm2/decor-seg.svg", decorBox:[1008.96,775.98,489,414], decorTransform:"",
     art:"assets/web/crm2/art-seg.webp", artBox:[0.0,138.5,1905.5,941.5] },
-  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Know Who’s Engaged. Know Who Needs Attention.", titleWidth:1256, 
+  { hidden:true, type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Know Who’s Engaged. Know Who Needs Attention.", titleWidth:1256, 
     bullet:"Monitor learner engagement, renewal health, and satisfaction in one view—helping teams identify at-risk users, prioritize renewals, and strengthen retention.", listLeft:884, listTop:474, textWidth:430,
     decor:"assets/crm2/decor-eng.svg", decorBox:[942,617,1317.17,787.614], decorTransform:"",
     art:"assets/web/crm2/art-eng.webp", artBox:[0.0,244.0,1860.0,819.5] },
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Turning Learner Scores into Flexible Payment Plans", bulletMark:"*",
+    bullet:"Learner-level scoring determines eligibility and installment limits, enabling flexible payment plans while helping teams track collections and outstanding revenue.", listLeft:622, listTop:432, textWidth:430,
+    decor:"assets/crm2/decor-inst.svg", decorBox:[174,563,1317.17,787.614], decorTransform:"",
+    art:"assets/web/crm2/art-inst.webp", artBox:[0.0,283.0,1920.0,712.0] },
+  { type:'crmart', header:"CRM", chapter:"04/05", pageTag:"", title:"Track Collections. Forecast Recovery.", bulletMark:"*",
+    bullet:"A centralized view of installment collections, overdue payments, bank-loan recovery, and expected revenue helps teams identify risk and forecast recovery", listLeft:146, listTop:335, textWidth:691,
+    decor:"assets/crm2/decor-recov.svg", decorBox:[142.08,724.0,489,414], decorTransform:"",
+    art:"assets/web/crm2/art-recov.webp", artBox:[72.0,314.0,1848.0,712.0] },
   { type:'divider', section:"Section 5", title:"CMS", lead:"The operating layer behind learning.", steps:["Create", "Organise", "Deliver"], chapterNum:"05", desc:"Manage curriculum, content, assessments and delivery workflows from one operational workspace.", tag:"Internal Platform", secLabel:"Chapter 5/5",
     logo:"assets/cms-logo.svg?v=2", logoWidth:260, photoBg:"assets/web/sec-divider-bg-3.webp", photoFg:"assets/web/cms/chapter-fg.webp", fgStyle:"left:-399px; top:416px; width:1011px; height:674px;" },
   { type:'crmlaptop', header:"CMS", chapter:"05/05", pageTag:"13", headerBg:"assets/web/campus/header-bg.webp", headerBgPos:"bottom",
@@ -1379,9 +1387,9 @@ function slideEl(data, i){
         <div class="cl-title" style="top:138px; font-size:80px; line-height:1.1; letter-spacing:-2.4px; ${data.titleWidth ? `width:${data.titleWidth}px; white-space:normal;` : ''}">${data.title}</div>
         <img class="cl-decor" src="${data.decor}" style="left:${dl}px; top:${dt}px; width:${dw}px; height:${dh}px; transform:${data.decorTransform||'none'};" alt="">
         <img class="crm-art" src="${data.art}" style="left:${al}px; top:${at}px; width:${aw}px; height:${ah}px;" alt="">
-        <div class="cl-list" style="left:${data.listLeft}px; top:${data.listTop}px; width:509px;">
+        <div class="cl-list" style="left:${data.listLeft}px; top:${data.listTop}px; width:${Math.max(509, data.textWidth + 41)}px;">
           <div class="cl-item">
-            <div class="cl-item-num">01</div>
+            <div class="cl-item-num">${data.bulletMark||'01'}</div>
             <div class="cl-item-text" style="width:${data.textWidth}px;">${data.bullet}</div>
           </div>
         </div>
@@ -1909,6 +1917,25 @@ const SCRIBBLE_MAPS = {
   "len": 4464.3,
   "strokes": 3
  },
+ "assets/crm2/decor-inst.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-inst.webp",
+  "vb": [
+   0.0,
+   0.0,
+   1317.17,
+   787.614
+  ],
+  "a": [
+   50.22,
+   341.64
+  ],
+  "b": [
+   1316.35,
+   534.28
+  ],
+  "len": 4464.3,
+  "strokes": 3
+ },
  "assets/crm2/decor-leads.svg": {
   "map": "assets/web/scribble-maps/crm2-decor-leads.webp",
   "vb": [
@@ -1927,6 +1954,25 @@ const SCRIBBLE_MAPS = {
   ],
   "len": 3839.3,
   "strokes": 1
+ },
+ "assets/crm2/decor-recov.svg": {
+  "map": "assets/web/scribble-maps/crm2-decor-recov.webp",
+  "vb": [
+   0.0,
+   0.0,
+   489.0,
+   414.0
+  ],
+  "a": [
+   158.01,
+   413.51
+  ],
+  "b": [
+   488.69,
+   362.78
+  ],
+  "len": 2352.6,
+  "strokes": 2
  },
  "assets/crm2/decor-seg.svg": {
   "map": "assets/web/scribble-maps/crm2-decor-seg.webp",
